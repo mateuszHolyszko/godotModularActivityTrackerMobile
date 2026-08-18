@@ -1,0 +1,278 @@
+[gd_scene format=3 uid="uid://dnkjr5hg45121"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_ssjrq"]
+[ext_resource type="Script" uid="uid://cy34xf3aspg2d" path="res://elements/numericInput/numeric_entry_menu.gd" id="1_vxm2i"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_e2aci"]
+
+[sub_resource type="Theme" id="Theme_l53xe"]
+Button/styles/normal = ExtResource("3_e2aci")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_um15r"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eb8a"]
+bg_color = Color(0.080783345, 0.080783345, 0.0807833, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1eb8a"]
+
+[node name="NumericEntryMenu" type="Control" unique_id=1034016109]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ssjrq")
+script = ExtResource("1_vxm2i")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=655310035]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_l53xe")
+theme_override_styles/panel = SubResource("StyleBoxFlat_um15r")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1116093872]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1674439982]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="VS2" type="VSplitContainer" parent="Background/MarginContainer/VB" unique_id=1673821566]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="InputContainer" type="CenterContainer" parent="Background/MarginContainer/VB" unique_id=904533424]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/InputContainer" unique_id=1505410907]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Prompt" type="Label" parent="Background/MarginContainer/VB/InputContainer/VB" unique_id=941363863]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Prompt"
+horizontal_alignment = 1
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/InputContainer/VB" unique_id=293479999]
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="MinValueLabel" type="Label" parent="Background/MarginContainer/VB/InputContainer/VB/HB" unique_id=548963120]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49354547, 0.49354553, 0.49354553, 1)
+theme_override_font_sizes/font_size = 45
+text = "Min
+--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InitValueLabel" type="Label" parent="Background/MarginContainer/VB/InputContainer/VB/HB" unique_id=2012340267]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49354547, 0.49354553, 0.49354553, 1)
+text = "Init Value
+--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaxValueLabel" type="Label" parent="Background/MarginContainer/VB/InputContainer/VB/HB" unique_id=1179325306]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49354547, 0.49354553, 0.49354553, 1)
+theme_override_font_sizes/font_size = 45
+text = "Max
+--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentValBufferLabel" type="Label" parent="Background/MarginContainer/VB/InputContainer/VB" unique_id=438210302]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 250
+theme_override_styles/normal = SubResource("StyleBoxFlat_1eb8a")
+text = "--.--"
+horizontal_alignment = 1
+
+[node name="NumPadContainer" type="CenterContainer" parent="Background/MarginContainer/VB" unique_id=610896416]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VB/NumPadContainer" unique_id=1849767163]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="HB_inputs" type="HBoxContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer" unique_id=107953908]
+layout_mode = 2
+
+[node name="ClearButton" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_inputs" unique_id=1725700878]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+text = "CLR"
+
+[node name="HS" type="HSplitContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_inputs" unique_id=1120519084]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackSpaceButton" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_inputs" unique_id=352716752]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+text = "C"
+
+[node name="VS" type="VSplitContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer" unique_id=1143103787]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="HB_row1" type="HBoxContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer" unique_id=598140463]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Num1" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row1" unique_id=605204717]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "1"
+
+[node name="Num2" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row1" unique_id=1890414476]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "2"
+
+[node name="Num3" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row1" unique_id=682832654]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "3"
+
+[node name="HB_row2" type="HBoxContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer" unique_id=1312910862]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Num4" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row2" unique_id=1579452841]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "4"
+
+[node name="Num5" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row2" unique_id=471776295]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "5"
+
+[node name="Num6" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row2" unique_id=2115874396]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "6"
+
+[node name="HB_row3" type="HBoxContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer" unique_id=343253796]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Num7" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row3" unique_id=311793697]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "7"
+
+[node name="Num8" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row3" unique_id=967342922]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "8"
+
+[node name="Num9" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row3" unique_id=1556577550]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "9"
+
+[node name="HB_row4" type="HBoxContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer" unique_id=952488969]
+layout_mode = 2
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="Num0" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row4" unique_id=837313048]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "0"
+
+[node name="Period" type="Button" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer/HB_row4" unique_id=1892416724]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 160
+text = "."
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=64848975]
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Background/MarginContainer/VB/HB" unique_id=2032887995]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_1eb8a")
+
+[node name="BackButton" type="Button" parent="Background/MarginContainer/VB/HB" unique_id=1619015602]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+text = "Back"
+
+[node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VB/HB" unique_id=1875346735]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_1eb8a")
+
+[node name="ConfirmButton" type="Button" parent="Background/MarginContainer/VB/HB" unique_id=1167778530]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+text = "Confirm"
+
+[node name="HSeparator2" type="HSeparator" parent="Background/MarginContainer/VB/HB" unique_id=855724384]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_1eb8a")
+
+[node name="VS" type="VSplitContainer" parent="Background/MarginContainer/VB" unique_id=46933164]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2

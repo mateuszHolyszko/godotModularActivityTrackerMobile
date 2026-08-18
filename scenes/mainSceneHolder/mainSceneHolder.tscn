@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://b8oaedu6prxgt"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_ar2mk"]
+[ext_resource type="Script" uid="uid://dagks33t88wri" path="res://scenes/mainSceneHolder/main_control.gd" id="2_ar2mk"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_1vr3a"]
+[ext_resource type="Script" uid="uid://d3wtsock3xrpw" path="res://scenes/mainSceneHolder/topBar.gd" id="4_1vr3a"]
+[ext_resource type="Script" uid="uid://b5p1n6pt01ckg" path="res://scenes/mainSceneHolder/navBar.gd" id="4_jcns2"]
+
+[sub_resource type="Theme" id="Theme_hkyjk"]
+Button/styles/normal = ExtResource("3_1vr3a")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm3nf"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jqn4x"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_adxvw"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[node name="Control" type="Control" unique_id=615080275]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ar2mk")
+script = ExtResource("2_ar2mk")
+
+[node name="Background" type="Panel" parent="." unique_id=1905886446]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_hkyjk")
+theme_override_styles/panel = SubResource("StyleBoxFlat_tm3nf")
+
+[node name="FadeTransitionRect" type="ColorRect" parent="Background" unique_id=954339237]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+z_index = 1000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+
+[node name="VB" type="VBoxContainer" parent="Background" unique_id=1398563811]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBarPanel" type="Panel" parent="Background/VB" unique_id=1701444435]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+script = ExtResource("4_1vr3a")
+
+[node name="MC" type="MarginContainer" parent="Background/VB/TopBarPanel" unique_id=2144909947]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="HB" type="HBoxContainer" parent="Background/VB/TopBarPanel/MC" unique_id=1711446507]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="Background/VB/TopBarPanel/MC/HB" unique_id=1485575752]
+unique_name_in_owner = true
+layout_mode = 2
+text = "hh:mm"
+
+[node name="HS" type="HSplitContainer" parent="Background/VB/TopBarPanel/MC/HB" unique_id=305520365]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="DateLabel" type="Label" parent="Background/VB/TopBarPanel/MC/HB" unique_id=1426977074]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "dd-mm
+yyyy"
+horizontal_alignment = 1
+
+[node name="HS2" type="HSplitContainer" parent="Background/VB/TopBarPanel/MC/HB" unique_id=1641069448]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SessionStatusLabel" type="Label" parent="Background/VB/TopBarPanel/MC/HB" unique_id=1820806426]
+layout_mode = 2
+text = "----"
+
+[node name="DateTimeTimer" type="Timer" parent="Background/VB/TopBarPanel" unique_id=413858621]
+unique_name_in_owner = true
+autostart = true
+
+[node name="MC" type="MarginContainer" parent="Background/VB" unique_id=954698728]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="CurrentMenuPanel" type="Panel" parent="Background/VB/MC" unique_id=1025448827]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_jqn4x")
+
+[node name="NavBarPanel" type="Panel" parent="Background/VB" unique_id=387854482]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.08
+theme_override_styles/panel = SubResource("StyleBoxFlat_adxvw")
+script = ExtResource("4_jcns2")
+
+[node name="HB" type="HBoxContainer" parent="Background/VB/NavBarPanel" unique_id=1424930875]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+
+[node name="HS2" type="HSplitContainer" parent="Background/VB/NavBarPanel/HB" unique_id=286771087]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_stretch_ratio = 0.1
+
+[node name="ButtonInit" type="Button" parent="Background/VB/NavBarPanel/HB" unique_id=689601035]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Init"
+
+[node name="ButtonSession" type="Button" parent="Background/VB/NavBarPanel/HB" unique_id=1646751027]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Session"
+
+[node name="ButtonProgram" type="Button" parent="Background/VB/NavBarPanel/HB" unique_id=1614278925]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Program"
+
+[node name="ButtonData" type="Button" parent="Background/VB/NavBarPanel/HB" unique_id=1692311346]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Data"
+
+[node name="HS" type="HSplitContainer" parent="Background/VB/NavBarPanel/HB" unique_id=1943922628]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_stretch_ratio = 0.1

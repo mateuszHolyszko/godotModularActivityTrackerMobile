@@ -1,0 +1,26 @@
+[gd_resource type="Theme" format=3 uid="uid://8kcdanlfr3lk"]
+
+[ext_resource type="StyleBox" uid="uid://ct522lhs1tsfb" path="res://assets/style/backround.tres" id="1_7bf0y"]
+[ext_resource type="FontFile" uid="uid://1yom74vswn7x" path="res://assets/fonts/VT323-Regular.ttf" id="1_r27nw"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="2_qplm7"]
+[ext_resource type="StyleBox" uid="uid://p44gd3qdgfc8" path="res://assets/style/element_hover.tres" id="2_vnb4x"]
+[ext_resource type="StyleBox" uid="uid://bdbujjesxaywg" path="res://assets/style/element_pressed.tres" id="3_vnb4x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p8yu1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_to8u8"]
+
+[resource]
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 70
+Button/fonts/font = ExtResource("1_r27nw")
+Button/styles/focus = ExtResource("2_vnb4x")
+Button/styles/hover = ExtResource("2_vnb4x")
+Button/styles/normal = ExtResource("2_qplm7")
+Button/styles/pressed = ExtResource("3_vnb4x")
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_p8yu1")
+Label/font_sizes/font_size = 70
+Label/fonts/font = ExtResource("1_r27nw")
+Panel/styles/panel = ExtResource("1_7bf0y")
+VSeparator/styles/separator = SubResource("StyleBoxEmpty_to8u8")

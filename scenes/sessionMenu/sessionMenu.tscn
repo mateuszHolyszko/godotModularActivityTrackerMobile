@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://bucb05e6uuvrl"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_17yhk"]
+[ext_resource type="Script" uid="uid://bpbhdp28aspra" path="res://scripts/classes/Menu.gd" id="1_oqo8q"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_mhxne"]
+[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="4_mhxne"]
+[ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="5_7asqm"]
+
+[sub_resource type="Theme" id="Theme_7asqm"]
+Button/styles/normal = ExtResource("3_mhxne")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n6hhi"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[node name="SessionMenu" type="Control" unique_id=1947260131]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_17yhk")
+script = ExtResource("1_oqo8q")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=221121535]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_7asqm")
+theme_override_styles/panel = SubResource("StyleBoxFlat_n6hhi")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1623780417]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1377553201]
+layout_mode = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer" unique_id=933745522]
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "Session Menu"
+horizontal_alignment = 1
+
+[node name="OptionButton" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=679050080]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "option test"
+script = ExtResource("4_mhxne")
+prompt_text = "Choose test option"
+options = Array[String](["Test1", "TEST2", "t e s t 3"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../OptionEntryContainer")
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="Button2" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=1589314662]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "keyboard test"
+script = ExtResource("5_7asqm")
+prompt_text = "Input Text"
+placeholder_text = "---"
+entry_menu_scene_path = "res://elements/textInput/TextEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../OptionEntryContainer")
+metadata/_custom_type_script = "uid://brkmh4ac31olu"
+
+[node name="Button3" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=1400850306]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "B3"
+
+[node name="OptionEntryContainer" type="Container" parent="." unique_id=435933248]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

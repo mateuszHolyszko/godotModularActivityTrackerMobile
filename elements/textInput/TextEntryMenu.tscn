@@ -1,0 +1,383 @@
+[gd_scene format=3 uid="uid://croop6dpx8bd3"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_iq588"]
+[ext_resource type="Script" uid="uid://dojjspuqbb7q2" path="res://elements/textInput/text_entry_menu.gd" id="2_8sm2c"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_gtndv"]
+
+[sub_resource type="Theme" id="Theme_gj1o7"]
+Button/styles/normal = ExtResource("3_gtndv")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_litoc"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vkgxg"]
+bg_color = Color(0.080783345, 0.080783345, 0.0807833, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="TextEntryMenu" type="Control" unique_id=1747340589]
+modulate = Color(1, 1, 1, 0.9411765)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_iq588")
+script = ExtResource("2_8sm2c")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=218380389]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_gj1o7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_litoc")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1441704841]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1443003491]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="VS3" type="VSeparator" parent="Background/MarginContainer/VB" unique_id=392589989]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+
+[node name="HB_prompt" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1854499422]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+alignment = 1
+
+[node name="Prompt" type="Label" parent="Background/MarginContainer/VB/HB_prompt" unique_id=759047495]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+theme_override_font_sizes/font_size = 100
+text = "Prompt"
+
+[node name="TextBufferLabel" type="Label" parent="Background/MarginContainer/VB" unique_id=1457142628]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 125
+theme_override_styles/normal = SubResource("StyleBoxFlat_vkgxg")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="VS" type="VSeparator" parent="Background/MarginContainer/VB" unique_id=1146531018]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="HB_operations" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1195462245]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.18
+
+[node name="HS3" type="HSplitContainer" parent="Background/MarginContainer/VB/HB_operations" unique_id=1997053537]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ClearButton" type="Button" parent="Background/MarginContainer/VB/HB_operations" unique_id=1275309870]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+text = "CLR"
+
+[node name="HS" type="HSplitContainer" parent="Background/MarginContainer/VB/HB_operations" unique_id=1925766857]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackSpaceButton" type="Button" parent="Background/MarginContainer/VB/HB_operations" unique_id=1380836413]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+text = "C"
+
+[node name="HS2" type="HSplitContainer" parent="Background/MarginContainer/VB/HB_operations" unique_id=78314754]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VB_keyboard" type="VBoxContainer" parent="Background/MarginContainer/VB" unique_id=1694186355]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="HB_keyboard_row" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_keyboard" unique_id=1919110819]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Key_Q" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=838056176]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Q"
+
+[node name="Key_W" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=629811759]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "W"
+
+[node name="Key_E" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=1792426015]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "E"
+
+[node name="Key_R" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=1268632422]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "R"
+
+[node name="Key_T" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=1775335019]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "T"
+
+[node name="Key_Y" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=122996935]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Y"
+
+[node name="Key_U" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=703036157]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "U"
+
+[node name="Key_I" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=808554808]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "I"
+
+[node name="Key_O" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=1308115705]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "O"
+
+[node name="Key_P" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row" unique_id=1975160140]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "P"
+
+[node name="HB_keyboard_row2" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_keyboard" unique_id=227005014]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=681686581]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="Key_A" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=1858073027]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "A"
+
+[node name="Key_S" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=1308627765]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "S"
+
+[node name="Key_D" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=464492256]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "D"
+
+[node name="Key_F" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=664864046]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "F"
+
+[node name="Key_G" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=467303573]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "G"
+
+[node name="Key_H" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=1685718509]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "H"
+
+[node name="Key_J" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=2075612107]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "J"
+
+[node name="Key_K" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=1043530280]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "K"
+
+[node name="Key_L" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=1023378721]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "L"
+
+[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row2" unique_id=692667769]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="HB_keyboard_row3" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_keyboard" unique_id=728034147]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=2144803417]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Key_Z" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=83260592]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Z"
+
+[node name="Key_X" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=9769724]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "X"
+
+[node name="Key_C" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=1950486672]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "C"
+
+[node name="Key_V" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=2125041445]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "V"
+
+[node name="Key_B" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=776263522]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "B"
+
+[node name="Key_N" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=1037023980]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "N"
+
+[node name="Key_M" type="Button" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=802468973]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "M"
+
+[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB_keyboard/HB_keyboard_row3" unique_id=797252410]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SpaceButton" type="Button" parent="Background/MarginContainer/VB/VB_keyboard" unique_id=854904109]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Space"
+
+[node name="HB_cancel" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1804255396]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+alignment = 1
+
+[node name="HS3" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=194663287]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CancelButton" type="Button" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1695477967]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 75
+text = "Back"
+
+[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=215044890]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnterButton" type="Button" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1788480554]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 75
+text = "Enter"
+
+[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=777151677]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VS2" type="VSeparator" parent="Background/MarginContainer/VB" unique_id=1378000396]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1

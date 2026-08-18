@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://c44necwp10hkt"]
+
+[ext_resource type="Script" uid="uid://dau5xlv8bbqgm" path="res://elements/modelCarrousel/modelCarrousel.gd" id="1_vjml7"]
+[ext_resource type="PackedScene" uid="uid://118j8t5troqy" path="res://assets/models/Skeleton/Skeleton.glb" id="2_nomlh"]
+[ext_resource type="PackedScene" uid="uid://bl5eo5nhtqpw3" path="res://assets/models/Skeleton_arm/Skeleton_arm.glb" id="3_02ul3"]
+[ext_resource type="Script" uid="uid://q68mx67fm0cc" path="res://scripts/fbxModelMuscleMaterialAssigment.gd" id="3_nomlh"]
+[ext_resource type="PackedScene" uid="uid://1ec46ddeh27x" path="res://assets/models/Skeleton_leg/Skeleton_leg.glb" id="4_hihu2"]
+
+[node name="ModelCarrouselViewportContainer" type="SubViewportContainer" unique_id=525765370]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+script = ExtResource("1_vjml7")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=904491226]
+transparent_bg = true
+handle_input_locally = false
+anisotropic_filtering_level = 0
+size = Vector2i(1080, 2400)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=262184181]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.89465535)
+projection = 1
+fov = 124.118324
+
+[node name="DirectionalLight3D" type="SpotLight3D" parent="SubViewport/Camera3D" unique_id=174948009]
+transform = Transform3D(0.86912614, -0.11975031, 0.4798746, 0.016707577, 0.9768011, 0.21349585, -0.4943083, -0.17753728, 0.8509642, 1.1709366, 0.7679901, 1.3244628)
+light_energy = 8.0
+light_volumetric_fog_energy = 2.0
+spot_range = 2.8338342
+spot_angle = 13.890026
+
+[node name="WholeBodyModel" parent="SubViewport" unique_id=580338721 instance=ExtResource("2_nomlh")]
+unique_name_in_owner = true
+transform = Transform3D(0.48, 0, 0, 0, 0.48, 0, 0, 0, 0.48, -0.6276252, -0.35197037, -0.053337097)
+visible = false
+script = ExtResource("3_nomlh")
+
+[node name="ArmModel" parent="SubViewport" unique_id=231036385 instance=ExtResource("3_02ul3")]
+unique_name_in_owner = true
+transform = Transform3D(0.865, 0, 0, 0, 0.865, 0, 0, 0, 0.865, -1.3468734, -1.0985625, -0.09032917)
+script = ExtResource("3_nomlh")
+
+[node name="LegModel" parent="SubViewport" unique_id=688360775 instance=ExtResource("4_hihu2")]
+unique_name_in_owner = true
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, -1.0807545, -0.28634763, -0.084066436)
+visible = false
+script = ExtResource("3_nomlh")
