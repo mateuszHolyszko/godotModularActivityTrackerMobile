@@ -313,3 +313,7 @@ func focus_target_input():
 		input_target.grab_focus()
 		return true
 	return false
+
+func is_empty() -> bool:
+	"""Check if this is an empty exercise row (no exercise resource)."""
+	return exercise_resource == null

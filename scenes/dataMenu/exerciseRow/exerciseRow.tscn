@@ -8,6 +8,10 @@
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="4_td7mw"]
 [ext_resource type="Script" uid="uid://n1gu6fh5kwm0" path="res://elements/numericInput/numeric_input_button.gd" id="5_rioul"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krtbt"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
+border_color = Color(1, 1, 1, 1)
+
 [node name="ExerciseRow" type="Control" unique_id=38423877]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 3
@@ -186,6 +190,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 125)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_krtbt")
 icon = ExtResource("2_i4i6o")
 expand_icon = true
 
@@ -198,5 +203,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 125)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_krtbt")
 icon = ExtResource("3_qn0gl")
 expand_icon = true

@@ -156,10 +156,34 @@ func _on_add_exercise_pressed():
 	if not exercise_row_scene:
 		return
 	
+	# Check if any filters are active
+	var target_filter = input_filter_target.current_value if input_filter_target else ""
+	var bodyweight_filter = input_filter_bodyweight.current_value if input_filter_bodyweight else ""
+	
+	var has_target_filter = target_filter != null and target_filter != "" and target_filter != "None" and target_filter != "All"
+	var has_bodyweight_filter = bodyweight_filter != null and bodyweight_filter != "" and bodyweight_filter != "All"
+	
+	if has_target_filter or has_bodyweight_filter:
+		input_filter_target.current_value = "All"
+		input_filter_bodyweight.current_value = "All"
+		_on_filter_changed(null)  # Trigger filter update
+		NotificationManager.info("Filters cleared for adding exercise")
+	
+	# Check if there's already an empty exercise row
+	for child in scroll_content.get_children():
+		if child.has_method("is_empty") and child.is_empty():
+			# Focus the existing empty row instead of creating a new one
+			await get_tree().process_frame
+			child.focus_target_input()
+			NotificationManager.info("Focusing existing empty exercise")
+			return
+	
 	var exercise_row = exercise_row_scene.instantiate()
 	exercise_row.input_elements_container = input_container
 	scroll_content.add_child(exercise_row)
 	
+	NotificationManager.info("Appended Empty Exercise")
+	
 	# Wait for the row to be ready, then focus the name input
-	await get_tree().process_frame  # Wait one frame for _ready() to execute
+	await get_tree().process_frame
 	exercise_row.focus_target_input()

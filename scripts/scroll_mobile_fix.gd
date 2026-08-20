@@ -1,6 +1,6 @@
 extends ScrollContainer
 
-@onready var scroll_container: VBoxContainer = $ScrollContent
+@export var scroll_container: VBoxContainer 
 
 func _ready():
 	# Set mouse_filter for all existing children

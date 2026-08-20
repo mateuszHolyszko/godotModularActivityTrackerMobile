@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://d0munqdkh7cls"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_2wcpy"]
+[ext_resource type="Script" uid="uid://bjxoil4e78bi8" path="res://scenes/programMenu/program_row.gd" id="2_hsk5e"]
+[ext_resource type="Texture2D" uid="uid://bl0r7yl578v2y" path="res://assets/icons/unlink-svgrepo-com.svg" id="3_kn4sq"]
+[ext_resource type="Texture2D" uid="uid://dgi4iip4rn21d" path="res://assets/icons/trash-svgrepo-com.svg" id="4_nj686"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjxun"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
+border_color = Color(1, 1, 1, 1)
+
+[node name="ProgramRow" type="Control" unique_id=638114588]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 3
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_2wcpy")
+script = ExtResource("2_hsk5e")
+
+[node name="HB" type="HBoxContainer" parent="." unique_id=53191832]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="ProgramButton" type="Button" parent="HB" unique_id=508720005]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 150)
+layout_mode = 2
+text_overrun_behavior = 5
+autowrap_mode = 3
+
+[node name="RenameButton" type="Button" parent="HB" unique_id=227949699]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hjxun")
+icon = ExtResource("3_kn4sq")
+expand_icon = true
+
+[node name="DeleteButton" type="Button" parent="HB" unique_id=353095534]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hjxun")
+icon = ExtResource("4_nj686")
+expand_icon = true

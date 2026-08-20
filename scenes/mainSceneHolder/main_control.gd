@@ -7,7 +7,7 @@ extends Control
 @export var loading_menu_scene_path: String = "res://scenes/loadingMenu/loadingMenu.tscn"
 @export var init_menu_scene_path: String = "res://scenes/initMenu/initMenu.tscn"
 @export var session_menu_scene_path: String = "res://scenes/sessionMenu/sessionMenu.tscn"
-@export var program_menu_scene_path: String = "res://scenes/programMenu/programMenu.tscn"
+@export var program_menu_scene_path: String = "res://scenes/programMenu/chooseProgramMenu.tscn"
 @export var data_menu_scene_path: String = "res://scenes/dataMenu/dataMenu.tscn"
 
 

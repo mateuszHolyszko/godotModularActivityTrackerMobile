@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://l2d01otykybf"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_fvt5r"]
+[ext_resource type="Script" uid="uid://cnppgnwrdssir" path="res://scenes/programMenu/choose_program_menu.gd" id="2_gases"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_6d5ee"]
+[ext_resource type="Texture2D" uid="uid://bi8cwmt7ofg5c" path="res://assets/images/logo.png" id="4_hkdud"]
+[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll_mobile_fix.gd" id="5_mqakw"]
+[ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="7_nqcy3"]
+
+[sub_resource type="Theme" id="Theme_emm4a"]
+Button/styles/normal = ExtResource("3_6d5ee")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hkdud"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[node name="ChooseProgramMenu" type="Control" unique_id=621893626]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_fvt5r")
+script = ExtResource("2_gases")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=915557108]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_emm4a")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hkdud")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1199828735]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer" unique_id=922308915]
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
+self_modulate = Color(1, 1, 1, 0.05882353)
+layout_mode = 2
+texture = ExtResource("4_hkdud")
+stretch_mode = 5
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=732710800]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB" unique_id=2100981082]
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "Choose program"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=89964748 node_paths=PackedStringArray("scroll_container")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_mqakw")
+scroll_container = NodePath("CenterContainer/ScrollContent")
+
+[node name="CenterContainer" type="CenterContainer" parent="Background/MarginContainer/VB/ScrollContainer" unique_id=357352886]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/ScrollContainer/CenterContainer" unique_id=1163166861]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="AddProgramButton" type="Button" parent="Background/MarginContainer/VB" unique_id=54855697]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+icon = ExtResource("7_nqcy3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SubMenuContainer" type="Container" parent="." unique_id=1919611971]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
