@@ -1,0 +1,202 @@
+[gd_scene format=3 uid="uid://c5n24lma7svpw"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_7gg1s"]
+[ext_resource type="Texture2D" uid="uid://cauer1tkhgdsc" path="res://assets/icons/save-svgrepo-com.svg" id="2_i4i6o"]
+[ext_resource type="Script" uid="uid://dkpqn5vfjg13w" path="res://scenes/dataMenu/exerciseRow/exercise_row.gd" id="2_krtbt"]
+[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="3_0645l"]
+[ext_resource type="Texture2D" uid="uid://dgi4iip4rn21d" path="res://assets/icons/trash-svgrepo-com.svg" id="3_qn0gl"]
+[ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="4_td7mw"]
+[ext_resource type="Script" uid="uid://n1gu6fh5kwm0" path="res://elements/numericInput/numeric_input_button.gd" id="5_rioul"]
+
+[node name="ExerciseRow" type="Control" unique_id=38423877]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.125
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("1_7gg1s")
+script = ExtResource("2_krtbt")
+
+[node name="Backround" type="Panel" parent="." unique_id=1028955469]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HB" type="HBoxContainer" parent="Backround" unique_id=1037828451]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="VB" type="VBoxContainer" parent="Backround/HB" unique_id=994113547]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="InputExerciseName" type="Button" parent="Backround/HB/VB" unique_id=559456758]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+text = "Exercise Name"
+script = ExtResource("4_td7mw")
+prompt_text = "Provide exercise name"
+placeholder_text = "Exercise Name"
+entry_menu_scene_path = "res://elements/textInput/TextEntryMenu.tscn"
+metadata/_custom_type_script = "uid://brkmh4ac31olu"
+
+[node name="HB" type="HBoxContainer" parent="Backround/HB/VB" unique_id=1963224166]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="TargetOptionButton" type="Button" parent="Backround/HB/VB/HB" unique_id=162635236]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Target"
+text_overrun_behavior = 5
+script = ExtResource("3_0645l")
+prompt_text = "Provide targeted muscle"
+options = Array[String](["Chest", "Back", "Quads", "Hamstrings", "Glutes", "Shoulders", "Biceps", "Triceps", "Abs", "Calves", "Forearms"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="BodyweightPanel" type="Panel" parent="Backround/HB/VB/HB" unique_id=688895948]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="VB" type="VBoxContainer" parent="Backround/HB/VB/HB/BodyweightPanel" unique_id=1704171149]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Backround/HB/VB/HB/BodyweightPanel/VB" unique_id=564886832]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "Bodyweight"
+horizontal_alignment = 1
+
+[node name="InputOptionBodyweight" type="Button" parent="Backround/HB/VB/HB/BodyweightPanel/VB" unique_id=1515581247]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_0645l")
+prompt_text = "Is exercise bodyweight?"
+options = Array[String](["Yes", "No"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="RepRangePanel" type="Panel" parent="Backround/HB/VB/HB" unique_id=648576513]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VB" type="VBoxContainer" parent="Backround/HB/VB/HB/RepRangePanel" unique_id=551688783]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Backround/HB/VB/HB/RepRangePanel/VB" unique_id=1095461951]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Rep Range"
+horizontal_alignment = 1
+
+[node name="LabelsHB" type="HBoxContainer" parent="Backround/HB/VB/HB/RepRangePanel/VB" unique_id=80444640]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Backround/HB/VB/HB/RepRangePanel/VB/LabelsHB" unique_id=2100058681]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "bot"
+horizontal_alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="Backround/HB/VB/HB/RepRangePanel/VB/LabelsHB" unique_id=1241609692]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Backround/HB/VB/HB/RepRangePanel/VB/LabelsHB" unique_id=169528419]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "top"
+
+[node name="InputsHB" type="HBoxContainer" parent="Backround/HB/VB/HB/RepRangePanel/VB" unique_id=1629926470]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InputNumericBotRange" type="Button" parent="Backround/HB/VB/HB/RepRangePanel/VB/InputsHB" unique_id=2100589604]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_rioul")
+prompt_text = "Bottom of rep range"
+is_int = true
+max_value = 30.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+include_prompt_text_in_button = false
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+
+[node name="InputNumericTopRange" type="Button" parent="Backround/HB/VB/HB/RepRangePanel/VB/InputsHB" unique_id=643634680]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_rioul")
+prompt_text = "Top of rep range"
+is_int = true
+max_value = 30.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+include_prompt_text_in_button = false
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+
+[node name="VB2" type="VBoxContainer" parent="Backround/HB" unique_id=174733337]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 0.2
+theme_override_constants/separation = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="Backround/HB/VB2" unique_id=1935421422]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonSave" type="Button" parent="Backround/HB/VB2/CenterContainer" unique_id=661423747]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 125)
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("2_i4i6o")
+expand_icon = true
+
+[node name="CenterContainer2" type="CenterContainer" parent="Backround/HB/VB2" unique_id=39399874]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonDelete" type="Button" parent="Backround/HB/VB2/CenterContainer2" unique_id=249678896]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 125)
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("3_qn0gl")
+expand_icon = true

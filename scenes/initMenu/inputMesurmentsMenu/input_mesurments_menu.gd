@@ -4,6 +4,8 @@ extends Menu
 @onready var back_button: Button = %BackButton
 @onready var save_button: Button = %SaveButton
 
+@onready var plotter_container: MarginContainer = %PlotterContainer
+
 @onready var last_weight_label: Label = %LabelPreviousValueWeight
 @onready var last_weight_date_label: Label = %LabelDateWeight
 @onready var input_weight: NumericInputButton = %InputWeight
@@ -71,15 +73,15 @@ func _on_save_pressed() -> void:
 		has_changed = true
 	else:
 		# Check each measurement type
-		if last_measurements.has("arms") and abs(measurement.arms - last_measurements["arms"].value) > 0.001:
+		if last_measurements.has("arms") and abs(measurement.arms - last_measurements["arms"].value) > 0.01:
 			has_changed = true
-		elif last_measurements.has("chest") and abs(measurement.chest - last_measurements["chest"].value) > 0.001:
+		elif last_measurements.has("chest") and abs(measurement.chest - last_measurements["chest"].value) > 0.01:
 			has_changed = true
-		elif last_measurements.has("waist") and abs(measurement.waist - last_measurements["waist"].value) > 0.001:
+		elif last_measurements.has("waist") and abs(measurement.waist - last_measurements["waist"].value) > 0.01:
 			has_changed = true
-		elif last_measurements.has("thigh") and abs(measurement.thigh - last_measurements["thigh"].value) > 0.001:
+		elif last_measurements.has("thigh") and abs(measurement.thigh - last_measurements["thigh"].value) > 0.01:
 			has_changed = true
-		elif last_measurements.has("weight") and abs(measurement.weight - last_measurements["weight"].value) > 0.001:
+		elif last_measurements.has("weight") and abs(measurement.weight - last_measurements["weight"].value) > 0.01:
 			has_changed = true
 	
 	# Only save if something changed
@@ -90,9 +92,15 @@ func _on_save_pressed() -> void:
 		# Update the labels with the new values
 		_update_last_measurement_labels()
 		
+		# Refresh the plotter so the new data point shows up immediately
+		if plotter_container.has_method("_on_query_parameters_changed"):
+			plotter_container._on_query_parameters_changed()
+		
 		print("Measurement saved successfully!")
+		NotificationManager.success("Measurement saved")
 	else:
 		print("No changes detected. Measurement not saved.")
+		NotificationManager.info("No changes detected — nothing to save")
 
 func _update_last_measurement_labels() -> void:
 	# Get the last measurements for all types
@@ -117,31 +125,51 @@ func _update_last_measurement_labels() -> void:
 	if last_measurements.has("arms"):
 		var arms_data = last_measurements["arms"]
 		last_arms_label.text = "%.1f cm" % arms_data.value
-		last_arms_date_label.text = arms_data.date
+		last_arms_date_label.text = _format_date(arms_data.date)
 	
 	# Update chest
 	if last_measurements.has("chest"):
 		var chest_data = last_measurements["chest"]
 		last_chest_label.text = "%.1f cm" % chest_data.value
-		last_chest_date_label.text = chest_data.date
+		last_chest_date_label.text = _format_date(chest_data.date)
 	
 	# Update waist
 	if last_measurements.has("waist"):
 		var waist_data = last_measurements["waist"]
 		last_waist_label.text = "%.1f cm" % waist_data.value
-		last_waist_date_label.text = waist_data.date
+		last_waist_date_label.text = _format_date(waist_data.date)
 	
 	# Update thigh
 	if last_measurements.has("thigh"):
 		var thigh_data = last_measurements["thigh"]
 		last_thigh_label.text = "%.1f cm" % thigh_data.value
-		last_thigh_date_label.text = thigh_data.date
+		last_thigh_date_label.text = _format_date(thigh_data.date)
 	
 	# Update weight
 	if last_measurements.has("weight"):
 		var weight_data = last_measurements["weight"]
 		last_weight_label.text = "%.1f kg" % weight_data.value
-		last_weight_date_label.text = weight_data.date
+		last_weight_date_label.text = _format_date(weight_data.date)
+
+# Converts a date string from "yyyy-mm-dd" (optionally with a time part,
+# e.g. "yyyy-mm-dd hh:mm:ss") to "dd-mm-yyyy". If the string doesn't match
+# the expected pattern, it's returned unchanged.
+func _format_date(date_string: String) -> String:
+	if date_string.is_empty():
+		return date_string
+	
+	# Only look at the date portion, in case a time component is included
+	var date_part := date_string.split(" ")[0]
+	var parts := date_part.split("-")
+	
+	if parts.size() != 3:
+		return date_string
+	
+	var year := parts[0]
+	var month := parts[1]
+	var day := parts[2]
+	
+	return "%s-%s-%s" % [day, month, year]
 
 # Optional: Add a function to pre-fill inputs with last values
 func _fill_inputs_with_last_values() -> void:

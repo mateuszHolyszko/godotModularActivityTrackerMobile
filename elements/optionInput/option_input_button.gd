@@ -50,10 +50,7 @@ func _update_text() -> void:
 	if label_str.is_empty():
 		label_str = "--" if current_value == null else str(current_value)
 
-	if prompt_text.is_empty():
-		text = label_str
-	else:
-		text = "%s\n%s" % [prompt_text, label_str]
+	text = label_str
 
 
 func _on_pressed() -> void:

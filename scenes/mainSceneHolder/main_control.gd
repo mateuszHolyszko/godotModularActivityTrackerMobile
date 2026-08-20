@@ -2,6 +2,7 @@ extends Control
 
 @onready var current_menu_panel: Panel = %CurrentMenuPanel
 @onready var transition_rect: ColorRect = %FadeTransitionRect
+@onready var notification_container: VBoxContainer = %NotyficationContainer
 
 @export var loading_menu_scene_path: String = "res://scenes/loadingMenu/loadingMenu.tscn"
 @export var init_menu_scene_path: String = "res://scenes/initMenu/initMenu.tscn"
@@ -11,6 +12,9 @@ extends Control
 
 
 func _ready() -> void:
+	NotificationManager.register_container(notification_container)
+	#NotificationManager.success("container registered")
+	
 	MenuManager.register_container(current_menu_panel)
 	#MenuManager.register_transition(transition_rect) # TODO implement transition
 

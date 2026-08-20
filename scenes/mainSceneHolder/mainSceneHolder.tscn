@@ -54,6 +54,22 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 
+[node name="NotyficationContainer" type="VBoxContainer" parent="Background" unique_id=1900804028]
+unique_name_in_owner = true
+top_level = true
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = 270.0
+offset_right = 300.0
+offset_bottom = -689.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="VB" type="VBoxContainer" parent="Background" unique_id=1398563811]
 layout_mode = 1
 anchors_preset = 15

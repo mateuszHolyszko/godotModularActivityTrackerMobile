@@ -464,6 +464,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="PlotterContainer" type="MarginContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB" unique_id=817198908]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

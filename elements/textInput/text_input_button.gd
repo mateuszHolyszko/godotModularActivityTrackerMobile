@@ -27,7 +27,7 @@ func _ready() -> void:
 
 func _update_text() -> void:
 	var display_str: String = current_value if not current_value.is_empty() else placeholder_text
-	text = display_str if prompt_text.is_empty() else "%s\n%s" % [prompt_text, display_str]
+	text = display_str 
 
 
 func _on_pressed() -> void:

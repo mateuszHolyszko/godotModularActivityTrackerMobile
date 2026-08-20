@@ -113,8 +113,17 @@ func _on_confirm_pressed() -> void:
 	var entered: float = float(_buffer) if not _buffer.is_empty() else _initial_value
 	if is_int:
 		entered = round(entered)
-	var clamped: float = clamp(entered, _min, _max)
-	value_confirmed.emit(clamped)
+
+	if entered < _min or entered > _max:
+		var value_formatter := "%.2f" if not is_int else "%d"
+		NotificationManager.error(
+			"Value must be between %s and %s" % [value_formatter % _min, value_formatter % _max]
+		)
+		_buffer = ""
+		_update_buffer_label()
+		return
+
+	value_confirmed.emit(entered)
 
 
 func _on_back_pressed() -> void:

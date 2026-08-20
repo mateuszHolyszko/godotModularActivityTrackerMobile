@@ -20,6 +20,7 @@ config/icon="res://assets/icons/icon.svg"
 MenuManager="*uid://dml1fxo1bxavn"
 MuscleDict="*uid://cwcpelpjtlk0c"
 DataManager="*uid://sh8ohddqhgi0"
+NotificationManager="*uid://43vt0bgwpkkf"
 
 [display]
 
@@ -28,6 +29,10 @@ window/size/viewport_height=2400
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [physics]
 

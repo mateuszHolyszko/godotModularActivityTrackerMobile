@@ -72,14 +72,17 @@ theme_override_constants/separation = 50
 
 [node name="Prompt" type="Label" parent="Background/MarginContainer/VB/InputContainer/VB" unique_id=941363863]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "Prompt"
 horizontal_alignment = 1
+text_overrun_behavior = 2
 
 [node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/InputContainer/VB" unique_id=293479999]
 layout_mode = 2
 theme_override_constants/separation = 80
+alignment = 1
 
 [node name="MinValueLabel" type="Label" parent="Background/MarginContainer/VB/InputContainer/VB/HB" unique_id=548963120]
 unique_name_in_owner = true

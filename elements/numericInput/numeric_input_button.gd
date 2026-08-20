@@ -12,6 +12,8 @@ signal value_changed(new_value: float)
 @export var entry_menu_scene_path: String = ""
 @export var submenu_container_path: NodePath  # where the entry submenu should appear
 
+@export var include_prompt_text_in_button: bool = true
+
 var current_value: float = 0.0:
 	set(v):
 		var new_val: float = v
@@ -45,7 +47,7 @@ func _update_text() -> void:
 	if not suffix_text.is_empty():
 		body += suffix_text
 	
-	if prompt_text.is_empty():
+	if prompt_text.is_empty() or include_prompt_text_in_button==false:
 		text = body
 	else:
 		text = "%s: %s" % [prompt_text, body]
