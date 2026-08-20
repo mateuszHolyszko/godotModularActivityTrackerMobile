@@ -303,3 +303,13 @@ func apply_muscle_style():
 	Apply styling based on the muscle group color to all relevant elements.
 	"""
 	_apply_styling_to_inputs()
+
+# focus for add exrcise button in data_menu, so we can call it when its child elements are ready
+func focus_target_input():
+	"""
+	Focus the exercise name input field.
+	"""
+	if input_target:
+		input_target.grab_focus()
+		return true
+	return false

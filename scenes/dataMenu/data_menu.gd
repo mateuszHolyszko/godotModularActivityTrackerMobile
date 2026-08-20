@@ -159,3 +159,7 @@ func _on_add_exercise_pressed():
 	var exercise_row = exercise_row_scene.instantiate()
 	exercise_row.input_elements_container = input_container
 	scroll_content.add_child(exercise_row)
+	
+	# Wait for the row to be ready, then focus the name input
+	await get_tree().process_frame  # Wait one frame for _ready() to execute
+	exercise_row.focus_target_input()

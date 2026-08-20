@@ -4,20 +4,17 @@ const BASE_DIR := "user://db/data/"
 
 var MeasurementManager := preload("res://db/mesurments/measurement_manager.gd").new()
 var ExerciseManager := preload("res://db/exercises/exercise_manager.gd").new()
-# var WorkoutManager := preload("res://data/workout_manager.gd").new()
-# var MealManager := preload("res://data/meal_manager.gd").new()
+
 
 func _ready() -> void:
 	_ensure_dir()
 	MeasurementManager.setup(BASE_DIR)
 	ExerciseManager.setup(BASE_DIR)
-	# WorkoutManager.setup(BASE_DIR)
-	# MealManager.setup(BASE_DIR)
+	
 
 	MeasurementManager.load()
 	ExerciseManager.load()
-	# WorkoutManager.load()
-	# MealManager.load()
+	
 
 func _ensure_dir() -> void:
 	if not DirAccess.dir_exists_absolute(BASE_DIR):

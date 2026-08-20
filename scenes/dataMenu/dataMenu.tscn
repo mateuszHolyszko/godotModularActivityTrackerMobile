@@ -138,6 +138,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 [node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=2078080677]
 layout_mode = 2
 size_flags_vertical = 3
+follow_focus = true
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 script = ExtResource("5_ufd3r")
