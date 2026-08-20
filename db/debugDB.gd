@@ -16,16 +16,5 @@ func _ready() -> void:
 	#DataManager.ExerciseManager.remove_all()
 	#DataManager.ExerciseManager.add_exercise("ring pushup","Chest",true,6,12)
 	#print(DataManager.ExerciseManager.get_exercise_objects_for_target("Chest")[0].name)
-	DataManager.ExerciseManager.print_exercises()
+	#DataManager.ExerciseManager.print_exercises()
 	print("--- DebugDB end ---")
-
-func test_add_measurement() -> void:
-	var m := Measurement.new()
-	m.timestamp = Time.get_unix_time_from_system()
-	m.arms = 32.5
-	m.chest = 98.0
-	m.waist = 80.0
-	m.thigh = 55.0
-	m.weight = 74.2
-	DataManager.MeasurementManager.add(m)
-	print("DebugDB: added test measurement")

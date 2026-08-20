@@ -1,6 +1,9 @@
 class_name InputMeasurementsMenu
 extends Menu
 
+const MEASUREMENT_TYPES := ["arms", "chest", "waist", "thigh", "weight"]
+const CHANGE_THRESHOLD := 0.01
+
 @onready var back_button: Button = %BackButton
 @onready var save_button: Button = %SaveButton
 
@@ -48,58 +51,65 @@ func _color_input_buttons() -> void:
 func _on_back_pressed() -> void:
 	request_close()
 
+# Maps a measurement type to the NumericInputButton that holds its current value.
+func _input_for_type(measurement_type: String) -> NumericInputButton:
+	match measurement_type:
+		"arms":
+			return input_arms
+		"chest":
+			return input_chest
+		"waist":
+			return input_waist
+		"thigh":
+			return input_thigh
+		"weight":
+			return input_weight
+		_:
+			return null
+
 func _on_save_pressed() -> void:
-	# Get the last measurements to compare against
+	# Get the last measurements to compare against, one lookup covers all types.
 	var last_measurements := DataManager.MeasurementManager.get_last_measurements()
 	
-	# Create a new measurement with current values
-	var measurement := Measurement.new()
+	var timestamp := Time.get_unix_time_from_system()
+	var saved_types: Array[String] = []
 	
-	# Get current timestamp
-	measurement.timestamp = Time.get_unix_time_from_system()
-	
-	# Get values from inputs
-	measurement.arms = input_arms.current_value
-	measurement.chest = input_chest.current_value
-	measurement.waist = input_waist.current_value
-	measurement.thigh = input_thigh.current_value
-	measurement.weight = input_weight.current_value
-	
-	# Check if any value has changed from the last measurement
-	var has_changed := false
-	
-	if last_measurements.is_empty():
-		# If no measurements exist, save everything
-		has_changed = true
-	else:
-		# Check each measurement type
-		if last_measurements.has("arms") and abs(measurement.arms - last_measurements["arms"].value) > 0.01:
-			has_changed = true
-		elif last_measurements.has("chest") and abs(measurement.chest - last_measurements["chest"].value) > 0.01:
-			has_changed = true
-		elif last_measurements.has("waist") and abs(measurement.waist - last_measurements["waist"].value) > 0.01:
-			has_changed = true
-		elif last_measurements.has("thigh") and abs(measurement.thigh - last_measurements["thigh"].value) > 0.01:
-			has_changed = true
-		elif last_measurements.has("weight") and abs(measurement.weight - last_measurements["weight"].value) > 0.01:
-			has_changed = true
-	
-	# Only save if something changed
-	if has_changed:
-		# Save the measurement
-		DataManager.MeasurementManager.add(measurement)
+	# Each measurement type is saved independently. Inputs are pre-filled with
+	# the last recorded value, so "unchanged" (not "empty") is what tells us
+	# to skip a type — otherwise every save would re-write all five.
+	for measurement_type in MEASUREMENT_TYPES:
+		var input := _input_for_type(measurement_type)
+		if not input:
+			continue
 		
+		var value: float = input.current_value
+		var should_save: bool
+		
+		if last_measurements.has(measurement_type):
+			var last_value: float = last_measurements[measurement_type].value
+			# Same as last time (within float tolerance) -> skip.
+			should_save = abs(value - last_value) >= CHANGE_THRESHOLD
+		else:
+			# No prior entry for this type, so nothing pre-filled it. A value
+			# still sitting at 0.0 means the field was left untouched.
+			should_save = value != 0.0
+		
+		if should_save:
+			DataManager.MeasurementManager.add_entry(measurement_type, value, timestamp)
+			saved_types.append(measurement_type)
+	
+	if not saved_types.is_empty():
 		# Update the labels with the new values
 		_update_last_measurement_labels()
 		
-		# Refresh the plotter so the new data point shows up immediately
+		# Refresh the plotter so the new data point(s) show up immediately
 		if plotter_container.has_method("_on_query_parameters_changed"):
 			plotter_container._on_query_parameters_changed()
 		
-		print("Measurement saved successfully!")
+		print("Measurement(s) saved: %s" % ", ".join(saved_types))
 		NotificationManager.success("Measurement saved")
 	else:
-		print("No changes detected. Measurement not saved.")
+		print("No changes detected. Nothing saved.")
 		NotificationManager.info("No changes detected — nothing to save")
 
 func _update_last_measurement_labels() -> void:
@@ -126,30 +136,45 @@ func _update_last_measurement_labels() -> void:
 		var arms_data = last_measurements["arms"]
 		last_arms_label.text = "%.1f cm" % arms_data.value
 		last_arms_date_label.text = _format_date(arms_data.date)
+	else:
+		last_arms_label.text = "No data"
+		last_arms_date_label.text = ""
 	
 	# Update chest
 	if last_measurements.has("chest"):
 		var chest_data = last_measurements["chest"]
 		last_chest_label.text = "%.1f cm" % chest_data.value
 		last_chest_date_label.text = _format_date(chest_data.date)
+	else:
+		last_chest_label.text = "No data"
+		last_chest_date_label.text = ""
 	
 	# Update waist
 	if last_measurements.has("waist"):
 		var waist_data = last_measurements["waist"]
 		last_waist_label.text = "%.1f cm" % waist_data.value
 		last_waist_date_label.text = _format_date(waist_data.date)
+	else:
+		last_waist_label.text = "No data"
+		last_waist_date_label.text = ""
 	
 	# Update thigh
 	if last_measurements.has("thigh"):
 		var thigh_data = last_measurements["thigh"]
 		last_thigh_label.text = "%.1f cm" % thigh_data.value
 		last_thigh_date_label.text = _format_date(thigh_data.date)
+	else:
+		last_thigh_label.text = "No data"
+		last_thigh_date_label.text = ""
 	
 	# Update weight
 	if last_measurements.has("weight"):
 		var weight_data = last_measurements["weight"]
 		last_weight_label.text = "%.1f kg" % weight_data.value
 		last_weight_date_label.text = _format_date(weight_data.date)
+	else:
+		last_weight_label.text = "No data"
+		last_weight_date_label.text = ""
 
 # Converts a date string from "yyyy-mm-dd" (optionally with a time part,
 # e.g. "yyyy-mm-dd hh:mm:ss") to "dd-mm-yyyy". If the string doesn't match
@@ -171,29 +196,20 @@ func _format_date(date_string: String) -> String:
 	
 	return "%s-%s-%s" % [day, month, year]
 
-# Optional: Add a function to pre-fill inputs with last values
+# Pre-fill inputs with each type's last recorded value, independently.
 func _fill_inputs_with_last_values() -> void:
 	var last_measurements := DataManager.MeasurementManager.get_last_measurements()
 	
 	if last_measurements.is_empty():
 		return
 	
-	# Only fill if the input is empty or zero
-	if last_measurements.has("arms") and input_arms.current_value == 0.0:
-		input_arms.current_value = last_measurements["arms"].value
-	
-	if last_measurements.has("chest") and input_chest.current_value == 0.0:
-		input_chest.current_value = last_measurements["chest"].value
-	
-	if last_measurements.has("waist") and input_waist.current_value == 0.0:
-		input_waist.current_value = last_measurements["waist"].value
-	
-	if last_measurements.has("thigh") and input_thigh.current_value == 0.0:
-		input_thigh.current_value = last_measurements["thigh"].value
-	
-	if last_measurements.has("weight") and input_weight.current_value == 0.0:
-		input_weight.current_value = last_measurements["weight"].value
-
+	for measurement_type in MEASUREMENT_TYPES:
+		if not last_measurements.has(measurement_type):
+			continue
+		
+		var input := _input_for_type(measurement_type)
+		if input and input.current_value == 0.0:
+			input.current_value = last_measurements[measurement_type].value
 
 func _set_button_color(button: Button, measurement_type: String) -> void:
 	# Get the color from the measurements colors dictionary

@@ -3,8 +3,9 @@ extends RefCounted
 
 const FILE_EXTENSION := ".json"
 const DATE_FORMAT := "%04d-%02d-%02d"
+const VALID_TYPES := ["arms", "chest", "waist", "thigh", "weight"]
 
-var items: Array[Measurement] = []
+var items: Array[MeasurementEntry] = []
 var base_directory: String = ""
 var measurements_directory: String = ""
 
@@ -32,9 +33,9 @@ func load() -> void:
 	while file_name != "":
 		if not dir.current_is_dir() and file_name.ends_with(FILE_EXTENSION):
 			var file_path := measurements_directory + file_name
-			var measurement := load_measurement_file(file_path)
-			if measurement:
-				items.append(measurement)
+			var entry := load_entry_file(file_path)
+			if entry:
+				items.append(entry)
 		
 		file_name = dir.get_next()
 	
@@ -43,7 +44,7 @@ func load() -> void:
 	# Sort by timestamp (oldest first)
 	items.sort_custom(func(a, b): return a.timestamp < b.timestamp)
 
-func load_measurement_file(file_path: String) -> Measurement:
+func load_entry_file(file_path: String) -> MeasurementEntry:
 	var file := FileAccess.open(file_path, FileAccess.READ)
 	if not file:
 		push_error("MeasurementManager: failed to read %s" % file_path)
@@ -54,75 +55,79 @@ func load_measurement_file(file_path: String) -> Measurement:
 	
 	var parsed = JSON.parse_string(text)
 	if parsed is Dictionary:
-		return Measurement.from_dict(parsed)
+		var entry := MeasurementEntry.from_dict(parsed)
+		if not entry:
+			push_error("MeasurementManager: malformed entry data in %s" % file_path)
+		return entry
 	else:
 		push_error("MeasurementManager: invalid measurement data in %s" % file_path)
 		return null
 
-func save_measurement_file(measurement: Measurement) -> void:
-	var file_path := get_file_path_for_measurement(measurement)
+func save_entry_file(entry: MeasurementEntry) -> void:
+	var file_path := get_file_path_for_entry(entry)
 	
 	var file := FileAccess.open(file_path, FileAccess.WRITE)
 	if file:
-		file.store_string(JSON.stringify(measurement.to_dict(), "\t"))
+		file.store_string(JSON.stringify(entry.to_dict(), "\t"))
 		file.close()
 	else:
 		push_error("MeasurementManager: failed to write %s (err %d)" % [file_path, FileAccess.get_open_error()])
 
-func get_file_path_for_measurement(measurement: Measurement) -> String:
-	var dt := Time.get_datetime_dict_from_unix_time(measurement.timestamp)
+func get_file_path_for_entry(entry: MeasurementEntry) -> String:
+	var dt := Time.get_datetime_dict_from_unix_time(entry.timestamp)
 	var date_str := DATE_FORMAT % [dt.year, dt.month, dt.day]
-	# Use timestamp to ensure uniqueness for multiple measurements on same day
-	return measurements_directory + date_str + "_" + str(measurement.timestamp) + FILE_EXTENSION
+	# type + timestamp keeps entries of different types on the same day from colliding,
+	# and keeps multiple same-type entries on the same day unique too.
+	return measurements_directory + date_str + "_" + entry.type + "_" + str(entry.timestamp) + FILE_EXTENSION
 
-func add(m: Measurement) -> void:
-	var new_date := Time.get_datetime_dict_from_unix_time(m.timestamp)
+func _is_same_calendar_day(ts_a: int, ts_b: int) -> bool:
+	var a := Time.get_datetime_dict_from_unix_time(ts_a)
+	var b := Time.get_datetime_dict_from_unix_time(ts_b)
+	return a.year == b.year and a.month == b.month and a.day == b.day
+
+## Add a single atomic measurement (e.g. just "weight") without touching any other type.
+## Any existing entry of the SAME type on the SAME calendar day is replaced.
+func add_entry(measurement_type: String, value: float, timestamp: int = -1) -> void:
+	var type_key := measurement_type.to_lower()
+	if type_key not in VALID_TYPES:
+		push_error("MeasurementManager: Invalid measurement type '%s'" % measurement_type)
+		return
 	
-	# Remove any existing measurements from the same calendar day.
+	if timestamp < 0:
+		timestamp = Time.get_unix_time_from_system()
+	
+	# Remove any existing entry of this same type on this same calendar day.
 	for i in range(items.size() - 1, -1, -1):
-		var existing_date := Time.get_datetime_dict_from_unix_time(items[i].timestamp)
-		
-		if (
-			existing_date.year == new_date.year
-			and existing_date.month == new_date.month
-			and existing_date.day == new_date.day
-		):
-			# Also delete the file for the old measurement
-			var old_file_path := get_file_path_for_measurement(items[i])
+		var existing := items[i]
+		if existing.type == type_key and _is_same_calendar_day(existing.timestamp, timestamp):
+			var old_file_path := get_file_path_for_entry(existing)
 			if FileAccess.file_exists(old_file_path):
 				var dir := DirAccess.open(measurements_directory)
 				if dir:
 					dir.remove(old_file_path.get_file())
-			
 			items.remove_at(i)
 	
-	# Add the newest measurement
-	items.append(m)
+	var entry := MeasurementEntry.create(type_key, value, timestamp)
+	items.append(entry)
+	save_entry_file(entry)
 	
-	# Save individual measurement file
-	save_measurement_file(m)
-	
-	# Sort after adding
 	items.sort_custom(func(a, b): return a.timestamp < b.timestamp)
 
 func remove_at(index: int) -> void:
 	if index < 0 or index >= items.size():
 		return
 	
-	var measurement := items[index]
+	var entry := items[index]
 	
-	# Remove the file
-	var file_path := get_file_path_for_measurement(measurement)
+	var file_path := get_file_path_for_entry(entry)
 	if FileAccess.file_exists(file_path):
 		var dir := DirAccess.open(measurements_directory)
 		if dir:
 			dir.remove(file_path.get_file())
 	
-	# Remove from array
 	items.remove_at(index)
 
 func remove_all() -> void:
-	# Delete all measurement files
 	var dir := DirAccess.open(measurements_directory)
 	if dir:
 		dir.list_dir_begin()
@@ -135,26 +140,25 @@ func remove_all() -> void:
 	
 	items.clear()
 
-func query_measurements(start_timestamp: int = 0, end_timestamp: int = 0) -> Array[Measurement]:
-	"""Query measurements within a time range. Returns all if no range specified."""
-	var results: Array[Measurement] = []
+## Query entries within a time range, optionally filtered to a single type.
+## Pass "" for measurement_type to get all types.
+func query_measurements(start_timestamp: int = 0, end_timestamp: int = 0, measurement_type: String = "") -> Array[MeasurementEntry]:
+	var type_key := measurement_type.to_lower()
+	var results: Array[MeasurementEntry] = []
 	
-	for m in items:
-		var include := true
-		
-		if start_timestamp > 0 and m.timestamp < start_timestamp:
-			include = false
-		
-		if end_timestamp > 0 and m.timestamp > end_timestamp:
-			include = false
-		
-		if include:
-			results.append(m)
+	for e in items:
+		if type_key != "" and e.type != type_key:
+			continue
+		if start_timestamp > 0 and e.timestamp < start_timestamp:
+			continue
+		if end_timestamp > 0 and e.timestamp > end_timestamp:
+			continue
+		results.append(e)
 	
 	return results
 
-func get_measurements_by_date(year: int, month: int, day: int) -> Array[Measurement]:
-	"""Get all measurements for a specific date."""
+## Get all entries for a specific calendar date, optionally filtered to one type.
+func get_measurements_by_date(year: int, month: int, day: int, measurement_type: String = "") -> Array[MeasurementEntry]:
 	var target_date := Time.get_unix_time_from_datetime_dict({
 		"year": year,
 		"month": month,
@@ -163,19 +167,23 @@ func get_measurements_by_date(year: int, month: int, day: int) -> Array[Measurem
 		"minute": 0,
 		"second": 0
 	})
-	
-	# Get start and end of day
 	var end_of_day := target_date + 86399  # 23:59:59
 	
-	return query_measurements(target_date, end_of_day)
+	return query_measurements(target_date, end_of_day, measurement_type)
 
-func get_latest_measurement() -> Measurement:
-	"""Get the most recent measurement."""
-	if items.is_empty():
+## Get the most recent entry for a given type (each type has its own independent timeline).
+func get_latest_entry(measurement_type: String) -> MeasurementEntry:
+	var type_key := measurement_type.to_lower()
+	if type_key not in VALID_TYPES:
+		push_error("MeasurementManager: Invalid measurement type '%s'" % measurement_type)
 		return null
 	
-	# Items are sorted by timestamp (oldest first)
-	return items[items.size() - 1]
+	# items is sorted oldest -> newest; scan backwards for the first match.
+	for i in range(items.size() - 1, -1, -1):
+		if items[i].type == type_key:
+			return items[i]
+	
+	return null
 
 func get_last_measurement(measurement_type: String) -> Dictionary:
 	"""
@@ -186,86 +194,39 @@ func get_last_measurement(measurement_type: String) -> Dictionary:
 	
 	Returns:
 		Dictionary with keys: "date", "value", "timestamp"
-		Returns empty dictionary if no measurements exist.
+		Returns empty dictionary if no measurements exist for that type.
 	"""
-	if items.is_empty():
-		return {}
-	
-	var latest := get_latest_measurement()
+	var latest := get_latest_entry(measurement_type)
 	if not latest:
 		return {}
 	
 	var dt := Time.get_datetime_dict_from_unix_time(latest.timestamp)
 	var date_str := DATE_FORMAT % [dt.year, dt.month, dt.day]
 	
-	var value := 0.0
-	match measurement_type.to_lower():
-		"arms":
-			value = latest.arms
-		"chest":
-			value = latest.chest
-		"waist":
-			value = latest.waist
-		"thigh":
-			value = latest.thigh
-		"weight":
-			value = latest.weight
-		_:
-			push_error("MeasurementManager: Invalid measurement type '%s'" % measurement_type)
-			return {}
-	
 	return {
 		"date": date_str,
-		"value": value,
+		"value": latest.value,
 		"timestamp": latest.timestamp
 	}
 
 func get_last_measurements() -> Dictionary:
 	"""
-	Get the last recorded date and value for all measurement types.
+	Get the last recorded date and value for each measurement type independently.
+	Each type may have a completely different date, since they're tracked atomically.
 	
 	Returns:
 		Dictionary with keys: "arms", "chest", "waist", "thigh", "weight"
 		Each value is a Dictionary with keys: "date", "value", "timestamp"
-		Returns empty dictionary if no measurements exist.
+		Types with no recorded entries are omitted.
 	"""
-	if items.is_empty():
-		return {}
+	var result := {}
 	
-	var latest := get_latest_measurement()
-	if not latest:
-		return {}
+	for type_key in VALID_TYPES:
+		var last := get_last_measurement(type_key)
+		if not last.is_empty():
+			result[type_key] = last
 	
-	var dt := Time.get_datetime_dict_from_unix_time(latest.timestamp)
-	var date_str := DATE_FORMAT % [dt.year, dt.month, dt.day]
-	
-	return {
-		"arms": {
-			"date": date_str,
-			"value": latest.arms,
-			"timestamp": latest.timestamp
-		},
-		"chest": {
-			"date": date_str,
-			"value": latest.chest,
-			"timestamp": latest.timestamp
-		},
-		"waist": {
-			"date": date_str,
-			"value": latest.waist,
-			"timestamp": latest.timestamp
-		},
-		"thigh": {
-			"date": date_str,
-			"value": latest.thigh,
-			"timestamp": latest.timestamp
-		},
-		"weight": {
-			"date": date_str,
-			"value": latest.weight,
-			"timestamp": latest.timestamp
-		}
-	}
+	return result
 
 func query_measurement_by_weeks(measurement_type: String, weeks: int) -> Array:
 	"""
@@ -279,53 +240,27 @@ func query_measurement_by_weeks(measurement_type: String, weeks: int) -> Array:
 		Array of Dictionaries with keys: "date", "value", "timestamp"
 		Returns empty array if no measurements exist or invalid type.
 	"""
-	if items.is_empty():
-		return []
-	
-	# Validate measurement type
-	var valid_types := ["arms", "chest", "waist", "thigh", "weight"]
-	if measurement_type.to_lower() not in valid_types:
+	var type_key := measurement_type.to_lower()
+	if type_key not in VALID_TYPES:
 		push_error("MeasurementManager: Invalid measurement type '%s'" % measurement_type)
 		return []
 	
-	# Calculate timestamp for N weeks ago
 	var now_unix := Time.get_unix_time_from_system()
 	var weeks_in_seconds := weeks * 7 * 86400
 	var start_timestamp := now_unix - weeks_in_seconds
 	
-	# Get all measurements within the time range
-	var measurements_in_range := query_measurements(start_timestamp, now_unix)
+	var entries_in_range := query_measurements(start_timestamp, now_unix, type_key)
 	
-	if measurements_in_range.is_empty():
-		return []
-	
-	# Extract values for the specified measurement type
 	var records: Array = []
-	
-	for measurement in measurements_in_range:
-		var value: float = 0.0
-		match measurement_type.to_lower():
-			"arms":
-				value = measurement.arms
-			"chest":
-				value = measurement.chest
-			"waist":
-				value = measurement.waist
-			"thigh":
-				value = measurement.thigh
-			"weight":
-				value = measurement.weight
-		
-		var dt := Time.get_datetime_dict_from_unix_time(measurement.timestamp)
+	for entry in entries_in_range:
+		var dt := Time.get_datetime_dict_from_unix_time(entry.timestamp)
 		var date_str := DATE_FORMAT % [dt.year, dt.month, dt.day]
-		
 		records.append({
 			"date": date_str,
-			"value": value,
-			"timestamp": measurement.timestamp
+			"value": entry.value,
+			"timestamp": entry.timestamp
 		})
 	
-	# Sort records by timestamp (oldest first)
 	records.sort_custom(func(a, b): return a.timestamp < b.timestamp)
 	
 	return records
@@ -335,81 +270,60 @@ func print_measurements() -> void:
 		print("MeasurementManager: no measurements stored.")
 		return
 	
-	print("MeasurementManager: %d measurement(s)" % items.size())
-	for m in items:
-		var dt := Time.get_datetime_dict_from_unix_time(m.timestamp)
+	print("MeasurementManager: %d entry/entries" % items.size())
+	for e in items:
+		var dt := Time.get_datetime_dict_from_unix_time(e.timestamp)
 		var date_str := DATE_FORMAT % [dt.year, dt.month, dt.day]
-		print("[%s] arms: %.1f, chest: %.1f, waist: %.1f, thigh: %.1f, weight: %.1f" % [
-			date_str, m.arms, m.chest, m.waist, m.thigh, m.weight
-		])
+		print("[%s] %s: %.1f" % [date_str, e.type, e.value])
 
 func seed_example_data() -> void:
 	# Clear existing data
 	remove_all()
 	
-	# Get current date
 	var now_dict := Time.get_datetime_dict_from_system()
 	var now_unix := Time.get_unix_time_from_datetime_dict(now_dict)
 	
-	# Create 10 entries spread over the last 90 days (3 months)
 	var num_entries := 10
 	var days_span := 90
 	
-	# Starting values (in cm and kg)
-	var base_arms := 35.0
-	var base_chest := 100.0
-	var base_waist := 82.0
-	var base_thigh := 55.0
-	var base_weight := 78.0
+	var base_values := {
+		"arms": 35.0,
+		"chest": 100.0,
+		"waist": 82.0,
+		"thigh": 55.0,
+		"weight": 78.0
+	}
 	
-	# Seed the random number generator
 	randi()
 	
-	for i in range(num_entries):
-		# Calculate how many days ago this entry should be
-		# Spread evenly from 90 days ago to today
-		var days_ago := int(float(i) / float(num_entries - 1) * days_span)
-		
-		# Calculate timestamp by subtracting days from current time
-		# Using seconds since epoch is more reliable
-		var timestamp := now_unix - (days_ago * 86400)  # 86400 seconds in a day
-		var normalized_date := Time.get_datetime_dict_from_unix_time(timestamp)
-		
-		# Progress from oldest (1.0) to newest (0.0)
-		var progress := float(days_ago) / float(days_span)
-		
-		# Slight improvements over time (muscle gain, fat loss)
-		var improvement := (1.0 - progress) * 2.0
-		
-		# Random daily fluctuation
-		var arms_var := (randf() - 0.5) * 1.2
-		var chest_var := (randf() - 0.5) * 1.5
-		var waist_var := (randf() - 0.5) * 1.2
-		var thigh_var := (randf() - 0.5) * 1.2
-		var weight_var := (randf() - 0.5) * 0.8
-		
-		# Weekly pattern (slight weekend variations)
-		var day_of_week = normalized_date.weekday
-		var weekend_factor := 0.0
-		if day_of_week in [6, 7]:  # Saturday or Sunday
-			weekend_factor = (randf() - 0.5) * 0.5
-		
-		var measurement := Measurement.new()
-		measurement.timestamp = timestamp
-		measurement.arms = base_arms + improvement + arms_var + weekend_factor
-		measurement.chest = base_chest + improvement * 0.5 + chest_var + weekend_factor * 0.5
-		measurement.waist = base_waist - improvement * 0.8 + waist_var + weekend_factor * 0.3
-		measurement.thigh = base_thigh + improvement * 0.3 + thigh_var + weekend_factor * 0.3
-		measurement.weight = base_weight - improvement * 0.3 + weight_var + weekend_factor * 0.2
-		
-		# Ensure values stay positive and reasonable
-		measurement.arms = max(measurement.arms, 20.0)
-		measurement.chest = max(measurement.chest, 70.0)
-		measurement.waist = max(measurement.waist, 50.0)
-		measurement.thigh = max(measurement.thigh, 30.0)
-		measurement.weight = max(measurement.weight, 40.0)
-		
-		# Add the measurement (this will save it as an individual file)
-		add(measurement)
+	# Each type gets its own independent set of days, to demonstrate that
+	# types no longer need to share the same dates.
+	for type_key in VALID_TYPES:
+		for i in range(num_entries):
+			var days_ago := int(float(i) / float(num_entries - 1) * days_span)
+			var timestamp := now_unix - (days_ago * 86400)
+			var progress := float(days_ago) / float(days_span)
+			var improvement := (1.0 - progress) * 2.0
+			
+			var fluctuation := (randf() - 0.5) * 1.2
+			var value: float = base_values[type_key]
+			
+			match type_key:
+				"arms":
+					value += improvement + fluctuation
+				"chest":
+					value += improvement * 0.5 + fluctuation * 1.25
+				"waist":
+					value -= improvement * 0.8
+					value += fluctuation
+				"thigh":
+					value += improvement * 0.3 + fluctuation
+				"weight":
+					value -= improvement * 0.3
+					value += fluctuation * 0.67
+			
+			value = max(value, 20.0)
+			
+			add_entry(type_key, value, timestamp)
 	
-	print("MeasurementManager: Seeded %d example measurements spanning 3 months" % items.size())
+	print("MeasurementManager: Seeded example data across %d types" % VALID_TYPES.size())

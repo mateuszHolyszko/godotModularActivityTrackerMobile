@@ -1,0 +1,175 @@
+[gd_resource type="Shader" format=3 uid="uid://63kbterrlu6a"]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform float intensity = 1.0;
+uniform vec2 screen_size = vec2(800.0, 480.0);
+
+// Bleed params
+uniform float bleed_strength = 1.0;
+uniform float brightness_threshold = 0.2;
+uniform float shift_multiplier = 4.0;
+
+uniform bool enable_bleed = true;
+
+
+float rand(vec2 co) {
+	return fract(
+		sin(dot(co.xy, vec2(12.9898, 78.233)))
+		* 43758.5453
+	);
+}
+
+
+void fragment() {
+	vec2 uv = UV;
+
+
+	// =========================================================
+	// CRT CURVATURE
+	// =========================================================
+
+	vec2 center = vec2(0.5);
+	vec2 off_center = uv - center;
+
+	off_center *=
+		1.0 +
+		0.1 *
+		off_center.yx *
+		off_center.yx *
+		abs(off_center.yx);
+
+	vec2 uv0 = center + off_center;
+
+
+	// =========================================================
+	// SCREEN BOUNDS
+	// =========================================================
+
+	float inside =
+		step(0.0, uv0.x) *
+		step(0.0, uv0.y) *
+		step(uv0.x, 1.0) *
+		step(uv0.y, 1.0);
+
+	vec3 color = vec3(0.05);
+
+
+	if (inside > 0.5) {
+
+		// =====================================================
+		// RGB SHIFT
+		// =====================================================
+
+		float shift = 0.006 * intensity;
+
+		vec3 base;
+
+		base.r = texture(
+			TEXTURE,
+			uv0 + vec2(shift, 0.0)
+		).r;
+
+		base.g = texture(
+			TEXTURE,
+			uv0
+		).g;
+
+		base.b = texture(
+			TEXTURE,
+			uv0 - vec2(shift, 0.0)
+		).b;
+
+
+		// =====================================================
+		// BLEED
+		// =====================================================
+
+		if (enable_bleed) {
+
+			float brightness =
+				dot(base, vec3(0.299, 0.587, 0.114));
+
+
+			if (brightness < brightness_threshold) {
+
+				float shift_b =
+					shift_multiplier / screen_size.x;
+
+				vec3 bleed = vec3(0.0);
+				float total = 0.0;
+
+
+				for (int x = -6; x <= 6; x++) {
+
+					if (x == 0) {
+						continue;
+					}
+
+					float dist = abs(float(x));
+					float weight = 1.0 / dist;
+
+
+					vec3 sample;
+
+					sample.r = texture(
+						TEXTURE,
+						uv0 +
+						vec2(
+							float(x) * shift_b + shift,
+							0.0
+						)
+					).r;
+
+					sample.g = texture(
+						TEXTURE,
+						uv0 +
+						vec2(
+							float(x) * shift_b,
+							0.0
+						)
+					).g;
+
+					sample.b = texture(
+						TEXTURE,
+						uv0 +
+						vec2(
+							float(x) * shift_b - shift,
+							0.0
+						)
+					).b;
+
+
+					bleed += sample * weight;
+					total += weight;
+				}
+
+
+				bleed /= total;
+				base += bleed * bleed_strength;
+			}
+		}
+
+
+		color = base;
+
+
+		// =====================================================
+		// NOISE
+		// =====================================================
+
+		float noise =
+			(rand(uv0 * TIME) - 0.5)
+			* 0.4
+			* intensity;
+
+		color += noise;
+	}
+
+
+	COLOR = vec4(
+		clamp(color, 0.0, 1.0),
+		1.0
+	);
+}"

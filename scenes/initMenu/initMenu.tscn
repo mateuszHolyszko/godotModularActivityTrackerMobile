@@ -13,6 +13,14 @@ Button/styles/normal = ExtResource("2_3qgkd")
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gvlv4"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q75qr"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
 [node name="InitMenu" type="Control" unique_id=1621518686]
 layout_mode = 3
 anchors_preset = 15
@@ -51,6 +59,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_gvlv4")
 
 [node name="MC" type="MarginContainer" parent="Background/VB/HB/DisplayPanel" unique_id=2061816444]
 layout_mode = 1
@@ -74,6 +83,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
+theme_override_styles/panel = SubResource("StyleBoxFlat_q75qr")
 script = ExtResource("5_dmq71")
 
 [node name="MC" type="MarginContainer" parent="Background/VB/HB/VolumePanel" unique_id=1002123193]
@@ -102,26 +112,17 @@ theme_override_constants/margin_top = 80
 theme_override_constants/margin_right = 80
 theme_override_constants/margin_bottom = 80
 
-[node name="InputPanel" type="Panel" parent="Background/VB" unique_id=1333233458]
+[node name="HB2" type="HBoxContainer" parent="Background/VB" unique_id=1733887973]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="HB" type="HBoxContainer" parent="Background/VB/InputPanel" unique_id=484196397]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HS2" type="HSeparator" parent="Background/VB/InputPanel/HB" unique_id=316739942]
+[node name="HS2" type="HSeparator" parent="Background/VB/HB2" unique_id=485798226]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
-[node name="InputMesurmentsButton" type="Button" parent="Background/VB/InputPanel/HB" unique_id=1850307922]
+[node name="InputMesurmentsButton" type="Button" parent="Background/VB/HB2" unique_id=2025055668]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
@@ -129,19 +130,19 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 text = "Input Mesurments"
 
-[node name="HS" type="HSeparator" parent="Background/VB/InputPanel/HB" unique_id=1630788832]
+[node name="HS" type="HSeparator" parent="Background/VB/HB2" unique_id=1904008030]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
-[node name="WeightLabel" type="Label" parent="Background/VB/InputPanel/HB" unique_id=550653246]
+[node name="WeightLabel" type="Label" parent="Background/VB/HB2" unique_id=764232684]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "BW: -- kg"
 horizontal_alignment = 1
 
-[node name="HS3" type="HSeparator" parent="Background/VB/InputPanel/HB" unique_id=1364477373]
+[node name="HS3" type="HSeparator" parent="Background/VB/HB2" unique_id=1931347685]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
