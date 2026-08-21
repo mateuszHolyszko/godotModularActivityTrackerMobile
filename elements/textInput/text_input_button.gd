@@ -8,6 +8,7 @@ signal value_changed(new_value: String)
 @export var max_length: int = -1
 @export var entry_menu_scene_path: String = ""
 @export var submenu_container_path: NodePath
+@export var is_silent: bool = false  # If true, the text field won't be adjusted
 
 var current_value: String = "":
 	set(v):
@@ -26,6 +27,10 @@ func _ready() -> void:
 
 
 func _update_text() -> void:
+	# If silent mode is enabled, don't adjust the text
+	if is_silent:
+		return
+	
 	var display_str: String = current_value if not current_value.is_empty() else placeholder_text
 	text = display_str 
 

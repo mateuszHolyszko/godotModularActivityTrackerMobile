@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://iwe3lmad8irb"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_dhypl"]
+[ext_resource type="Script" uid="uid://wdcfkquan8mq" path="res://elements/confirmDialog/confirmation_entry_menu.gd" id="2_mtiv7"]
+
+[node name="ConfirmationEntryMenu" type="Control" unique_id=1119870501]
+modulate = Color(1, 1, 1, 0.9411765)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_dhypl")
+script = ExtResource("2_mtiv7")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=397658409]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VB" type="VBoxContainer" parent="Background" unique_id=1012433734]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VS2" type="VSeparator" parent="Background/VB" unique_id=713475419]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PromptLabel" type="Label" parent="Background/VB" unique_id=929340821]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(-1, 200)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Prompt"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+text_overrun_behavior = 5
+
+[node name="VS3" type="VSeparator" parent="Background/VB" unique_id=924701114]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB" type="HBoxContainer" parent="Background/VB" unique_id=43385463]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="Background/VB/HB" unique_id=1192418040]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="ConfirmButton" type="Button" parent="Background/VB/HB" unique_id=1398270028]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(-1, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator2" type="HSeparator" parent="Background/VB/HB" unique_id=607568341]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="CancelButton" type="Button" parent="Background/VB/HB" unique_id=1499812285]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(-1, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator" type="HSeparator" parent="Background/VB/HB" unique_id=334009279]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="VS" type="VSeparator" parent="Background/VB" unique_id=145325539]
+layout_mode = 2
+size_flags_vertical = 3

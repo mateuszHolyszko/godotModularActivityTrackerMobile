@@ -58,6 +58,14 @@ layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
+[node name="ProgramNameLabel" type="Label" parent="Background/MarginContainer/VB" unique_id=1394643462]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Program Name"
+horizontal_alignment = 1
+text_overrun_behavior = 5
+
 [node name="ScrollButtonTop" type="Button" parent="Background/MarginContainer/VB" unique_id=1395668127]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -121,11 +129,13 @@ theme_override_constants/separation = 80
 alignment = 1
 
 [node name="BackButton" type="Button" parent="Background/MarginContainer/VB/CrudeHB" unique_id=749244979]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 text = "Back"
 
 [node name="SaveButton" type="Button" parent="Background/MarginContainer/VB/CrudeHB" unique_id=623526961]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-text = "Save"
+text = "Save Changes"

@@ -3,6 +3,8 @@ extends Control
 @export var input_elements_container: Container
 @export var exercise_resource: Exercise = null
 
+@export var confirm_dialog: ConfirmationEntryMenu
+
 @onready var input_target: OptionInputButton = %TargetOptionButton
 @onready var input_ex_name: TextInputButton = %InputExerciseName
 @onready var input_bodyweight: OptionInputButton = %InputOptionBodyweight
@@ -238,9 +240,10 @@ func _on_save_pressed():
 	
 	# Optionally emit a signal or show a success message
 	# Signal to notify parent that data was saved
+
 func _on_delete_pressed():
 	"""
-	Handle delete button press - deletes the exercise and removes this row.
+	Handle delete button press - asks for confirmation before deleting.
 	"""
 	if not exercise_manager:
 		push_error("ExerciseManager not available!")
@@ -252,13 +255,36 @@ func _on_delete_pressed():
 		NotificationManager.error("Cannot delete: no exercise loaded")
 		return
 	
-	# Ask for confirmation (optional but recommended)
-	# You could show a confirmation dialog here
+	# Check if confirm_dialog is available
+	if not confirm_dialog:
+		push_error("Confirm dialog not set for exercise row")
+		NotificationManager.error("Confirmation dialog not available")
+		return
+	
+	# Request confirmation before deleting
+	var exercise_name := exercise_resource.name
+	var confirm_message := "Delete exercise '%s'?" % exercise_name
+	confirm_dialog.request_confirmation(
+		confirm_message,
+		_on_delete_confirmed
+	)
+
+func _on_delete_confirmed() -> void:
+	"""
+	Handle the confirmed deletion of the exercise.
+	"""
+	if not exercise_manager:
+		push_error("ExerciseManager not available!")
+		return
+	
+	if not exercise_resource:
+		push_error("Cannot delete: no exercise resource loaded!")
+		return
 	
 	# Delete the exercise from the manager
 	var deleted = exercise_manager.remove_exercise(exercise_resource.name)
 	
-	# TODO delete history attatched to this exercise?
+	# TODO delete history attached to this exercise?
 	
 	if deleted:
 		print("Exercise deleted: %s" % exercise_resource.name)
@@ -268,6 +294,10 @@ func _on_delete_pressed():
 	else:
 		push_error("Failed to delete exercise: %s" % exercise_resource.name)
 		NotificationManager.error("Failed to delete exercise '%s'" % exercise_resource.name)
+
+# Optional: Handle cancellation if you want to do something specific
+func _on_delete_cancelled() -> void:
+	print("Delete cancelled for exercise: ", exercise_resource.name)
 
 func set_exercise(exercise: Exercise, file_name: String = ""):
 	"""
@@ -304,7 +334,7 @@ func apply_muscle_style():
 	"""
 	_apply_styling_to_inputs()
 
-# focus for add exrcise button in data_menu, so we can call it when its child elements are ready
+# focus for add exercise button in data_menu, so we can call it when its child elements are ready
 func focus_target_input():
 	"""
 	Focus the exercise name input field.

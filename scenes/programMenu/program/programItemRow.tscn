@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://bni48ewqaxuv5"]
+
+[ext_resource type="Script" uid="uid://cd68cxynrelsq" path="res://scenes/programMenu/program/program_item_row.gd" id="1_6qwgd"]
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_v2353"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="3_rqugi"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="4_ihnrr"]
+[ext_resource type="Texture2D" uid="uid://dgi4iip4rn21d" path="res://assets/icons/trash-svgrepo-com.svg" id="5_wk8b3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v2353"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g0web"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
+border_color = Color(1, 1, 1, 1)
+
+[node name="ProgramItemRow" type="Control" unique_id=2106324]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 3
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_v2353")
+script = ExtResource("1_6qwgd")
+
+[node name="HB" type="HBoxContainer" parent="." unique_id=1070719554]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OrderLabel" type="Label" parent="HB" unique_id=916400929]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.2
+theme_override_font_sizes/font_size = 150
+theme_override_styles/normal = SubResource("StyleBoxFlat_v2353")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArrowsARC" type="AspectRatioContainer" parent="HB" unique_id=2126519284]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+stretch_mode = 1
+
+[node name="ArrowsVB" type="VBoxContainer" parent="HB/ArrowsARC" unique_id=269175528]
+layout_mode = 2
+
+[node name="UpButton" type="Button" parent="HB/ArrowsARC/ArrowsVB" unique_id=1182280407]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_g0web")
+icon = ExtResource("3_rqugi")
+icon_alignment = 1
+expand_icon = true
+
+[node name="DownButton" type="Button" parent="HB/ArrowsARC/ArrowsVB" unique_id=2130878029]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_g0web")
+icon = ExtResource("4_ihnrr")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Item" type="Button" parent="HB" unique_id=1252225812]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteARC" type="AspectRatioContainer" parent="HB" unique_id=1520656746]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+stretch_mode = 1
+
+[node name="DeleteButton" type="Button" parent="HB/DeleteARC" unique_id=97435101]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_g0web")
+icon = ExtResource("5_wk8b3")
+icon_alignment = 1
+expand_icon = true

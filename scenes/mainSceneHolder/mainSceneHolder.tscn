@@ -26,10 +26,10 @@ border_color = Color(1, 1, 1, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tnmb5"]
 shader = ExtResource("6_dxo64")
 shader_parameter/intensity = 0.3
-shader_parameter/screen_size = Vector2(360, 800)
-shader_parameter/bleed_strength = 0.45
+shader_parameter/screen_size = Vector2(180, 400)
+shader_parameter/bleed_strength = 0.35
 shader_parameter/brightness_threshold = 0.2
-shader_parameter/shift_multiplier = 3.0
+shader_parameter/shift_multiplier = 2.0
 shader_parameter/enable_bleed = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1eb8a"]

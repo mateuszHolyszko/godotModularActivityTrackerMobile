@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://byemk0jxxsji7"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_erfnh"]
+[ext_resource type="Script" uid="uid://p4auqqxny67d" path="res://elements/pickExercise/pick_exercise_entry.gd" id="2_erfnh"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_hc1nk"]
+
+[sub_resource type="Theme" id="Theme_kerwa"]
+Button/styles/normal = ExtResource("3_hc1nk")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0c0u"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[node name="PickExerciseEntry" type="Control" unique_id=1344992767]
+modulate = Color(1, 1, 1, 0.9411765)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_erfnh")
+script = ExtResource("2_erfnh")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=1441767334]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_kerwa")
+theme_override_styles/panel = SubResource("StyleBoxFlat_w0c0u")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1203821291]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1582271979]
+layout_mode = 2
+
+[node name="HB_prompt" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1690530878]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+alignment = 1
+
+[node name="Prompt" type="Label" parent="Background/MarginContainer/VB/HB_prompt" unique_id=460742176]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+theme_override_font_sizes/font_size = 100
+text = "Prompt"
+
+[node name="VFOptionsContainer" type="FlowContainer" parent="Background/MarginContainer/VB" unique_id=118756114]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 50
+alignment = 1
+last_wrap_alignment = 2
+
+[node name="HB_cancel" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1598314116]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1710793491]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="CancelButton" type="Button" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1064018366]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 75
+text = "Back"
+
+[node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1427761959]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="DeselectButton" type="Button" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1711207163]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 75
+text = "Deselect"
+
+[node name="HSeparator2" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=834533001]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2

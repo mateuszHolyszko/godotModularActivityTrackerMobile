@@ -21,6 +21,7 @@ border_width_bottom = 4
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1eb8a"]
 
 [node name="NumericEntryMenu" type="Control" unique_id=1034016109]
+modulate = Color(1, 1, 1, 0.9411765)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -5,6 +5,7 @@
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_mhxne"]
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="4_mhxne"]
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="5_7asqm"]
+[ext_resource type="Script" uid="uid://djubjhnt54hfn" path="res://elements/pickExercise/pick_exercise_button.gd" id="6_n6hhi"]
 
 [sub_resource type="Theme" id="Theme_7asqm"]
 Button/styles/normal = ExtResource("3_mhxne")
@@ -81,11 +82,13 @@ entry_menu_scene_path = "res://elements/textInput/TextEntryMenu.tscn"
 submenu_container_path = NodePath("../../../../OptionEntryContainer")
 metadata/_custom_type_script = "uid://brkmh4ac31olu"
 
-[node name="Button3" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=1400850306]
+[node name="Button3" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=737897245]
 custom_minimum_size = Vector2(600, 200)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "B3"
+script = ExtResource("6_n6hhi")
+submenu_container_path = NodePath("../../../../OptionEntryContainer")
+metadata/_custom_type_script = "uid://djubjhnt54hfn"
 
 [node name="OptionEntryContainer" type="Container" parent="." unique_id=435933248]
 visible = false

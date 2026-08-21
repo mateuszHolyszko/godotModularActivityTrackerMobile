@@ -7,6 +7,8 @@ extends Menu
 @onready var input_filter_target: OptionInputButton = %InputOptionTarget
 @onready var input_filter_bodyweight: OptionInputButton = %InputOptionBodyweight
 
+@onready var _confirm_dialog: ConfirmationEntryMenu = %ConfirmationEntryMenu
+
 var exercise_manager: ExerciseManager
 var exercise_row_scene: PackedScene = null
 
@@ -45,6 +47,8 @@ func _create_exercise_row(exercise: Exercise, file_name: String = ""):
 	
 	# Set the exercise data using the set_exercise method
 	exercise_row.set_exercise(exercise, file_name)
+	# Pass confirm dialog to row
+	exercise_row.confirm_dialog = _confirm_dialog
 	
 	# Add to the scroll container
 	scroll_content.add_child(exercise_row)

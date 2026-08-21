@@ -5,6 +5,7 @@
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_6d5ee"]
 [ext_resource type="Texture2D" uid="uid://bi8cwmt7ofg5c" path="res://assets/images/logo.png" id="4_hkdud"]
 [ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll_mobile_fix.gd" id="5_mqakw"]
+[ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="7_hkdud"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="7_nqcy3"]
 
 [sub_resource type="Theme" id="Theme_emm4a"]
@@ -47,7 +48,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer" unique_id=922308915]
+[node name="LogoBG" type="TextureRect" parent="Background/MarginContainer" unique_id=922308915]
 modulate = Color(18.892157, 18.892157, 18.892157, 1)
 self_modulate = Color(1, 1, 1, 0.05882353)
 layout_mode = 2
@@ -75,12 +76,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/ScrollContainer/CenterContainer" unique_id=1163166861]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
 [node name="AddProgramButton" type="Button" parent="Background/MarginContainer/VB" unique_id=54855697]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 icon = ExtResource("7_nqcy3")
@@ -96,3 +99,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ConfirmationEntryMenu" parent="." unique_id=1119870501 instance=ExtResource("7_hkdud")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 48.0
+offset_top = -367.0
+offset_right = -77.0
+offset_bottom = 404.0
