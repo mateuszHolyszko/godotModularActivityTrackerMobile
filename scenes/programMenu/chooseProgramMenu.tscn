@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cnppgnwrdssir" path="res://scenes/programMenu/choose_program_menu.gd" id="2_gases"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_6d5ee"]
 [ext_resource type="Texture2D" uid="uid://bi8cwmt7ofg5c" path="res://assets/images/logo.png" id="4_hkdud"]
-[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll_mobile_fix.gd" id="5_mqakw"]
+[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="5_mqakw"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="7_hkdud"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="7_nqcy3"]
 

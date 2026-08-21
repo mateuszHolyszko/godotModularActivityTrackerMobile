@@ -1,5 +1,5 @@
 # scroll_container_with_buttons.gd
-extends "res://scripts/scroll_mobile_fix.gd"  # Your existing script
+extends "res://scripts/scroll/scroll_mobile_fix.gd"  
 
 @export var scroll_top_button: Button
 @export var scroll_bottom_button: Button

@@ -239,6 +239,25 @@ func get_exercises_for_target(target_muscle: String) -> Array:
 	
 	return filtered_items
 
+func get_exercise_target_muscle(exercise_name: String) -> String:
+	"""
+	Gets the target muscle for a given exercise name (case-insensitive).
+	Returns the target muscle string, or an empty string if exercise not found.
+	"""
+	if exercise_name.strip_edges() == "":
+		push_error("ExerciseManager.get_exercise_target_muscle: exercise name cannot be empty")
+		return ""
+	
+	var search_name := exercise_name.strip_edges().to_lower()
+	
+	for item in items:
+		var exercise: Exercise = item.get("exercise")
+		if exercise and exercise.name.to_lower() == search_name:
+			return exercise.target_muscle
+	
+	print("ExerciseManager: Exercise '%s' not found" % exercise_name)
+	return ""
+
 func get_exercise_objects_for_target(target_muscle: String) -> Array[Exercise]:
 	"""
 	Returns an array of Exercise objects directly (not dictionaries) filtered by target muscle.

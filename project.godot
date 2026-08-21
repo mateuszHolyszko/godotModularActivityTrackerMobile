@@ -21,6 +21,7 @@ MenuManager="*uid://dml1fxo1bxavn"
 MuscleDict="*uid://cwcpelpjtlk0c"
 DataManager="*uid://sh8ohddqhgi0"
 NotificationManager="*uid://43vt0bgwpkkf"
+GlobalElements="*uid://cwnlvyeevocfk"
 
 [display]
 

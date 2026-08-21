@@ -18,6 +18,7 @@ func open(container: Node) -> void:
 		container.show()
 	_on_open()
 	opened.emit()
+	GlobalElements.TransitionRect.play_refresh_animation()
 
 
 func close() -> void:
@@ -30,6 +31,7 @@ func close() -> void:
 		if parent is CanvasItem:
 			parent.hide()
 	closed.emit()
+	GlobalElements.TransitionRect.play_refresh_animation()
 
 
 # Override in subclasses for menu-specific setup (e.g. populate a list, start an animation)

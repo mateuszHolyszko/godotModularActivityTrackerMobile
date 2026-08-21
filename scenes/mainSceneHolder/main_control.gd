@@ -1,7 +1,7 @@
 extends Control
 
 @onready var current_menu_panel: Panel = %CurrentMenuPanel
-@onready var transition_rect: ColorRect = %FadeTransitionRect
+@onready var transition_rect: ColorRect = %TransitionRect
 @onready var notification_container: VBoxContainer = %NotyficationContainer
 
 @export var loading_menu_scene_path: String = "res://scenes/loadingMenu/loadingMenu.tscn"
@@ -12,6 +12,8 @@ extends Control
 
 
 func _ready() -> void:
+	GlobalElements.TransitionRect = transition_rect
+	
 	NotificationManager.register_container(notification_container)
 	#NotificationManager.success("container registered")
 	

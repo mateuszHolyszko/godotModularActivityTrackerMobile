@@ -4,19 +4,65 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_v2353"]
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="3_rqugi"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="4_ihnrr"]
+[ext_resource type="Script" uid="uid://djubjhnt54hfn" path="res://elements/pickExercise/pick_exercise_button.gd" id="5_rqugi"]
 [ext_resource type="Texture2D" uid="uid://dgi4iip4rn21d" path="res://assets/icons/trash-svgrepo-com.svg" id="5_wk8b3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v2353"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g0web"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
 border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_rqugi"]
+script/source = "# exercise_color_rect.gd
+extends ColorRect
+
+@export var exercise_name: String = \"\"
+
+func _ready():
+	_update_color()
+
+func _update_color() -> void:
+	\"\"\"
+	Update the color rect based on the exercise's target muscle.
+	\"\"\"
+	if exercise_name.is_empty():
+		color = Color.WHITE
+		return
+	
+	# Get the target muscle from ExerciseManager
+	var target_muscle = DataManager.ExerciseManager.get_exercise_target_muscle(exercise_name)
+	
+	if target_muscle.is_empty():
+		# Exercise not found, use default color
+		color = Color.WHITE
+		return
+	
+	# Get the color from the MuscleDict autoload
+	var muscle_color = MuscleDict.get_color(target_muscle)
+	if muscle_color:
+		color = muscle_color
+	else:
+		color = Color.WHITE
+
+# Public method to update the exercise
+func set_exercise(exercise_name: String) -> void:
+	\"\"\"
+	Set the exercise name and update the color.
+	\"\"\"
+	self.exercise_name = exercise_name
+	_update_color()
+
+# Public method to clear/reset the color
+func clear_color() -> void:
+	\"\"\"
+	Reset the color to gray.
+	\"\"\"
+	exercise_name = \"\"
+	color = Color.GRAY
+"
 
 [node name="ProgramItemRow" type="Control" unique_id=2106324]
 custom_minimum_size = Vector2(0, 200)
@@ -38,27 +84,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 10
 
 [node name="OrderLabel" type="Label" parent="HB" unique_id=916400929]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.1
 theme_override_font_sizes/font_size = 150
 theme_override_styles/normal = SubResource("StyleBoxFlat_v2353")
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ArrowsARC" type="AspectRatioContainer" parent="HB" unique_id=2126519284]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-stretch_mode = 1
-
-[node name="ArrowsVB" type="VBoxContainer" parent="HB/ArrowsARC" unique_id=269175528]
+[node name="ArrowsVB" type="VBoxContainer" parent="HB" unique_id=1618943300]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="UpButton" type="Button" parent="HB/ArrowsARC/ArrowsVB" unique_id=1182280407]
+[node name="UpButton" type="Button" parent="HB/ArrowsVB" unique_id=1569454657]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_g0web")
@@ -66,7 +111,13 @@ icon = ExtResource("3_rqugi")
 icon_alignment = 1
 expand_icon = true
 
-[node name="DownButton" type="Button" parent="HB/ArrowsARC/ArrowsVB" unique_id=2130878029]
+[node name="VS" type="VSeparator" parent="HB/ArrowsVB" unique_id=484993597]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="DownButton" type="Button" parent="HB/ArrowsVB" unique_id=493824337]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_g0web")
@@ -74,18 +125,31 @@ icon = ExtResource("4_ihnrr")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Item" type="Button" parent="HB" unique_id=1252225812]
+[node name="ItemVB" type="VBoxContainer" parent="HB" unique_id=72952916]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DeleteARC" type="AspectRatioContainer" parent="HB" unique_id=1520656746]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-stretch_mode = 1
-
-[node name="DeleteButton" type="Button" parent="HB/DeleteARC" unique_id=97435101]
+[node name="TargetColorIndicator" type="ColorRect" parent="HB/ItemVB" unique_id=1279232315]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+script = SubResource("GDScript_rqugi")
+
+[node name="Item" type="Button" parent="HB/ItemVB" unique_id=1924804758]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("5_rqugi")
+metadata/_custom_type_script = "uid://djubjhnt54hfn"
+
+[node name="DeleteButton" type="Button" parent="HB" unique_id=97435101]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.15
 theme_override_styles/normal = SubResource("StyleBoxFlat_g0web")
 icon = ExtResource("5_wk8b3")
 icon_alignment = 1

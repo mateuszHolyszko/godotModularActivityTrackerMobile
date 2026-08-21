@@ -184,6 +184,8 @@ func _on_add_exercise_pressed():
 	
 	var exercise_row = exercise_row_scene.instantiate()
 	exercise_row.input_elements_container = input_container
+	# Pass confirm dialog to row
+	exercise_row.confirm_dialog = _confirm_dialog
 	scroll_content.add_child(exercise_row)
 	
 	NotificationManager.info("Appended Empty Exercise")

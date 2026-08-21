@@ -4,8 +4,10 @@
 [ext_resource type="Script" uid="uid://c1krlgfful1pp" path="res://scenes/programMenu/program/program_menu.gd" id="2_o5cy7"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_6fge2"]
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="4_qbnfr"]
-[ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll_container_with_scroll_buttons.gd" id="5_b4i4s"]
+[ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="5_qbnfr"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_m3lou"]
+[ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="7_b4i4s"]
+[ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_m3lou"]
 
 [sub_resource type="Theme" id="Theme_2yte6"]
 Button/styles/normal = ExtResource("3_6fge2")
@@ -19,6 +21,14 @@ color = Color(1, 1, 1, 1)
 grow_begin = 4.0
 grow_end = 4.0
 thickness = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_16a6y"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m3lou"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
+border_color = Color(1, 1, 1, 1)
 
 [node name="ProgramingMenu" type="Control" unique_id=333080964]
 layout_mode = 3
@@ -66,6 +76,10 @@ text = "Program Name"
 horizontal_alignment = 1
 text_overrun_behavior = 5
 
+[node name="HS3" type="HSeparator" parent="Background/MarginContainer/VB" unique_id=1038237678]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
+
 [node name="ScrollButtonTop" type="Button" parent="Background/MarginContainer/VB" unique_id=1395668127]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -74,12 +88,14 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=975380174 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 1.6
 follow_focus = true
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
-script = ExtResource("5_b4i4s")
+script = ExtResource("5_qbnfr")
 scroll_top_button = NodePath("../ScrollButtonTop")
 scroll_bottom_button = NodePath("../ScrollButtonBot")
 update_interval = 0.25
@@ -89,7 +105,7 @@ scroll_container = NodePath("ScrollContent")
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 20
+theme_override_constants/separation = 40
 
 [node name="ScrollButtonBot" type="Button" parent="Background/MarginContainer/VB" unique_id=1263770087]
 custom_minimum_size = Vector2(0, 50)
@@ -102,6 +118,12 @@ expand_icon = true
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 
+[node name="AddButtonToggle" type="Button" parent="Background/MarginContainer/VB" unique_id=1603920696]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Add Button"
+
 [node name="TargetSummaryHB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=218163454]
 layout_mode = 2
 size_flags_vertical = 3
@@ -112,10 +134,12 @@ alignment = 1
 [node name="Panel" type="Panel" parent="Background/MarginContainer/VB/TargetSummaryHB" unique_id=1506570793]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_16a6y")
 
 [node name="Panel2" type="Panel" parent="Background/MarginContainer/VB/TargetSummaryHB" unique_id=690177245]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_16a6y")
 
 [node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB" unique_id=761210082]
 layout_mode = 2
@@ -139,3 +163,39 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 text = "Save Changes"
+
+[node name="SubMenuContainer" type="Container" parent="." unique_id=1603917565]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AddItemButtonTemplate" type="Button" parent="." unique_id=1565904589]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 460.0
+offset_right = 1070.0
+offset_bottom = 560.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_m3lou")
+icon = ExtResource("7_b4i4s")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ConfirmationEntryMenu" parent="." unique_id=1119870501 instance=ExtResource("8_m3lou")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 48.0
+offset_top = -367.0
+offset_right = -77.0
+offset_bottom = 404.0
