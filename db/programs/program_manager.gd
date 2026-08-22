@@ -240,6 +240,87 @@ func get_all_program_objects() -> Array[Program]:
 	return programs
 
 
+func get_program_target_breakdown(program: Program) -> Dictionary:
+	"""
+	Calculates the target muscle breakdown for a program.
+	For each exercise in the program, it looks up the target muscle from ExerciseManager
+	and counts how many exercises target each muscle.
+	
+	Returns a Dictionary like: {"Chest": 2, "Biceps": 1, "Quads": 4, ...}
+	"""
+	if not program:
+		push_error("ProgramManager.get_program_target_breakdown: program is null")
+		return {}
+	
+	var breakdown: Dictionary = {}
+	
+	# Initialize all muscles with 0 count
+	for muscle in MuscleDict.get_all_muscles():
+		breakdown[muscle] = 0
+	
+	# Iterate through all items in the program
+	for item in program.items:
+		var item_type = item.get("type", "")
+		
+		if item_type == "exercise":
+			var exercise_name = item.get("exercise_name", "")
+			if exercise_name.is_empty():
+				continue
+			
+			# Get the exercise from ExerciseManager
+			var exercise = DataManager.ExerciseManager.get_exercise(exercise_name)
+			if exercise:
+				var target_muscle = exercise.target_muscle
+				if target_muscle in breakdown:
+					breakdown[target_muscle] += 1
+				else:
+					# If muscle not in dictionary (shouldn't happen with proper data)
+					breakdown[target_muscle] = 1
+			else:
+				# Exercise not found, log a warning
+				print("ProgramManager: Exercise '%s' not found in ExerciseManager" % exercise_name)
+				
+		elif item_type == "superset":
+			# For supersets, count each exercise in the superset
+			var exercise_names = item.get("exercise_names", [])
+			for exercise_name in exercise_names:
+				if exercise_name.is_empty():
+					continue
+				
+				var exercise = DataManager.ExerciseManager.get_exercise(exercise_name)
+				if exercise:
+					var target_muscle = exercise.target_muscle
+					if target_muscle in breakdown:
+						breakdown[target_muscle] += 1
+					else:
+						breakdown[target_muscle] = 1
+				else:
+					print("ProgramManager: Exercise '%s' not found in ExerciseManager (in superset)" % exercise_name)
+	
+	# Remove any muscles with 0 count for a cleaner result
+	var result: Dictionary = {}
+	for muscle in breakdown:
+		if breakdown[muscle] > 0:
+			result[muscle] = breakdown[muscle]
+	
+	return result
+
+# Optional: Add a convenience function that takes a program name instead
+func get_program_target_breakdown_by_name(program_name: String) -> Dictionary:
+	"""
+	Gets the target breakdown for a program by its name.
+	"""
+	if program_name.strip_edges() == "":
+		push_error("ProgramManager.get_program_target_breakdown_by_name: program name cannot be empty")
+		return {}
+	
+	var program = get_program(program_name)
+	if not program:
+		push_error("ProgramManager.get_program_target_breakdown_by_name: program '%s' not found" % program_name)
+		return {}
+	
+	return get_program_target_breakdown(program)
+
 #region item array mutations
 # --- internal helpers ---------------------------------------------------
 

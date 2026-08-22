@@ -99,7 +99,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ArrowsVB" type="VBoxContainer" parent="HB" unique_id=1618943300]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
 
 [node name="UpButton" type="Button" parent="HB/ArrowsVB" unique_id=1569454657]

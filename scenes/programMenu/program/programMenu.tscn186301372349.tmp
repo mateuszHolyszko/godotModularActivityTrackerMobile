@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://bnlbebnju8u8n" path="res://scenes/programMenu/program/pie_chart_panel.gd" id="7_pjrby"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_m3lou"]
 [ext_resource type="Script" uid="uid://bh1popla8ual0" path="res://elements/pieChart/pie_chart.gd" id="8_p1s7t"]
-[ext_resource type="FontFile" uid="uid://1yom74vswn7x" path="res://assets/fonts/VT323-Regular.ttf" id="9_p1s7t"]
 
 [sub_resource type="Theme" id="Theme_2yte6"]
 Button/styles/normal = ExtResource("3_6fge2")
@@ -157,7 +156,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_p1s7t")
-font = ExtResource("9_p1s7t")
+elements = null
+elements_text_color = null
+elements_font_size = null
 metadata/_custom_type_script = "uid://bh1popla8ual0"
 
 [node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/TargetSummaryHB" unique_id=1988300352]

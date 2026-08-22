@@ -10,7 +10,7 @@ signal item_selected(index: int, exercise_name: String)
 @export var item_index: int = -1
 @export var item_type: String = "exercise"  # "exercise" or "superset"
 @export var exercise_name: String = ""
-@export var program_resource: Program = null
+@export var program_resource: Program = null  # This should be the working copy
 @export var parent_menu: Menu
 @export var sub_menu_container: Control
 
@@ -104,6 +104,14 @@ func _update_color() -> void:
 		var muscle_color = MuscleDict.get_color(target_muscle)
 		target_color_indicator.color = muscle_color if muscle_color else Color.GRAY
 
+func _notify_parent_of_change() -> void:
+	"""
+	Notify the parent menu that a change was made.
+	This allows the parent to mark unsaved changes.
+	"""
+	if parent_menu and parent_menu.has_method("_mark_unsaved_changes"):
+		parent_menu._mark_unsaved_changes()
+
 func _on_item_value_changed(new_value) -> void:
 	"""
 	Handle when the exercise selection changes.
@@ -133,6 +141,9 @@ func _on_item_value_changed(new_value) -> void:
 		# Update the color based on new exercise
 		_update_color()
 		
+		# Notify parent of change
+		_notify_parent_of_change()
+		
 		# Emit signal that the item was modified
 		item_modified.emit(item_index)
 		
@@ -159,6 +170,9 @@ func _on_move_up_pressed() -> void:
 	# Update the local index
 	var old_index = item_index
 	item_index -= 1
+	
+	# Notify parent of change
+	_notify_parent_of_change()
 	
 	# Emit signal that the item was modified
 	item_modified.emit(item_index)
@@ -187,6 +201,9 @@ func _on_move_down_pressed() -> void:
 	# Update the local index
 	var old_index = item_index
 	item_index += 1
+	
+	# Notify parent of change
+	_notify_parent_of_change()
 	
 	# Emit signal that the item was modified
 	item_modified.emit(item_index)
@@ -243,6 +260,9 @@ func _on_delete_confirmed() -> void:
 	
 	# Remove the item from the program
 	program_resource.items.remove_at(item_index)
+	
+	# Notify parent of change
+	_notify_parent_of_change()
 	
 	# Emit signal that the item was deleted
 	item_deleted.emit(item_index)
