@@ -11,6 +11,8 @@ extends Control
 @onready var rename_button: TextInputButton = %RenameButton
 @onready var delete_button: Button = %DeleteButton
 
+@onready var pie_chart: PieChart = %PieChart
+
 func _ready():
 	# Set the program name on the button
 	if program_resource:
@@ -20,6 +22,9 @@ func _ready():
 		rename_button.current_value = program_resource.program_name
 		rename_button.prompt_text = "Enter new program name"
 		rename_button.placeholder_text = "Program name"
+		
+		# Update the pie chart with program data
+		update_pie_chart()
 	
 	# Connect signals
 	program_button.pressed.connect(_on_program_button_pressed)
@@ -34,6 +39,42 @@ func _ready():
 	# Connect to the program menu's program_changed signal if it exists
 	if program_menu and program_menu.has_signal("program_changed"):
 		program_menu.program_changed.connect(_on_program_changed)
+
+func update_pie_chart() -> void:
+	"""
+	Update the pie chart with the program's target muscle breakdown.
+	"""
+	if not program_resource:
+		push_error("ProgramRow: No program resource to update pie chart")
+		return
+	
+	# Get the muscle breakdown for this program
+	var breakdown: Dictionary = DataManager.ProgramManager.get_program_target_breakdown(program_resource)
+	
+	if breakdown.is_empty():
+		# No data to show - clear the pie chart
+		pie_chart.elements = []
+		pie_chart.queue_redraw()
+		return
+	
+	# Convert breakdown to pie chart elements with colors from MuscleDict
+	var elements: Array[Dictionary] = []
+	for muscle in breakdown:
+		var count: int = breakdown[muscle]
+		var color: Color = MuscleDict.get_color(muscle)
+		
+		elements.append({
+			"label": muscle,
+			"value": count,
+			"color": color
+		})
+	
+	# Sort elements by value descending for better visual hierarchy
+	elements.sort_custom(func(a, b): return a["value"] > b["value"])
+	
+	# Set the data on the pie chart
+	pie_chart.elements = elements
+	pie_chart.queue_redraw()
 
 func _on_program_button_pressed() -> void:
 	# Set the program in the program menu before opening
@@ -51,6 +92,9 @@ func _on_program_changed(new_program: Program) -> void:
 		
 		# Update rename button's current value to match
 		rename_button.current_value = new_program.program_name
+		
+		# Update the pie chart with the new program data
+		update_pie_chart()
 
 func _on_rename_confirmed(new_name: String) -> void:
 	"""

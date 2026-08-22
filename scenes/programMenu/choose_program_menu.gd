@@ -4,6 +4,8 @@ extends Menu
 @onready var programs_container: VBoxContainer = %ScrollContent
 @onready var add_program_button: Button = %AddProgramButton
 
+@onready var programs_summary: VFlowContainer = %ProgramsSummaryVFlow
+
 # === Sub Menu
 @onready var submenu_container: Control = %SubMenuContainer
 const PROGRAM_MENU_SCENE_PATH := "res://scenes/programMenu/program/programMenu.tscn"
@@ -71,6 +73,7 @@ func _on_program_changed(new_program: Program) -> void:
 
 func refresh_programs() -> void:
 	_populate_programs()
+	programs_summary.update_summary()
 
 func add_new_program(program: Program) -> void:
 	_create_program_row(program)

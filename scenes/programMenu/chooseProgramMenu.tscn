@@ -3,8 +3,8 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_fvt5r"]
 [ext_resource type="Script" uid="uid://cnppgnwrdssir" path="res://scenes/programMenu/choose_program_menu.gd" id="2_gases"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_6d5ee"]
-[ext_resource type="Texture2D" uid="uid://bi8cwmt7ofg5c" path="res://assets/images/logo.png" id="4_hkdud"]
 [ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="5_mqakw"]
+[ext_resource type="Script" uid="uid://bykq1cnwvygbt" path="res://scenes/programMenu/programs_summary_v_flow.gd" id="6_hkdud"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="7_hkdud"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="7_nqcy3"]
 
@@ -14,6 +14,16 @@ Button/styles/normal = ExtResource("3_6d5ee")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hkdud"]
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_emm4a"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_1eb8a"]
+color = Color(1, 1, 1, 1)
+grow_begin = 4.0
+grow_end = 4.0
+thickness = 4
 
 [node name="ChooseProgramMenu" type="Control" unique_id=621893626]
 layout_mode = 3
@@ -48,13 +58,6 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="LogoBG" type="TextureRect" parent="Background/MarginContainer" unique_id=922308915]
-modulate = Color(18.892157, 18.892157, 18.892157, 1)
-self_modulate = Color(1, 1, 1, 0.05882353)
-layout_mode = 2
-texture = ExtResource("4_hkdud")
-stretch_mode = 5
-
 [node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=732710800]
 layout_mode = 2
 
@@ -86,9 +89,44 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_emm4a")
 icon = ExtResource("7_nqcy3")
 icon_alignment = 1
 expand_icon = true
+
+[node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VB" unique_id=903963522]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
+
+[node name="Label2" type="Label" parent="Background/MarginContainer/VB" unique_id=1127100493]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Total Muscle Volume"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="Background/MarginContainer/VB" unique_id=1930353747]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1316017404]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+alignment = 1
+
+[node name="ProgramsSummaryVFlow" type="VFlowContainer" parent="Background/MarginContainer/VB/HB" unique_id=1764825571]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/h_separation = 120
+theme_override_constants/v_separation = 45
+alignment = 1
+last_wrap_alignment = 1
+script = ExtResource("6_hkdud")
+label_font_size = 80
 
 [node name="SubMenuContainer" type="Container" parent="." unique_id=1919611971]
 unique_name_in_owner = true

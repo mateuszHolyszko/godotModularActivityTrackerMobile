@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_2wcpy"]
 [ext_resource type="Script" uid="uid://bjxoil4e78bi8" path="res://scenes/programMenu/program_row.gd" id="2_hsk5e"]
 [ext_resource type="Texture2D" uid="uid://bl0r7yl578v2y" path="res://assets/icons/unlink-svgrepo-com.svg" id="3_kn4sq"]
+[ext_resource type="Script" uid="uid://bh1popla8ual0" path="res://elements/pieChart/pie_chart.gd" id="3_nj686"]
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="4_hsk5e"]
 [ext_resource type="Texture2D" uid="uid://dgi4iip4rn21d" path="res://assets/icons/trash-svgrepo-com.svg" id="4_nj686"]
 
@@ -30,7 +31,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 50
-alignment = 1
+
+[node name="PieChart" type="Control" parent="HB" unique_id=896909205]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_nj686")
+showLabels = false
+metadata/_custom_type_script = "uid://bh1popla8ual0"
 
 [node name="ProgramButton" type="Button" parent="HB" unique_id=508720005]
 unique_name_in_owner = true
@@ -39,9 +48,12 @@ layout_mode = 2
 text_overrun_behavior = 5
 autowrap_mode = 3
 
-[node name="RenameButton" type="Button" parent="HB" unique_id=490804012]
+[node name="CenterContainer" type="CenterContainer" parent="HB" unique_id=402025241]
+layout_mode = 2
+
+[node name="RenameButton" type="Button" parent="HB/CenterContainer" unique_id=490804012]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 150)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_hjxun")
 icon = ExtResource("3_kn4sq")
@@ -52,9 +64,12 @@ entry_menu_scene_path = "res://elements/textInput/TextEntryMenu.tscn"
 is_silent = true
 metadata/_custom_type_script = "uid://brkmh4ac31olu"
 
-[node name="DeleteButton" type="Button" parent="HB" unique_id=353095534]
+[node name="CenterContainer2" type="CenterContainer" parent="HB" unique_id=1734817899]
+layout_mode = 2
+
+[node name="DeleteButton" type="Button" parent="HB/CenterContainer2" unique_id=353095534]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 150)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_hjxun")
 icon = ExtResource("4_nj686")
