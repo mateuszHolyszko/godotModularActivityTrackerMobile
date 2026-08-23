@@ -113,7 +113,9 @@ func add(session: Session) -> void:
 		var b_session: Session = b["session"]
 		if a_session.date != b_session.date:
 			return a_session.date > b_session.date
-		return a["file_name"] < b["file_name"]
+		# If same date, use session_id to determine order
+		# session_id contains timestamp, so newer will have higher value
+		return a_session.session_id > b_session.session_id
 	)
 
 func remove_at(index: int) -> void:

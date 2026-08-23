@@ -45,6 +45,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 90
 text = "Exercise"
 script = ExtResource("2_u0ytw")
 metadata/_custom_type_script = "uid://djubjhnt54hfn"
@@ -52,7 +53,9 @@ metadata/_custom_type_script = "uid://djubjhnt54hfn"
 [node name="SetContainerVB" type="VBoxContainer" parent="HB/VB" unique_id=1347833753]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 25
+alignment = 1
 
 [node name="AddSetButton" type="Button" parent="HB/VB" unique_id=968459832]
 unique_name_in_owner = true

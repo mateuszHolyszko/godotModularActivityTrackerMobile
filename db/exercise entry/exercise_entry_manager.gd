@@ -18,6 +18,7 @@ func setup(base_dir: String) -> void:
 	if dir and not dir.dir_exists(ENTRIES_SUBDIR):
 		dir.make_dir(ENTRIES_SUBDIR)
 
+# The load() function sorts by date
 func load(exercise_manager) -> void:
 	items.clear()
 	
@@ -40,10 +41,23 @@ func load(exercise_manager) -> void:
 	
 	dir.list_dir_end()
 	
-	# Sort by exercise name for deterministic order
+	# Sort by date (newest first) using the session date
 	items.sort_custom(func(a, b):
 		var a_entry: ExerciseEntry = a["entry"]
 		var b_entry: ExerciseEntry = b["entry"]
+		
+		# Get session dates
+		var a_session = DataManager.SessionManager.get_session_by_id(a_entry.session_id) if a_entry.session_id != "" else null
+		var b_session = DataManager.SessionManager.get_session_by_id(b_entry.session_id) if b_entry.session_id != "" else null
+		
+		var a_date = a_session.date if a_session else ""
+		var b_date = b_session.date if b_session else ""
+		
+		# Sort by date descending (newest first)
+		if a_date != b_date:
+			return a_date > b_date
+		
+		# If same date or no date, sort by exercise name
 		var a_name = a_entry.exercise.name if a_entry.exercise else ""
 		var b_name = b_entry.exercise.name if b_entry.exercise else ""
 		return a_name < b_name
@@ -185,6 +199,44 @@ func get_entry_objects() -> Array[ExerciseEntry]:
 		if entry:
 			entries.append(entry)
 	return entries
+
+func get_latest_entry_for_exercise(exercise_name: String) -> ExerciseEntry:
+	"""Get the most recent entry for a specific exercise based on session date"""
+	var entries = get_entries_by_exercise(exercise_name)
+	if entries.is_empty():
+		return null
+	
+	# Sort entries by session date (newest first)
+	entries.sort_custom(func(a: ExerciseEntry, b: ExerciseEntry) -> bool:
+		# Get session dates
+		var a_session = DataManager.SessionManager.get_session_by_id(a.session_id) if a.session_id != "" else null
+		var b_session = DataManager.SessionManager.get_session_by_id(b.session_id) if b.session_id != "" else null
+		
+		var a_date = a_session.date if a_session else ""
+		var b_date = b_session.date if b_session else ""
+		
+		# Sort by date descending (newest first)
+		if a_date != b_date:
+			return a_date > b_date
+		
+		# If same date, sort by session_id (newer session first)
+		if a.session_id != b.session_id:
+			return a.session_id > b.session_id
+		
+		# If same session, sort by exercise order or just return false (equal)
+		return false
+	)
+	
+	# Return the first entry (most recent)
+	return entries[0]
+
+func get_latest_sets_for_exercise(exercise_name: String) -> Array:
+	"""Get the sets from the most recent entry for a specific exercise"""
+	var latest_entry = get_latest_entry_for_exercise(exercise_name)
+	if not latest_entry:
+		return []
+	
+	return latest_entry.sets.duplicate()  # Return a copy to avoid modification
 
 func create_entry(exercise: Exercise, session_id: String = "", sets_data: Array = []) -> ExerciseEntry:
 	"""Convenience method to create a new exercise entry"""

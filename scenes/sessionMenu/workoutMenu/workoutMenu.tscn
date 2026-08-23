@@ -15,6 +15,99 @@ Button/styles/normal = ExtResource("3_5k2gp")
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="GDScript" id="GDScript_7ptm5"]
+script/source = "extends VBoxContainer
+
+var workout_session: WorkoutSession
+
+# Store original modulation to restore later
+var _original_modulate: Color = Color.WHITE
+var _is_ui_enabled: bool = true
+
+@export var blocker: ColorRect
+
+func _ready():
+	workout_session = GlobalElements.CurrentWorkout
+	_original_modulate = modulate
+	_connect_signals()
+	# Start with UI enabled by default
+	_set_ui_enabled(true)
+
+
+func _connect_signals():
+	if not workout_session:
+		push_error(\"WorkoutSessionManager: WorkoutSession node not found\")
+		return
+	
+	# Connect to workout signals
+	if not workout_session.workout_started.is_connected(_on_workout_started):
+		workout_session.workout_started.connect(_on_workout_started)
+	
+	if not workout_session.workout_completed.is_connected(_on_workout_completed):
+		workout_session.workout_completed.connect(_on_workout_completed)
+	
+	if not workout_session.workout_cancelled.is_connected(_on_workout_cancelled):
+		workout_session.workout_cancelled.connect(_on_workout_cancelled)
+
+# Signal handlers
+func _on_workout_started():
+	print(\"WorkoutSessionManager: Workout started - enabling UI\")
+	_set_ui_enabled(true)
+
+func _on_workout_completed(total_duration: int):
+	print(\"WorkoutSessionManager: Workout completed - disabling UI\")
+	_set_ui_enabled(false)
+
+func _on_workout_cancelled():
+	print(\"WorkoutSessionManager: Workout cancelled - disabling UI\")
+	_set_ui_enabled(false)
+
+# Core UI state management
+func _set_ui_enabled(enabled: bool) -> void:
+	_is_ui_enabled = enabled
+
+	if enabled:
+		modulate = _original_modulate
+	else:
+		modulate = Color(0.5, 0.5, 0.5, 1.0)
+
+	if blocker:
+		blocker.visible = not enabled
+		blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE if enabled else Control.MOUSE_FILTER_STOP
+		blocker.move_to_front()
+
+
+# Public methods to manually control UI state
+func enable_ui():
+	_set_ui_enabled(true)
+
+func disable_ui():
+	_set_ui_enabled(false)
+
+func toggle_ui():
+	_set_ui_enabled(not _is_ui_enabled)
+
+# Called when the node enters the scene tree
+func _enter_tree():
+	_connect_signals()
+
+# Clean up connections when exiting
+func _exit_tree():
+	if workout_session:
+		if workout_session.workout_started.is_connected(_on_workout_started):
+			workout_session.workout_started.disconnect(_on_workout_started)
+		if workout_session.workout_completed.is_connected(_on_workout_completed):
+			workout_session.workout_completed.disconnect(_on_workout_completed)
+		if workout_session.workout_cancelled.is_connected(_on_workout_cancelled):
+			workout_session.workout_cancelled.disconnect(_on_workout_cancelled)
+
+# Optional: Expose as a tool for debugging
+func _get_configuration_warnings():
+	if not workout_session:
+		return [\"WorkoutSession node not found. Please ensure the path is correct.\"]
+	return []
+"
+
 [node name="WorkoutMenu" type="Control" unique_id=1897028717]
 layout_mode = 3
 anchors_preset = 15
@@ -103,11 +196,13 @@ scroll_top_button = NodePath("../ScrollButtonTop")
 scroll_bottom_button = NodePath("../ScrollButtonBot")
 scroll_container = NodePath("ScrollContent")
 
-[node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/ScrollContainer" unique_id=1781066924]
+[node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/ScrollContainer" unique_id=1781066924 node_paths=PackedStringArray("blocker")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 40
+script = SubResource("GDScript_7ptm5")
+blocker = NodePath("../../../../../BlockerRect")
 
 [node name="ScrollButtonBot" type="Button" parent="Background/MarginContainer/VB" unique_id=1716256230]
 custom_minimum_size = Vector2(0, 50)
@@ -143,3 +238,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="BlockerRect" type="ColorRect" parent="." unique_id=1946077622]
+z_index = 100
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.009000001
+anchor_top = 0.07
+anchor_right = 0.99100006
+anchor_bottom = 0.92
+offset_left = 0.27999973
+offset_right = -0.2800293
+offset_bottom = -1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0)

@@ -121,15 +121,71 @@ func start_workout(p_program: Program) -> void:
 	
 	# Pre-populate with exercises from program
 	if program:
-		var resolved = program.resolve( DataManager.ExerciseManager )  # We'll resolve properly when needed
+		var resolved = program.resolve(DataManager.ExerciseManager)
 		for item in resolved:
 			if item.get("type") == "exercise":
 				var exercise = item.get("exercise")
 				if exercise:
-					add_exercise(exercise)
+					# Add the exercise to the workout
+					var exercise_index = add_exercise(exercise)
+					
+					# Pre-populate sets with last found entries for this exercise
+					_prepopulate_sets_from_history(exercise_index, exercise)
 	
 	workout_started.emit()
 	print("WorkoutSession: Started workout with program '%s'" % (program.program_name if program else "Unknown"))
+
+func _prepopulate_sets_from_history(exercise_index: int, exercise: Exercise) -> void:
+	"""Pre-populate sets for an exercise using the last found entry"""
+	if exercise_index < 0 or not exercise:
+		return
+	
+	# Get the latest entry for this exercise
+	var latest_entry = DataManager.ExerciseEntryManager.get_latest_entry_for_exercise(exercise.name)
+	
+	if not latest_entry:
+		print("WorkoutSession: No history found for exercise '%s'" % exercise.name)
+		return
+	
+	# Get the sets from the latest entry
+	var latest_sets = latest_entry.sets
+	
+	if latest_sets.is_empty():
+		print("WorkoutSession: No sets found in latest entry for exercise '%s'" % exercise.name)
+		return
+	
+	# Add each set from the latest entry to the current workout
+	for set_data in latest_sets:
+		var weight = set_data.get("weight", 0.0)
+		var reps = set_data.get("reps", 0)
+		add_set_to_exercise(exercise_index, weight, reps)
+	
+	print("WorkoutSession: Pre-populated %d sets for exercise '%s' from history" % [latest_sets.size(), exercise.name])
+
+func _get_latest_entry(entries: Array[ExerciseEntry]) -> ExerciseEntry:
+	"""Get the most recent ExerciseEntry from an array of entries"""
+	if entries.is_empty():
+		return null
+	
+	# If entries are already sorted by session date, the first one might be the latest
+	# But to be safe, we'll find the one with the most recent session
+	
+	var latest_entry = entries[0]
+	var latest_session = DataManager.SessionManager.get_session_by_id(latest_entry.session_id)
+	
+	for entry in entries:
+		var session = DataManager.SessionManager.get_session_by_id(entry.session_id)
+		if session and latest_session:
+			# Compare session dates
+			if session.date > latest_session.date:
+				latest_entry = entry
+				latest_session = session
+		elif session and not latest_session:
+			# If latest has no session but current has one, use current
+			latest_entry = entry
+			latest_session = session
+	
+	return latest_entry
 
 func end_workout() -> void:
 	if not _is_active:

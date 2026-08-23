@@ -19,6 +19,8 @@ func _ready():
 	# Connect button signals
 	abort_button.pressed.connect(_on_abort_pressed)
 	finish_button.pressed.connect(_on_finish_pressed)
+	
+	#GlobalElements.CurrentWorkout.print_summary()
 
 func _populate_exercises() -> void:
 	# Clear existing exercises (keep any template children if needed)
@@ -59,22 +61,51 @@ func _on_abort_pressed() -> void:
 	# Optional: Navigate back or show confirmation
 	# get_parent().go_back()  # or whatever navigation you use
 
+func _remove_unedited_sets() -> void:
+	var sets_to_remove: Array[Dictionary] = []
+
+	for exercise_row in exercises_container.get_children():
+		if not exercise_row.has_method("_populate_sets"):
+			continue
+		exercise_row._disconnect_from_workout_signals()
+
+		for set_row in exercise_row.set_container.get_children():
+			if not set_row.is_edited:
+				sets_to_remove.append({
+					"exercise_index": exercise_row.exercise_index,
+					"set_index": set_row.set_index
+				})
+
+	sets_to_remove.sort_custom(func(first: Dictionary, second: Dictionary) -> bool:
+		if first["exercise_index"] == second["exercise_index"]:
+			return first["set_index"] > second["set_index"]
+		return first["exercise_index"] > second["exercise_index"]
+	)
+
+	for set_to_remove in sets_to_remove:
+		GlobalElements.CurrentWorkout.remove_set_from_exercise(
+			set_to_remove["exercise_index"],
+			set_to_remove["set_index"]
+		)
+
 func _on_finish_pressed() -> void:
-	# End the current workout
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
 		print("No active workout to finish")
 		return
-	
+
+	_remove_unedited_sets()
+
+	GlobalElements.CurrentWorkout.print_summary()
 	# End the workout
 	GlobalElements.CurrentWorkout.end_workout()
-	
+
 	# Save the workout to persistent storage
 	var session = GlobalElements.CurrentWorkout.save_to_session(
 		DataManager.ExerciseManager,
 		DataManager.ExerciseEntryManager,
 		DataManager.SessionManager
 	)
-	
+
 	if session:
 		print("Workout finished and saved! Session ID: ", session.session_id)
 	else:
