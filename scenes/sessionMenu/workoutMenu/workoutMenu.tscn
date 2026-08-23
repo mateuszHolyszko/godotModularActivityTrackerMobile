@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="5_8a37s"]
 [ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="6_5ydr7"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="7_0g45w"]
+[ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_5ydr7"]
 
 [sub_resource type="Theme" id="Theme_8a37s"]
 Button/styles/normal = ExtResource("3_5k2gp")
@@ -253,3 +254,15 @@ offset_bottom = -1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0)
+
+[node name="ConfirmationEntryMenu" parent="." unique_id=1119870501 instance=ExtResource("8_5ydr7")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 48.0
+offset_top = -367.0
+offset_right = -77.0
+offset_bottom = 404.0

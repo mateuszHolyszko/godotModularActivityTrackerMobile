@@ -14,17 +14,18 @@ func to_dict() -> Dictionary:
 		"duration": duration
 	}
 
-static func from_dict(d: Dictionary, exercise_manager, entry_manager) -> Session:
+static func from_dict(d: Dictionary, program_manager) -> Session:
 	var session := Session.new()
-	
+
 	session.session_id = str(d.get("session_id", ""))
 	session.date = str(d.get("date", ""))
 	session.duration = int(d.get("duration", 0))
-	
-	var program_name = str(d.get("program_name", ""))
+
+	var program_name := str(d.get("program_name", ""))
 	if program_name != "":
-		# You'll need a ProgramManager to resolve this
-		# For now, we just store the name
-		session.program = null  # Placeholder - should be resolved later
-	
+		session.program = program_manager.get_program(program_name)
+
+		if not session.program:
+			push_warning("Session: program '%s' could not be resolved" % program_name)
+
 	return session

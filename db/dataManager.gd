@@ -20,7 +20,7 @@ func _ready() -> void:
 	ExerciseManager.load()
 	ProgramManager.load()
 	ExerciseEntryManager.load(ExerciseManager)
-	SessionManager.load(ExerciseManager, ExerciseEntryManager)
+	SessionManager.load(ExerciseManager, ExerciseEntryManager, ProgramManager)
 
 func _ensure_dir() -> void:
 	if not DirAccess.dir_exists_absolute(BASE_DIR):

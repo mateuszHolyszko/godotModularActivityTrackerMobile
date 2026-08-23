@@ -18,7 +18,7 @@ func setup(base_dir: String) -> void:
 	if dir and not dir.dir_exists(SESSIONS_SUBDIR):
 		dir.make_dir(SESSIONS_SUBDIR)
 
-func load(exercise_manager, entry_manager) -> void:
+func load(exercise_manager, entry_manager, program_manager) -> void:
 	items.clear()
 	
 	var dir := DirAccess.open(sessions_directory)
@@ -32,7 +32,7 @@ func load(exercise_manager, entry_manager) -> void:
 	while file_name != "":
 		if not dir.current_is_dir() and file_name.ends_with(FILE_EXTENSION):
 			var file_path := sessions_directory + file_name
-			var session := load_session_file(file_path, exercise_manager, entry_manager)
+			var session := load_session_file(file_path, program_manager)
 			if session:
 				items.append({"session": session, "file_name": file_name})
 		
@@ -53,7 +53,7 @@ func load(exercise_manager, entry_manager) -> void:
 		return a["file_name"] < b["file_name"]
 	)
 
-func load_session_file(file_path: String, exercise_manager, entry_manager) -> Session:
+func load_session_file(file_path: String, program_manager) -> Session:
 	var file := FileAccess.open(file_path, FileAccess.READ)
 	if not file:
 		push_error("SessionManager: failed to read %s" % file_path)
@@ -64,7 +64,7 @@ func load_session_file(file_path: String, exercise_manager, entry_manager) -> Se
 	
 	var parsed = JSON.parse_string(text)
 	if parsed is Dictionary:
-		return Session.from_dict(parsed, exercise_manager, entry_manager)
+		return Session.from_dict(parsed, program_manager)
 	else:
 		push_error("SessionManager: invalid session data in %s" % file_path)
 		return null
@@ -106,6 +106,7 @@ func save_session_file(session: Session) -> String:
 func add(session: Session) -> void:
 	var file_name := save_session_file(session)
 	items.append({"session": session, "file_name": file_name})
+	#print("SAVED PROGRAM: ",session.program.program_name)
 	
 	# Sort after adding
 	items.sort_custom(func(a, b):
@@ -202,9 +203,146 @@ func get_recent_sessions(limit: int = 10) -> Array:
 	
 	return recent
 
+func get_avg_session_time(program) -> float:
+	"""Calculate average session duration for a specific program using recent sessions (max 100)"""
+	var recent_sessions := get_recent_sessions(100)
+	var total_duration := 0
+	var session_count := 0
+	
+	# Determine what we're matching against
+	var program_name := ""
+	if program is Program:
+		program_name = program.program_name
+	elif program is String:
+		program_name = program
+	
+	# If no valid program identifier, return 0
+	if program_name == "":
+		return 0.0
+	
+	# Filter sessions by program and calculate average
+	for item in recent_sessions:
+		var session: Session = item.get("session")
+		if session and session.program and session.program.program_name == program_name:
+			total_duration += session.duration
+			session_count += 1
+	
+	# Return average (avoid division by zero)
+	if session_count == 0:
+		return 0.0
+	
+	return float(total_duration) / float(session_count)
+	
+func get_sessions_in_last_days(days: int) -> Array:
+	"""Get all sessions within the last N days"""
+	var result: Array = []
+	var cutoff_timestamp = _get_cutoff_timestamp(days)
+	
+	for item in items:
+		var session: Session = item.get("session")
+		if session and _is_session_within_range(session, cutoff_timestamp):
+			result.append(item)
+	
+	return result
+
+func _get_cutoff_timestamp(days: int) -> int:
+	var current_date = Time.get_date_dict_from_system()
+	var cutoff_datetime = {
+		"year": current_date.year,
+		"month": current_date.month,
+		"day": current_date.day - days,
+		"hour": 0,
+		"minute": 0,
+		"second": 0
+	}
+	
+	while cutoff_datetime.day <= 0:
+		cutoff_datetime.month -= 1
+		if cutoff_datetime.month <= 0:
+			cutoff_datetime.month = 12
+			cutoff_datetime.year -= 1
+		cutoff_datetime.day += 30
+	
+	return Time.get_unix_time_from_datetime_dict(cutoff_datetime)
+
+func _is_session_within_range(session: Session, cutoff_timestamp: int) -> bool:
+	var date_parts = session.date.split("-")
+	if date_parts.size() != 3:
+		return false
+	
+	var session_datetime = {
+		"year": int(date_parts[0]),
+		"month": int(date_parts[1]),
+		"day": int(date_parts[2]),
+		"hour": 0,
+		"minute": 0,
+		"second": 0
+	}
+	
+	var session_timestamp = Time.get_unix_time_from_datetime_dict(session_datetime)
+	return session_timestamp >= cutoff_timestamp
+
+func get_volume_for_muscle_in_range(target: String, days: int) -> int:
+	var total_sets := 0
+	var sessions_in_range = get_sessions_in_last_days(days)
+	
+	for item in sessions_in_range:
+		var session: Session = item.get("session")
+		var entries = DataManager.ExerciseEntryManager.get_entries_by_session(session.session_id)
+		
+		for entry in entries:
+			if not entry.exercise:
+				continue
+			
+			# Exercise uses target_muscle (singular)
+			var exercise_muscle = entry.exercise.target_muscle if entry.exercise.has("target_muscle") else ""
+			if exercise_muscle == target:
+				total_sets += entry.sets.size()
+	
+	return total_sets
+
+func get_volume_for_all_muscles_in_range(days: int) -> Dictionary:
+	"""Calculate volume (number of sets) for all muscles within the last N days.
+	
+	Args:
+		days: Number of days to look back
+	
+	Returns:
+		Dictionary: {muscle_name: set_count} for all muscles in MuscleDict
+	"""
+	# Initialize result with all muscles from MuscleDict
+	var result = {}
+	for muscle in MuscleDict.get_all_muscles():
+		result[muscle] = 0
+	
+	# Get sessions within date range
+	var sessions_in_range = get_sessions_in_last_days(days)
+	
+	# Process each session
+	for item in sessions_in_range:
+		var session: Session = item.get("session")
+		if not session:
+			continue
+		
+		var entries = DataManager.ExerciseEntryManager.get_entries_by_session(session.session_id)
+		
+		for entry in entries:
+			if not entry.exercise:
+				continue
+			
+			# Exercise uses target_muscle (singular)
+			var exercise_muscle = entry.exercise.target_muscle
+			
+			# Add sets to the targeted muscle
+			if exercise_muscle != "" and exercise_muscle in result:
+				result[exercise_muscle] += entry.sets.size()
+	
+	return result
+
 func create_session(program: Program, date: String, duration: int = 0, session_id: String = "") -> Session:
 	"""Convenience method to create a new session"""
 	var session := Session.new()
+	#print("SAVED PROGRAM: ",program.program_name)
 	session.program = program
 	session.date = date
 	session.duration = duration

@@ -347,6 +347,7 @@ func save_to_session(exercise_manager, entry_manager, session_manager) -> Sessio
 		push_error("WorkoutSession: Cannot save empty workout")
 		return null
 	
+	#print("SAVED PROGRAM - ",program.program_name)
 	# Create session
 	var session = session_manager.create_session(
 		program,

@@ -5,6 +5,19 @@ extends Node
 
 # Registered elements
 var TransitionRect: ColorRect = null
-#var SomeOtherElement: Node = null  # Example for other elements
-#var AnotherElement: Control = null  # Add whatever you need
 var CurrentWorkout: WorkoutSession = null
+
+# Signal for workout changes (emits the new workout or null)
+signal CurrentWorkoutChanged(workout: WorkoutSession)
+
+# Simple setter
+func set_current_workout(workout: WorkoutSession) -> void:
+	CurrentWorkout = workout
+	#print("EMITEDDDDDD")
+	CurrentWorkoutChanged.emit(workout)
+
+# Simple nuller
+func null_current_workout() -> void:
+	CurrentWorkout = null
+	#print("EMITEDDDDDD")
+	CurrentWorkoutChanged.emit(null)

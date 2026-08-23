@@ -23,7 +23,7 @@ func _ready() -> void:
 	#DataManager.ProgramManager.print_program("Superset Circuit")
 	### EXERCISE_ENTRY
 	#DataManager.ExerciseEntryManager.seed_example_data( DataManager.ExerciseManager )  
-	DataManager.ExerciseEntryManager.print_entries()
+	#DataManager.ExerciseEntryManager.print_entries()
 	### SESSIONS
-	DataManager.SessionManager.print_sessions( DataManager.ExerciseEntryManager )
+	#DataManager.SessionManager.print_sessions( DataManager.ExerciseEntryManager )
 	print("--- DebugDB end ---")

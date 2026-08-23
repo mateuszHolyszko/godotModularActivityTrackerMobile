@@ -7,6 +7,8 @@ extends Menu
 @onready var abort_button: Button = %AbortButton
 @onready var finish_button: Button = %FinishButton
 
+@onready var confirm_dialog: ConfirmationEntryMenu = %ConfirmationEntryMenu
+
 var _exercise_row_scene: PackedScene = null
 
 func _ready():
@@ -50,13 +52,25 @@ func _populate_exercises() -> void:
 			exercises_container.add_child(row)
 
 func _on_abort_pressed() -> void:
+	confirm_dialog.request_confirmation(
+			"Are you sure you want to abort this session?",
+			_on_abort_confirmed
+		)
+
+func _on_abort_confirmed() -> void:
 	# Cancel the current workout
 	if GlobalElements.CurrentWorkout and GlobalElements.CurrentWorkout.is_active():
 		GlobalElements.CurrentWorkout.cancel_workout()
 		print("Workout aborted")
 	
 	# Clean up the workout reference
-	GlobalElements.CurrentWorkout = null
+	GlobalElements.null_current_workout()
+	
+	# Disable finish and abort buttons
+	abort_button.disabled = true
+	finish_button.disabled = true
+	
+	NotificationManager.info("Session successfully aborted")
 	
 	# Optional: Navigate back or show confirmation
 	# get_parent().go_back()  # or whatever navigation you use
@@ -89,6 +103,12 @@ func _remove_unedited_sets() -> void:
 		)
 
 func _on_finish_pressed() -> void:
+	confirm_dialog.request_confirmation(
+				"Are you sure?",
+				_on_finish_confirmed
+			)
+
+func _on_finish_confirmed() -> void:
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
 		print("No active workout to finish")
 		return
@@ -112,7 +132,13 @@ func _on_finish_pressed() -> void:
 		print("Failed to save workout")
 	
 	# Clean up the workout reference
-	GlobalElements.CurrentWorkout = null
+	GlobalElements.null_current_workout()
+	
+	# Disable finish and abort buttons
+	abort_button.disabled = true
+	finish_button.disabled = true
+	
+	NotificationManager.success("Session successfully finished")
 	
 	# Optional: Navigate away or show completion screen
 	# get_parent().show_completion_summary(session)  # or whatever you want to do

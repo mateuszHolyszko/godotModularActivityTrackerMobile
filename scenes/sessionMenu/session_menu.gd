@@ -2,6 +2,7 @@ extends Menu
 
 @onready var scroll_content: VBoxContainer = %ScrollContent
 @onready var start_program_button_template: Button = %StartProgramButton_tamplate
+@onready var volume_chart_2d_template: VolumeChart2D = %VolumeChart2DTemplate  
 
 # === Sub Menu
 @onready var submenu_container: Control = %SubMenuContainer
@@ -21,25 +22,42 @@ func _populate_program_buttons() -> void:
 	# Get all programs using the autoloaded DataManager
 	var programs = DataManager.ProgramManager.get_all_program_objects()
 	
-	# Clear existing buttons (keep template hidden)
+	# Clear existing items (keep template hidden)
 	for child in scroll_content.get_children():
-		if child != start_program_button_template:
+		if child != start_program_button_template and child != volume_chart_2d_template:
 			child.queue_free()
 	
-	# Create a button for each program
+	# Create a container for each program
 	for program in programs:
+		# Create a VBoxContainer for this program
+		var program_container := VBoxContainer.new()
+		program_container.custom_minimum_size = Vector2(0, 150)
+		program_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		program_container.add_theme_constant_override("separation", 8)
+		
+		# Create and setup the button
 		var button = start_program_button_template.duplicate()
 		button.text = program.program_name
 		button.visible = true
-		
-		# Connect the button press with the program
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(_on_program_button_pressed.bind(program))
 		
-		scroll_content.add_child(button)
+		# Create and setup the chart
+		var chart = volume_chart_2d_template.duplicate()
+		chart.visible = true
+		chart.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		chart.set_program(program.program_name)
+		
+		# Add both to the container
+		program_container.add_child(button)
+		program_container.add_child(chart)
+		
+		# Add the container to the scroll content
+		scroll_content.add_child(program_container)
 
 func _on_program_button_pressed(program: Program) -> void:
 	# Create a new WorkoutSession and store it in GlobalElements
-	GlobalElements.CurrentWorkout = WorkoutSession.new()
+	GlobalElements.set_current_workout( WorkoutSession.new() ) 
 	
 	# Add it as a child of GlobalElements so it can receive signals and be managed
 	GlobalElements.add_child(GlobalElements.CurrentWorkout)

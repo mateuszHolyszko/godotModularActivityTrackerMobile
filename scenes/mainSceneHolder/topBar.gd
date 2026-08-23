@@ -6,21 +6,14 @@ extends Node
 
 @onready var session_status_label: Label = %SessionStatusLabel
 
-# Timer for status updates
-var status_update_timer: Timer = null
-
 func _ready():
 	update_datetime()
 	dateTimeTimer.timeout.connect(update_datetime)
 	
-	# Create timer for status updates 
-	status_update_timer = Timer.new()
-	status_update_timer.wait_time = 0.5
-	status_update_timer.timeout.connect(_update_session_status)
-	add_child(status_update_timer)
-	status_update_timer.start()
+	# Connect to GlobalElements signal
+	GlobalElements.CurrentWorkoutChanged.connect(_on_current_workout_changed)
 	
-	# Initial update
+	# Initial update based on current state
 	_update_session_status()
 
 func update_datetime():
@@ -39,17 +32,23 @@ func update_datetime():
 
 # === Workout Session Status ===
 
+func _on_current_workout_changed(workout: WorkoutSession) -> void:
+	# Disconnect from old workout signals if needed
+	# (if you had connections to the workout itself)
+	
+	_update_session_status()
+
 func _update_session_status() -> void:
 	var current_workout = GlobalElements.CurrentWorkout
 	
-	if current_workout and current_workout.is_active():
+	if current_workout:
 		session_status_label.text = "Active Session"
 		session_status_label.add_theme_color_override("font_color", Color.GREEN)
 	else:
 		session_status_label.text = "No Active Session"
 		session_status_label.remove_theme_color_override("font_color")
 
+# Clean up
 func _exit_tree() -> void:
-	if status_update_timer:
-		status_update_timer.stop()
-		status_update_timer.queue_free()
+	if GlobalElements.is_connected("CurrentWorkoutChanged", _on_current_workout_changed):
+		GlobalElements.CurrentWorkoutChanged.disconnect(_on_current_workout_changed)
