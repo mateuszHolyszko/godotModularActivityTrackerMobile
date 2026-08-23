@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://nf08yrj6llq0"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_4elvt"]
+[ext_resource type="Script" uid="uid://de7jj2bteee68" path="res://scenes/sessionMenu/workoutMenu/workoutMenuElements/workout_exercise_row.gd" id="2_jm4cd"]
+[ext_resource type="Script" uid="uid://djubjhnt54hfn" path="res://elements/pickExercise/pick_exercise_button.gd" id="2_u0ytw"]
+[ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="3_jm4cd"]
+[ext_resource type="Texture2D" uid="uid://co5tqsbs75b2g" path="res://assets/icons/text.svg" id="4_wqquj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqdh6"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
+border_color = Color(1, 1, 1, 1)
+
+[node name="WorkoutExerciseRow" type="Control" unique_id=834208253]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 3
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_4elvt")
+script = ExtResource("2_jm4cd")
+
+[node name="HB" type="HBoxContainer" parent="." unique_id=1340514545]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VB" type="VBoxContainer" parent="HB" unique_id=109819720]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PickExerciseButton" type="Button" parent="HB/VB" unique_id=1758484822]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+text = "Exercise"
+script = ExtResource("2_u0ytw")
+metadata/_custom_type_script = "uid://djubjhnt54hfn"
+
+[node name="SetContainerVB" type="VBoxContainer" parent="HB/VB" unique_id=1347833753]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AddSetButton" type="Button" parent="HB/VB" unique_id=968459832]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bqdh6")
+icon = ExtResource("3_jm4cd")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ExpandNoteButton" type="Button" parent="HB" unique_id=1567932795]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.1
+icon = ExtResource("4_wqquj")
+expand_icon = true

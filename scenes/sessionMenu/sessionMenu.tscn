@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://bucb05e6uuvrl"]
 
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_17yhk"]
-[ext_resource type="Script" uid="uid://bpbhdp28aspra" path="res://scripts/classes/Menu.gd" id="1_oqo8q"]
+[ext_resource type="Script" uid="uid://6k3otf5f1t7y" path="res://scenes/sessionMenu/session_menu.gd" id="2_17yhk"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_mhxne"]
-[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="4_mhxne"]
-[ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="5_7asqm"]
-[ext_resource type="Script" uid="uid://djubjhnt54hfn" path="res://elements/pickExercise/pick_exercise_button.gd" id="6_n6hhi"]
+[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="4_7asqm"]
+[ext_resource type="Texture2D" uid="uid://cwlrp5fy2pxst" path="res://assets/icons/next-svgrepo-com.svg" id="5_n6hhi"]
 
 [sub_resource type="Theme" id="Theme_7asqm"]
 Button/styles/normal = ExtResource("3_mhxne")
@@ -22,7 +21,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_17yhk")
-script = ExtResource("1_oqo8q")
+script = ExtResource("2_17yhk")
 metadata/_custom_type_script = "uid://bpbhdp28aspra"
 
 [node name="Background" type="Panel" parent="." unique_id=221121535]
@@ -47,50 +46,44 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1377553201]
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=155244803]
 layout_mode = 2
-theme_override_constants/separation = 200
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1464977228]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB/HB" unique_id=1654918513 node_paths=PackedStringArray("scroll_container")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_7asqm")
+scroll_container = NodePath("CenterContainer/ScrollContent")
+
+[node name="CenterContainer" type="CenterContainer" parent="Background/MarginContainer/VB/HB/ScrollContainer" unique_id=481184065]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/ScrollContainer/CenterContainer" unique_id=1925865881]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer" unique_id=933745522]
+[node name="SessionHistoryPanel" type="Panel" parent="Background/MarginContainer/VB/HB" unique_id=2026224455]
 layout_mode = 2
-theme_override_font_sizes/font_size = 120
-text = "Session Menu"
-horizontal_alignment = 1
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
 
-[node name="OptionButton" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=679050080]
-custom_minimum_size = Vector2(600, 200)
+[node name="VolumeSummaryPanel" type="Panel" parent="Background/MarginContainer/VB" unique_id=1073512160]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "option test"
-script = ExtResource("4_mhxne")
-prompt_text = "Choose test option"
-options = Array[String](["Test1", "TEST2", "t e s t 3"])
-entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../OptionEntryContainer")
-metadata/_custom_type_script = "uid://bfh1873cepx2g"
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
 
-[node name="Button2" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=1589314662]
-custom_minimum_size = Vector2(600, 200)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "keyboard test"
-script = ExtResource("5_7asqm")
-prompt_text = "Input Text"
-placeholder_text = "---"
-entry_menu_scene_path = "res://elements/textInput/TextEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../OptionEntryContainer")
-metadata/_custom_type_script = "uid://brkmh4ac31olu"
-
-[node name="Button3" type="Button" parent="Background/MarginContainer/VBoxContainer" unique_id=737897245]
-custom_minimum_size = Vector2(600, 200)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("6_n6hhi")
-submenu_container_path = NodePath("../../../../OptionEntryContainer")
-metadata/_custom_type_script = "uid://djubjhnt54hfn"
-
-[node name="OptionEntryContainer" type="Container" parent="." unique_id=435933248]
+[node name="SubMenuContainer" type="Container" parent="." unique_id=435933248]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -98,3 +91,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="StartProgramButton_tamplate" type="Button" parent="." unique_id=333192147]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(600, 125)
+layout_mode = 0
+offset_left = 240.0
+offset_top = 739.0
+offset_right = 840.0
+offset_bottom = 864.0
+text = "Program"
+icon = ExtResource("5_n6hhi")
+icon_alignment = 2
+expand_icon = true

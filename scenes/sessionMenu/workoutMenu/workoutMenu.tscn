@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://d7k6or2p7jps"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_hjswu"]
+[ext_resource type="Script" uid="uid://cgbo7p6r70nx1" path="res://scenes/sessionMenu/workoutMenu/workout_menu.gd" id="2_5k2gp"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_5k2gp"]
+[ext_resource type="Script" uid="uid://b0qhinw553orm" path="res://scenes/sessionMenu/workoutMenu/time_status_panel.gd" id="4_5k2gp"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="5_8a37s"]
+[ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="6_5ydr7"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="7_0g45w"]
+
+[sub_resource type="Theme" id="Theme_8a37s"]
+Button/styles/normal = ExtResource("3_5k2gp")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ydr7"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[node name="WorkoutMenu" type="Control" unique_id=1897028717]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_hjswu")
+script = ExtResource("2_5k2gp")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=1610588345]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_8a37s")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5ydr7")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1203199314]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1600101868]
+layout_mode = 2
+
+[node name="TimeStatusPanel" type="Panel" parent="Background/MarginContainer/VB" unique_id=2117151651]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+script = ExtResource("4_5k2gp")
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/TimeStatusPanel" unique_id=861365845]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="StartedTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/HB" unique_id=1989015798]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Started: --:--"
+
+[node name="ElapsedTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/HB" unique_id=617700703]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Elapsed: --:--"
+
+[node name="AverageTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/HB" unique_id=1412336036]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48962224, 0.48962224, 0.48962218, 1)
+theme_override_font_sizes/font_size = 50
+text = "Arg: --:--"
+
+[node name="ScrollButtonTop" type="Button" parent="Background/MarginContainer/VB" unique_id=68133225]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("5_8a37s")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=125041124 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("6_5ydr7")
+scroll_top_button = NodePath("../ScrollButtonTop")
+scroll_bottom_button = NodePath("../ScrollButtonBot")
+scroll_container = NodePath("ScrollContent")
+
+[node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/ScrollContainer" unique_id=1781066924]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+
+[node name="ScrollButtonBot" type="Button" parent="Background/MarginContainer/VB" unique_id=1716256230]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("7_0g45w")
+icon_alignment = 1
+expand_icon = true
+
+[node name="CRUDE_HB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1393533408]
+custom_minimum_size = Vector2(0, 125)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="AbortButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=930404760]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+text = "Abort"
+
+[node name="FinishButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1229082666]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+text = "Finish"
+
+[node name="SubMenuContainer" type="Container" parent="." unique_id=1499718177]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

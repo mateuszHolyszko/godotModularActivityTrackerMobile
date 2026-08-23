@@ -1,0 +1,30 @@
+extends Resource
+class_name Session
+
+@export var session_id: String = ""
+@export var program: Program
+@export var date: String = ""  # ISO format: YYYY-MM-DD
+@export var duration: int = 0  # Duration in minutes
+
+func to_dict() -> Dictionary:
+	return {
+		"session_id": session_id,
+		"program_name": program.program_name if program else "",
+		"date": date,
+		"duration": duration
+	}
+
+static func from_dict(d: Dictionary, exercise_manager, entry_manager) -> Session:
+	var session := Session.new()
+	
+	session.session_id = str(d.get("session_id", ""))
+	session.date = str(d.get("date", ""))
+	session.duration = int(d.get("duration", 0))
+	
+	var program_name = str(d.get("program_name", ""))
+	if program_name != "":
+		# You'll need a ProgramManager to resolve this
+		# For now, we just store the name
+		session.program = null  # Placeholder - should be resolved later
+	
+	return session

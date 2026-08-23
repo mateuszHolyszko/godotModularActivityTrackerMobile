@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://7ldkye3nbmkb"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_x7kns"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="2_7ptm5"]
+[ext_resource type="Script" uid="uid://bgls7f4j8t785" path="res://scenes/sessionMenu/workoutMenu/workoutMenuElements/workout_set_row.gd" id="2_ag04g"]
+[ext_resource type="Script" uid="uid://n1gu6fh5kwm0" path="res://elements/numericInput/numeric_input_button.gd" id="3_ag04g"]
+
+[node name="WorkoutSetRow" type="Control" unique_id=1121304851]
+custom_minimum_size = Vector2(0, 225)
+layout_mode = 3
+anchor_top = 0.45800003
+anchor_right = 1.0
+anchor_bottom = 0.54200006
+offset_top = 100.79993
+offset_bottom = -100.80017
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_x7kns")
+script = ExtResource("2_ag04g")
+
+[node name="HB" type="HBoxContainer" parent="." unique_id=1405862947]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SetNumber" type="Label" parent="HB" unique_id=44263794]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 120
+theme_override_styles/normal = ExtResource("2_7ptm5")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeightVB" type="VBoxContainer" parent="HB" unique_id=932239504]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HB/WeightVB" unique_id=1236718242]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/normal = ExtResource("2_7ptm5")
+text = "Weight"
+horizontal_alignment = 1
+
+[node name="InputWeightButton" type="Button" parent="HB/WeightVB" unique_id=1121881385]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_ag04g")
+prompt_text = "Input weight"
+suffix_text = "[kg]"
+max_value = 400.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+include_prompt_text_in_button = false
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+
+[node name="LastWeightEntryLabel" type="Label" parent="HB/WeightVB" unique_id=765702986]
+custom_maximum_size = Vector2(-1, 35)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6542321, 0.6542321, 0.654232, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("2_7ptm5")
+text = "Last Weight: --"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RepsVB" type="VBoxContainer" parent="HB" unique_id=347066799]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HB/RepsVB" unique_id=1147441647]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/normal = ExtResource("2_7ptm5")
+text = "Reps"
+horizontal_alignment = 1
+
+[node name="RepsWeightButton" type="Button" parent="HB/RepsVB" unique_id=1219903484]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_ag04g")
+prompt_text = "Input reps"
+is_int = true
+max_value = 30.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+include_prompt_text_in_button = false
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+
+[node name="LastRepsEntryLabel" type="Label" parent="HB/RepsVB" unique_id=1287015949]
+custom_maximum_size = Vector2(-1, 35)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6542321, 0.6542321, 0.654232, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("2_7ptm5")
+text = "Last Repst: --"
+horizontal_alignment = 1
+vertical_alignment = 1

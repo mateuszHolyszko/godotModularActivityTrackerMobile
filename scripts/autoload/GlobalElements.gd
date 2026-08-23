@@ -7,3 +7,4 @@ extends Node
 var TransitionRect: ColorRect = null
 #var SomeOtherElement: Node = null  # Example for other elements
 #var AnotherElement: Control = null  # Add whatever you need
+var CurrentWorkout: WorkoutSession = null

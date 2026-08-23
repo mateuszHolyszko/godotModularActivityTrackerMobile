@@ -231,7 +231,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="SessionStatusLabel" type="Label" parent="SubViewport/Background/VB/TopBarPanel/MC/HB" unique_id=1820806426]
+unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "----"
 
 [node name="DateTimeTimer" type="Timer" parent="SubViewport/Background/VB/TopBarPanel" unique_id=413858621]
