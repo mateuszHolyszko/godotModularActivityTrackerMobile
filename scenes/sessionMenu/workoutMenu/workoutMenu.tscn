@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="6_5ydr7"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="7_0g45w"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_5ydr7"]
+[ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="8_rwvhw"]
+[ext_resource type="Script" uid="uid://gs78mry43ttf" path="res://elements/insertPosition/insert_position_input_button.gd" id="9_iyjcn"]
 
 [sub_resource type="Theme" id="Theme_8a37s"]
 Button/styles/normal = ExtResource("3_5k2gp")
@@ -37,7 +39,7 @@ func _ready():
 
 func _connect_signals():
 	if not workout_session:
-		push_error(\"WorkoutSessionManager: WorkoutSession node not found\")
+		#push_error(\"WorkoutSessionManager: WorkoutSession node not found\")
 		return
 	
 	# Connect to workout signals
@@ -108,6 +110,15 @@ func _get_configuration_warnings():
 		return [\"WorkoutSession node not found. Please ensure the path is correct.\"]
 	return []
 "
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_1eb8a"]
+color = Color(1, 1, 1, 1)
+grow_begin = 4.0
+grow_end = 4.0
+thickness = 4
+vertical = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1eb8a"]
 
 [node name="WorkoutMenu" type="Control" unique_id=1897028717]
 layout_mode = 3
@@ -218,21 +229,69 @@ layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
 
+[node name="HS3" type="HSeparator" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=324673761]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
 [node name="AbortButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=930404760]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 text = "Abort"
 
 [node name="FinishButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1229082666]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 text = "Finish"
+
+[node name="HS" type="VSeparator" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=38401199]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1039429929]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49747366, 0.49747366, 0.49747366, 1)
+theme_override_font_sizes/font_size = 40
+text = "Add
+Exercise"
+horizontal_alignment = 1
+
+[node name="InsertPositionInput" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1819400581]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1eb8a")
+icon = ExtResource("8_rwvhw")
+expand_icon = true
+script = ExtResource("9_iyjcn")
+entry_menu_scene_path = "res://elements/insertPosition/InsertPositionMenu.tscn"
+submenu_container_path = NodePath("../../../../../SubMenuContainer")
+metadata/_custom_type_script = "uid://gs78mry43ttf"
+
+[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1795444354]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="SubMenuContainerExercisePicker" type="Container" parent="." unique_id=120232230]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(1080, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SubMenuContainer" type="Container" parent="." unique_id=1499718177]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(1080, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

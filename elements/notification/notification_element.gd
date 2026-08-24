@@ -78,7 +78,7 @@ func _fade_in() -> void:
 	if _life_tween and _life_tween.is_valid():
 		_life_tween.kill()
 	_life_tween = create_tween()
-	_life_tween.tween_property(self, "modulate:a", 0.8, FADE_IN_TIME)
+	_life_tween.tween_property(self, "modulate:a", 0.95, FADE_IN_TIME)
 
 
 func _start_timeout() -> void:

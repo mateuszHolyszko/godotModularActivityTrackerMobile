@@ -201,13 +201,23 @@ func get_entry_objects() -> Array[ExerciseEntry]:
 	return entries
 
 func get_latest_entry_for_exercise(exercise_name: String) -> ExerciseEntry:
-	"""Get the most recent entry for a specific exercise based on session date"""
+	"""Get the most recent entry for a specific exercise based on session date.
+	Only returns entries that have at least one set."""
 	var entries = get_entries_by_exercise(exercise_name)
 	if entries.is_empty():
 		return null
 	
+	# Filter out entries with no sets
+	var entries_with_data: Array[ExerciseEntry] = []
+	for entry in entries:
+		if entry.sets and entry.sets.size() > 0:
+			entries_with_data.append(entry)
+	
+	if entries_with_data.is_empty():
+		return null
+	
 	# Sort entries by session date (newest first)
-	entries.sort_custom(func(a: ExerciseEntry, b: ExerciseEntry) -> bool:
+	entries_with_data.sort_custom(func(a: ExerciseEntry, b: ExerciseEntry) -> bool:
 		# Get session dates
 		var a_session = DataManager.SessionManager.get_session_by_id(a.session_id) if a.session_id != "" else null
 		var b_session = DataManager.SessionManager.get_session_by_id(b.session_id) if b.session_id != "" else null
@@ -228,7 +238,7 @@ func get_latest_entry_for_exercise(exercise_name: String) -> ExerciseEntry:
 	)
 	
 	# Return the first entry (most recent)
-	return entries[0]
+	return entries_with_data[0]
 
 func get_latest_sets_for_exercise(exercise_name: String) -> Array:
 	"""Get the sets from the most recent entry for a specific exercise"""

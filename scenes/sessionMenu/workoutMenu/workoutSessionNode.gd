@@ -14,6 +14,7 @@ var _elapsed_time: float = 0.0
 # Signals
 signal exercise_added(exercise_data_index: int)
 signal exercise_removed(exercise_data_index: int)
+signal exercise_updated(exercise_data_index: int)
 signal set_added(exercise_data_index: int, set_index: int)
 signal set_removed(exercise_data_index: int, set_index: int)
 signal set_updated(exercise_data_index: int, set_index: int)
@@ -24,11 +25,12 @@ signal workout_cancelled()
 # Sub-class for exercise data
 class WorkoutExerciseData:
 	var exercise: Exercise
+	var note: String = ""
 	var sets: Array = []  # Array of {order: int, weight: float, reps: int}
-	var notes: String = ""
 	
 	func _init(p_exercise: Exercise):
 		exercise = p_exercise
+		note = p_exercise.note if p_exercise else ""
 	
 	func add_set(weight: float, reps: int) -> void:
 		sets.append({
@@ -83,8 +85,8 @@ class WorkoutExerciseData:
 		
 		return {
 			"exercise_name": exercise.name if exercise else "",
+			"note": note,
 			"sets": serialized_sets,
-			"notes": notes
 		}
 	
 	static func from_dict(d: Dictionary, exercise_manager) -> WorkoutExerciseData:
@@ -92,7 +94,7 @@ class WorkoutExerciseData:
 		var exercise = exercise_manager.get_exercise(exercise_name) if exercise_manager else null
 		
 		var data = WorkoutExerciseData.new(exercise)
-		data.notes = str(d.get("notes", ""))
+		data.note = str(d.get("note", data.note))
 		
 		var raw_sets = d.get("sets", [])
 		if typeof(raw_sets) == TYPE_ARRAY:
@@ -239,6 +241,20 @@ func add_exercise(exercise: Exercise) -> int:
 	exercise_added.emit(index)
 	return index
 
+func insert_exercise_at(index: int, exercise: Exercise) -> int:
+	if not _is_active:
+		push_error("WorkoutSession: Cannot insert exercise into inactive workout")
+		return -1
+
+	if not exercise or index < 0 or index > exercise_data.size():
+		return -1
+
+	var data = WorkoutExerciseData.new(exercise)
+	exercise_data.insert(index, data)
+	exercise_added.emit(index)
+	_prepopulate_sets_from_history(index, exercise)
+	return index
+
 func add_exercise_by_name(exercise_name: String, exercise_manager) -> int:
 	var exercise = exercise_manager.get_exercise(exercise_name)
 	if not exercise:
@@ -322,19 +338,6 @@ func get_sets_for_exercise(exercise_index: int) -> Array:
 		return []
 	return data.sets
 
-# === Notes ===
-
-func set_exercise_notes(exercise_index: int, notes: String) -> void:
-	var data = get_exercise_data_at(exercise_index)
-	if data:
-		data.notes = notes
-
-func get_exercise_notes(exercise_index: int) -> String:
-	var data = get_exercise_data_at(exercise_index)
-	if data:
-		return data.notes
-	return ""
-
 # === Persistence ===
 
 func save_to_session(exercise_manager, entry_manager, session_manager) -> Session:
@@ -357,6 +360,9 @@ func save_to_session(exercise_manager, entry_manager, session_manager) -> Sessio
 	
 	# Create exercise entries
 	for data in exercise_data:
+		if data.exercise:
+			exercise_manager.change_note(data.exercise, data.note)
+
 		var entry = entry_manager.create_entry(
 			data.exercise,
 			session.session_id,
@@ -432,7 +438,6 @@ func print_summary() -> void:
 		print("   Sets: %d" % data.sets.size())
 		print("   Total Volume: %.1f kg" % data.get_total_volume())
 		print("   Max Weight: %.1f kg" % data.get_max_weight())
-		print("   Notes: %s" % data.notes)
 		for set_data in data.sets:
 			print("     Set %d: %.1fkg x %d reps" % [set_data["order"] + 1, set_data["weight"], set_data["reps"]])
 	print("======================")

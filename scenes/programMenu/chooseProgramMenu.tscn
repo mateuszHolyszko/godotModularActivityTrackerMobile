@@ -116,15 +116,16 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 alignment = 1
 
-[node name="ProgramsSummaryVFlow" type="VFlowContainer" parent="Background/MarginContainer/VB/HB" unique_id=1764825571]
+[node name="ProgramsSummaryVFlow" type="HFlowContainer" parent="Background/MarginContainer/VB/HB" unique_id=258627617]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 theme_override_constants/h_separation = 120
-theme_override_constants/v_separation = 45
+theme_override_constants/v_separation = 70
 alignment = 1
-last_wrap_alignment = 1
+last_wrap_alignment = 2
 script = ExtResource("6_hkdud")
 label_font_size = 80
 

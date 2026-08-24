@@ -86,6 +86,34 @@ func save_exercise_file(exercise: Exercise) -> String:
 		push_error("ExerciseManager: failed to write %s (err %d)" % [file_path, FileAccess.get_open_error()])
 		return ""
 
+func change_note(exercise: Exercise, new_note: String) -> bool:
+	if not exercise:
+		push_error("ExerciseManager.change_note: exercise cannot be null")
+		return false
+
+	for item in items:
+		if item.get("exercise") != exercise:
+			continue
+
+		var file_name: String = item.get("file_name", "")
+		if file_name.is_empty():
+			push_error("ExerciseManager.change_note: exercise has no file name")
+			return false
+
+		exercise.note = new_note
+		var file_path := exercises_directory + file_name
+		var file := FileAccess.open(file_path, FileAccess.WRITE)
+		if not file:
+			push_error("ExerciseManager: failed to update %s (err %d)" % [file_path, FileAccess.get_open_error()])
+			return false
+
+		file.store_string(JSON.stringify(exercise.to_dict(), "\t"))
+		file.close()
+		return true
+
+	push_error("ExerciseManager.change_note: exercise not found")
+	return false
+
 func add(e: Exercise) -> void:
 	# Save file and track filename
 	var file_name := save_exercise_file(e)
@@ -179,6 +207,7 @@ func add_exercise(name: String, target_muscle: String, bodyweight: bool, rep_ran
 	# Create exercise resource
 	var exercise := Exercise.new()
 	exercise.name = name.strip_edges()
+	exercise.note = ""
 	exercise.target_muscle = target_muscle.strip_edges()
 	exercise.bodyweight = bodyweight
 	exercise.rep_range = Vector2i(rep_range_min, rep_range_max)
@@ -305,6 +334,7 @@ func seed_example_data() -> void:
 	for i in range(5):
 		var ex := Exercise.new()
 		ex.name = names[i % names.size()]
+		ex.note = ""
 		ex.target_muscle = muscles[i % muscles.size()]
 		ex.bodyweight = (ex.name == "pushup" or ex.name == "pullup")
 		ex.rep_range = Vector2i(5 + (i % 5), 8 + (i % 6))

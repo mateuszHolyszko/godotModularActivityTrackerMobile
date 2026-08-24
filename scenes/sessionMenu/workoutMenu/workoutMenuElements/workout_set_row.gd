@@ -11,6 +11,9 @@ extends Control
 @onready var last_reps_label: Label = %LastRepsEntryLabel
 @onready var last_weight_label: Label = %LastWeightEntryLabel
 
+@onready var too_few_reps_indicator_tex_rect: TextureRect = %TooLowIndicatorTR
+@onready var too_many_reps_indicator_tex_rect: TextureRect = %TooHighIndicatorTR
+
 # References to parent data
 var exercise_index: int = -1
 var set_index: int = -1
@@ -80,6 +83,10 @@ func _finish_setup() -> void:
 	
 	_is_initializing = false
 
+func set_edit_state(edited: bool) -> void:
+	is_edited = edited
+	_update_edit_visual()
+
 func _update_edit_visual() -> void:
 	if not _ready_called:
 		return
@@ -106,8 +113,10 @@ func _on_weight_changed(new_weight: float) -> void:
 	"""Handle weight value change"""
 	if _is_initializing:
 		return
+	
 	is_edited = true
 	_update_edit_visual()
+	_update_rep_range_indicators_visual()
 		
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
 		return
@@ -133,6 +142,7 @@ func _on_reps_changed(new_reps: float) -> void:
 
 	is_edited = true
 	_update_edit_visual()
+	_update_rep_range_indicators_visual()
 		
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
 		return
@@ -188,6 +198,34 @@ func _update_muscle_color(exercise_name: String) -> void:
 		var stylebox = StyleBoxFlat.new()
 		stylebox.bg_color = muscle_color
 		set_number_label.add_theme_stylebox_override("normal", stylebox)
+
+func _update_rep_range_indicators_visual() -> void:
+	"""Update the visibility of the too few/too many reps indicators based on the current reps value"""
+	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
+		return
+	
+	if exercise_index < 0 or set_index < 0:
+		return
+	
+	var exercise_data = GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index)
+	if not exercise_data or not exercise_data.exercise:
+		return
+	
+	var exercise = exercise_data.exercise
+	var current_reps = int(input_reps_button.current_value)
+	
+	# Check against the exercise's rep range
+	if current_reps < exercise.rep_range.x:
+		too_few_reps_indicator_tex_rect.visible = true
+		NotificationManager.warning("Too few reps!\nConsider lowering weight")
+	else:
+		too_few_reps_indicator_tex_rect.visible = false
+	
+	if current_reps > exercise.rep_range.y:
+		too_many_reps_indicator_tex_rect.visible = true
+		NotificationManager.success("Too many reps!\nConsider increasing weight")
+	else:
+		too_many_reps_indicator_tex_rect.visible = false
 
 func _exit_tree() -> void:
 	"""Clean up when the node is removed"""

@@ -4,7 +4,7 @@ extends Menu
 @onready var programs_container: VBoxContainer = %ScrollContent
 @onready var add_program_button: Button = %AddProgramButton
 
-@onready var programs_summary: VFlowContainer = %ProgramsSummaryVFlow
+@onready var programs_summary: HFlowContainer = %ProgramsSummaryVFlow
 
 # === Sub Menu
 @onready var submenu_container: Control = %SubMenuContainer

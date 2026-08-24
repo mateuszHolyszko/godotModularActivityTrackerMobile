@@ -1,0 +1,192 @@
+[gd_scene format=3 uid="uid://doclokkb48e1w"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_m4gok"]
+[ext_resource type="Script" uid="uid://cqt58p4nkqcyr" path="res://elements/insertPosition/insert_position_entry.gd" id="2_4uqlv"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_chyim"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="4_np07a"]
+[ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="5_f0hum"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_6ysf1"]
+[ext_resource type="Script" uid="uid://vfejlige7tcg" path="res://elements/insertPosition/list_lines.gd" id="7_f0hum"]
+
+[sub_resource type="Theme" id="Theme_np07a"]
+Button/styles/normal = ExtResource("3_chyim")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0hum"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[node name="InsertPositionMenu" type="Control" unique_id=394369012]
+modulate = Color(1, 1, 1, 0.9411765)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_m4gok")
+script = ExtResource("2_4uqlv")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=2115395591]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_np07a")
+theme_override_styles/panel = SubResource("StyleBoxFlat_f0hum")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=200904066]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1715973927]
+layout_mode = 2
+
+[node name="HB_prompt" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=983151291]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+alignment = 1
+
+[node name="Prompt" type="Label" parent="Background/MarginContainer/VB/HB_prompt" unique_id=1623194596]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+theme_override_font_sizes/font_size = 100
+text = "Prompt"
+
+[node name="ScrollButtonTop" type="Button" parent="Background/MarginContainer/VB" unique_id=690049950]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("4_np07a")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=1860581369 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("5_f0hum")
+scroll_top_button = NodePath("../ScrollButtonTop")
+scroll_bottom_button = NodePath("../ScrollButtonBot")
+update_interval = 0.25
+scroll_container = NodePath("OptionsContainer")
+
+[node name="OptionsContainer" type="VBoxContainer" parent="Background/MarginContainer/VB/ScrollContainer" unique_id=452841989]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ScrollButtonBot" type="Button" parent="Background/MarginContainer/VB" unique_id=465597281]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("6_6ysf1")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HB_cancel" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=69060065]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=991049610]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="CancelButton" type="Button" parent="Background/MarginContainer/VB/HB_cancel" unique_id=481347393]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 75
+text = "Back"
+
+[node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VB/HB_cancel" unique_id=2124600990]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="LabelHB_template" type="HBoxContainer" parent="." unique_id=1119619454]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 1024.0
+offset_right = 1070.0
+offset_bottom = 1174.0
+alignment = 1
+
+[node name="HS2" type="HSeparator" parent="LabelHB_template" unique_id=2080421480]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Label" type="Label" parent="LabelHB_template" unique_id=502192239]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Option 1"
+vertical_alignment = 1
+
+[node name="HS" type="HSeparator" parent="LabelHB_template" unique_id=1439726666]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ButtonHB_template" type="HBoxContainer" parent="." unique_id=647096872]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 1224.0
+offset_right = 1070.0
+offset_bottom = 1374.0
+
+[node name="HS" type="HSeparator" parent="ButtonHB_template" unique_id=1758535994]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="ButtonHB_template" unique_id=1400464298]
+layout_mode = 2
+text = "< Insert here"
+
+[node name="HS2" type="HSeparator" parent="ButtonHB_template" unique_id=874828365]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="TreeLines" type="Control" parent="." unique_id=1957302797]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 256.0
+offset_right = 10.0
+offset_bottom = 256.0
+script = ExtResource("7_f0hum")
+line_color = Color(1, 1, 1, 1)
+line_width = 6.0
+label_connector_length = 70.0
+button_connector_length = 200.0
+dotted_line_length = 10.0
+dotted_line_gap = 5.0

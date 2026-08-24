@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://djubjhnt54hfn" path="res://elements/pickExercise/pick_exercise_button.gd" id="2_u0ytw"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="3_jm4cd"]
 [ext_resource type="Texture2D" uid="uid://co5tqsbs75b2g" path="res://assets/icons/text.svg" id="4_wqquj"]
+[ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="6_jm4cd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqdh6"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
@@ -67,8 +68,48 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="ExpandNoteButton" type="Button" parent="HB" unique_id=1567932795]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 0.1
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+toggle_mode = true
 icon = ExtResource("4_wqquj")
 expand_icon = true
+
+[node name="ExpandNotePanel" type="Panel" parent="." unique_id=241263563]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.88235295)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.21800001
+anchor_right = 0.93100005
+anchor_bottom = 1.0
+offset_left = -0.4400177
+offset_right = 0.5199585
+
+[node name="VB" type="VBoxContainer" parent="ExpandNotePanel" unique_id=2125132833]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="ExpandNotePanel/VB" unique_id=1544385068]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputNoteButton" type="Button" parent="ExpandNotePanel/VB" unique_id=1201716572]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+autowrap_mode = 3
+script = ExtResource("6_jm4cd")
+prompt_text = "Take Note"
+placeholder_text = "leave notes here"
+entry_menu_scene_path = "res://elements/textInput/TextEntryMenu.tscn"
+metadata/_custom_type_script = "uid://brkmh4ac31olu"

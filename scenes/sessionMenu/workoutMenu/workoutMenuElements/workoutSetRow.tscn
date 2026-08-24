@@ -4,6 +4,8 @@
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="2_7ptm5"]
 [ext_resource type="Script" uid="uid://bgls7f4j8t785" path="res://scenes/sessionMenu/workoutMenu/workoutMenuElements/workout_set_row.gd" id="2_ag04g"]
 [ext_resource type="Script" uid="uid://n1gu6fh5kwm0" path="res://elements/numericInput/numeric_input_button.gd" id="3_ag04g"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="5_f0xjm"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_u1g22"]
 
 [node name="WorkoutSetRow" type="Control" unique_id=1121304851]
 custom_minimum_size = Vector2(0, 225)
@@ -132,3 +134,39 @@ grow_vertical = 2
 mouse_filter = 2
 mouse_behavior_recursive = 1
 color = Color(1, 1, 1, 0.039215688)
+
+[node name="TooHighIndicatorTR" type="TextureRect" parent="." unique_id=1353464775]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0.8627451)
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.90300006
+anchor_top = 0.42400002
+anchor_right = 0.96900004
+anchor_bottom = 0.79300004
+offset_left = -0.24005127
+offset_top = 0.099990845
+offset_right = 0.47998047
+offset_bottom = 0.07499695
+texture = ExtResource("5_f0xjm")
+expand_mode = 4
+
+[node name="TooLowIndicatorTR" type="TextureRect" parent="." unique_id=1482012707]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0.8627451)
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.90300006
+anchor_top = 0.42400002
+anchor_right = 0.96900004
+anchor_bottom = 0.79300004
+offset_left = -0.24005127
+offset_top = 0.099990845
+offset_right = 0.47998047
+offset_bottom = 0.07499695
+texture = ExtResource("6_u1g22")
+expand_mode = 4

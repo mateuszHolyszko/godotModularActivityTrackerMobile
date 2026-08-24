@@ -7,8 +7,7 @@ extends Menu
 @onready var save_changes_button: Button = %SaveButton
 @onready var items_container: VBoxContainer = %ScrollContent
 
-@onready var add_item_button: Button = %AddItemButtonTemplate
-@onready var toggle_add_buttons_button: Button = %AddButtonToggle
+@onready var insert_item_button: InsertPositionInput = %InsertPositionInput
 
 @onready var sub_menu_container: Container = %SubMenuContainer
 @onready var confirm_dialog: ConfirmationEntryMenu = %ConfirmationEntryMenu
@@ -19,8 +18,6 @@ signal program_changed(new_program: Program)
 signal working_program_modified()
 
 var _is_ready: bool = false
-var _add_buttons_visible: bool = false
-
 var _program_item_row_scene: PackedScene = null
 
 # Working copy of the program - this is what we edit
@@ -38,14 +35,9 @@ func _ready():
 	# Connect signals
 	back_button.pressed.connect(_on_back_button_pressed)
 	save_changes_button.pressed.connect(_on_save_changes_pressed)
-	toggle_add_buttons_button.toggled.connect(_on_toggle_add_buttons_toggled)
+	insert_item_button.value_changed.connect(_on_insert_position_selected)
 	
-	# Set initial toggle state
-	toggle_add_buttons_button.button_pressed = false
-	toggle_add_buttons_button.text = "Insert new exercise"
-	
-	# Hide the template button (it's just for copying)
-	add_item_button.visible = false
+	insert_item_button.submenu_container_path = sub_menu_container.get_path()
 
 # Called when the program changes (either on open or when updated)
 func on_program_changed(new_program: Program) -> void:
@@ -62,6 +54,7 @@ func on_program_changed(new_program: Program) -> void:
 		else:
 			_working_program = null
 			program_label.text = "No Program Selected"
+			insert_item_button.set_options_data([])
 			_clear_items_display()
 		
 		# Reset unsaved changes flag
@@ -125,13 +118,13 @@ func _display_program_items() -> void:
 	
 	# Get all items from the working program
 	var items = _working_program.items
-	
-	# Add an add button at the top (before any items)
-	_add_add_button(0)
+	var option_labels: Array[String] = []
+	for item in items:
+		option_labels.append(_get_item_display_label(item))
+	insert_item_button.set_options_data(option_labels)
 	
 	if items.is_empty():
 		_add_debug_label("(no items)")
-		_update_add_buttons_visibility()
 		return
 	
 	# Debug print all items
@@ -149,9 +142,6 @@ func _display_program_items() -> void:
 			# Create a row for this exercise
 			_create_program_item_row(i, "exercise", exercise_name)
 			
-			# Add an add button after this item
-			_add_add_button(i + 1)
-			
 		elif item_type == "superset":
 			var exercise_names = item.get("exercise_names", [])
 			print("  %d. SUPERSET: %s" % [i + 1, ", ".join(exercise_names)])
@@ -159,17 +149,12 @@ func _display_program_items() -> void:
 			var display_text = "%d. Superset: %s" % [i + 1, ", ".join(exercise_names)]
 			_add_debug_label(display_text)
 			
-			_add_add_button(i + 1)
-			
 			for j in range(exercise_names.size()):
 				print("      %d. %s" % [j + 1, exercise_names[j]])
 		else:
 			print("  %d. UNKNOWN TYPE: %s" % [i + 1, item_type])
 			var display_text = "%d. <unknown type: %s>" % [i + 1, item_type]
 			_add_debug_label(display_text)
-			_add_add_button(i + 1)
-	
-	_update_add_buttons_visibility()
 	
 	# After redisplaying, emit working_program_modified to update the pie chart
 	# This ensures the pie chart updates when items are reordered or modified
@@ -204,55 +189,23 @@ func _create_program_item_row(index: int, item_type: String, exercise_name: Stri
 	# Add the row to the container
 	items_container.add_child(row_instance)
 
-func _add_add_button(index: int) -> void:
-	"""
-	Add an 'Add Item' button at the specified index position.
-	"""
-	if not add_item_button:
-		push_error("Add item button template not found")
-		return
-	
-	var new_button = add_item_button.duplicate()
-	new_button.visible = true
-	new_button.text = "+"
-	new_button.set_meta("insert_index", index)
-	new_button.pressed.connect(_on_add_item_button_pressed.bind(new_button))
-	items_container.add_child(new_button)
+func _get_item_display_label(item: Dictionary) -> String:
+	var item_type: String = item.get("type", "")
+	if item_type == "exercise":
+		return str(item.get("exercise_name", ""))
+	if item_type == "superset":
+		return "Superset: %s" % ", ".join(item.get("exercise_names", []))
+	return "<unknown type: %s>" % item_type
 
-func _update_add_buttons_visibility() -> void:
+func _on_insert_position_selected(insert_index: int) -> void:
 	"""
-	Update the visibility of all add buttons in the container.
-	"""
-	if not items_container:
-		return
-	
-	for child in items_container.get_children():
-		if child is Button and child.has_meta("insert_index"):
-			child.visible = _add_buttons_visible
-
-func _on_toggle_add_buttons_toggled(button_pressed: bool) -> void:
-	"""
-	Handle the toggle button state change.
-	"""
-	_add_buttons_visible = button_pressed
-	
-	if button_pressed:
-		toggle_add_buttons_button.text = "Hide +"
-	else:
-		toggle_add_buttons_button.text = "Insert new exercise"
-	
-	_update_add_buttons_visibility()
-
-func _on_add_item_button_pressed(button: Button) -> void:
-	"""
-	Handle when an add item button is pressed.
+	Insert a new exercise at the selected position.
 	"""
 	if not _working_program:
 		push_error("No working program available")
 		return
-	
-	var insert_index = button.get_meta("insert_index", -1)
-	if insert_index < 0:
+
+	if insert_index < 0 or insert_index > _working_program.items.size():
 		push_error("Invalid insert index")
 		return
 	

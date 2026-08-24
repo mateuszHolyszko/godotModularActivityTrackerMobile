@@ -1,6 +1,6 @@
 ## A VFlow container that displays a summary of muscle targets across all programs
 class_name ProgramSummaryContainer
-extends VFlowContainer
+extends HFlowContainer
 
 @export var label_font_size: int = 20
 @export var label_spacing: int = 5
@@ -13,10 +13,6 @@ func _ready() -> void:
 	# Update the summary when the node is ready
 	update_summary()
 	
-	# Optional: Connect to signals if your ProgramManager emits changes
-	# DataManager.ProgramManager.program_added.connect(update_summary)
-	# DataManager.ProgramManager.program_removed.connect(update_summary)
-	# DataManager.ProgramManager.program_renamed.connect(update_summary)
 
 func update_summary() -> void:
 	"""
@@ -97,7 +93,8 @@ func update_summary() -> void:
 
 func create_label(text: String, color: Color) -> Label:
 	"""
-	Create a styled label with the given text and color.
+	Create a styled label with the given text and background color.
+	Text is always black, and the background color is applied via a StyleBox.
 	"""
 	var label: Label
 	
@@ -109,14 +106,26 @@ func create_label(text: String, color: Color) -> Label:
 		# Create a new Label
 		label = Label.new()
 		label.text = text
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.size_flags_horizontal = Control.SIZE_FILL
 		label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	
-	# Apply styling
-	label.add_theme_color_override("font_color", color)
+	# Always use black text
+	label.add_theme_color_override("font_color", Color.BLACK)
 	label.add_theme_font_size_override("font_size", label_font_size)
+	
+	# Create a StyleBox with the specified background color
+	var stylebox := StyleBoxFlat.new()
+	stylebox.bg_color = color
+	stylebox.set_border_width_all(0)  # No borders
+	stylebox.content_margin_left = 8
+	stylebox.content_margin_right = 8
+	stylebox.content_margin_top = 4
+	stylebox.content_margin_bottom = 4
+	
+	# Apply the stylebox as the background
+	label.add_theme_stylebox_override("normal", stylebox)
 	
 	# Add spacing between labels (will be handled by VFlowContainer)
 	if label_spacing > 0:

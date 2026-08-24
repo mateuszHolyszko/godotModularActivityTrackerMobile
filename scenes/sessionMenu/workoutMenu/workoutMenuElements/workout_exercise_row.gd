@@ -5,6 +5,10 @@ extends Control
 @onready var pick_exercise_button: PickExerciseButton = %PickExerciseButton # Holds exercise, and allows to switch exercise mid workout
 @onready var add_set_button: Button = %AddSetButton # Appends set to exercise
 
+@onready var expand_note_button: Button = %ExpandNoteButton # toggels visisbility of ExpandNotePanel (toggle mode button)
+@onready var expand_note_panel: Panel = %ExpandNotePanel # holds inputNoteButton
+@onready var input_note_button: TextInputButton = %InputNoteButton
+
 @onready var set_container: VBoxContainer = %SetContainerVB
 var _exercise_set_row_scene: PackedScene = null
 
@@ -27,16 +31,32 @@ func _ready():
 	
 	# Set buttons container path
 	pick_exercise_button.submenu_container_path = sub_menu_container.get_path()
+	input_note_button.submenu_container_path = sub_menu_container.get_path()
 	
 	# Connect signals
 	add_set_button.pressed.connect(_on_add_set_pressed)
-	
+
 	# Connect to pick exercise button value change
 	pick_exercise_button.value_changed.connect(_on_exercise_changed)
+	input_note_button.value_changed.connect(_on_note_changed)
+
+	# Connect note expand button
+	expand_note_button.pressed.connect(_on_expand_note_toggled)
+
+	# Initialize note panel as hidden by default
+	expand_note_panel.visible = false
+	expand_note_button.button_pressed = false
+
+	# Set the toggle mode
+	expand_note_button.toggle_mode = true
 	
 	# If we were already setup, complete the initialization now
 	if _is_setup:
 		_finish_setup()
+
+func _on_expand_note_toggled():
+	"""Toggle the visibility of the expand note panel"""
+	expand_note_panel.visible = expand_note_button.button_pressed
 
 func setup(p_exercise_data, p_exercise_index: int) -> void:
 	"""Setup the row with exercise data and index"""
@@ -50,6 +70,13 @@ func setup(p_exercise_data, p_exercise_index: int) -> void:
 	if _ready_called:
 		_finish_setup()
 
+func set_exercise_index(new_index: int) -> void:
+	exercise_index = new_index
+	for set_index in range(set_container.get_child_count()):
+		var set_row = set_container.get_child(set_index)
+		set_row.exercise_index = new_index
+		set_row.set_index = set_index
+
 func _finish_setup() -> void:
 	"""Complete the setup after all nodes are ready"""
 	_is_initializing = true
@@ -60,6 +87,7 @@ func _finish_setup() -> void:
 		pick_exercise_button.text = exercise_data.exercise.name
 		# Manually update the value without emitting signal
 		pick_exercise_button.current_value = exercise_data.exercise.name
+		input_note_button.current_value = exercise_data.note
 		
 		# Apply muscle color to the pick exercise button
 		_update_muscle_color(exercise_data.exercise.name)
@@ -85,6 +113,12 @@ func _update_muscle_color(exercise_name: String) -> void:
 		var stylebox = StyleBoxFlat.new()
 		stylebox.bg_color = muscle_color
 		pick_exercise_button.add_theme_stylebox_override("normal", stylebox)
+
+func _on_note_changed(new_note: String) -> void:
+	if _is_initializing or not exercise_data:
+		return
+
+	exercise_data.note = new_note
 		
 
 func _populate_sets(reset_edit_state: bool = false, reuse_sets: bool = true) -> void:
@@ -132,6 +166,12 @@ func _append_set_row(set_index: int) -> void:
 	set_container.add_child(row)
 	custom_minimum_size.y = 200 + set_container.get_child_count() * 250
 
+func _reindex_set_rows(start_index: int = 0) -> void:
+	for index in range(start_index, set_container.get_child_count()):
+		var row = set_container.get_child(index)
+		row.set_index = index
+		row.exercise_index = exercise_index
+
 func _on_add_set_pressed() -> void:
 	"""Add a new set to the exercise"""
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
@@ -171,6 +211,8 @@ func _on_exercise_changed(new_exercise_name: String) -> void:
 	# Update the exercise data
 	if exercise_data:
 		exercise_data.exercise = exercise
+		exercise_data.note = exercise.note
+		input_note_button.current_value = exercise_data.note
 		
 		# Clear existing sets
 		exercise_data.sets.clear()
@@ -192,6 +234,7 @@ func _on_exercise_changed(new_exercise_name: String) -> void:
 		
 		# Update the muscle color for the new exercise
 		_update_muscle_color(new_exercise_name)
+		GlobalElements.CurrentWorkout.exercise_updated.emit(exercise_index)
 
 func _connect_to_workout_signals() -> void:
 	"""Connect to workout signals to update UI in real-time"""
@@ -221,13 +264,18 @@ func _disconnect_from_workout_signals() -> void:
 func _on_set_added(exercise_idx: int, set_index: int) -> void:
 	"""Called when a set is added to any exercise"""
 	if exercise_idx == exercise_index:
+		if set_index != set_container.get_child_count():
+			return
 		# The model appends the new set, so preserve existing rows and add only it.
 		_append_set_row(set_index)
 
 func _on_set_removed(exercise_idx: int, set_index: int) -> void:
 	"""Called when a set is removed from any exercise"""
 	if exercise_idx == exercise_index:
-		_populate_sets(true,false)
+		if set_index >= 0 and set_index < set_container.get_child_count():
+			set_container.get_child(set_index).free()
+			_reindex_set_rows(set_index)
+			custom_minimum_size.y = 200 + set_container.get_child_count() * 250
 
 func _on_set_updated(exercise_idx: int, set_index: int) -> void:
 	"""Called when a set is updated in any exercise"""
