@@ -16,7 +16,7 @@ than we could plot that on plotter 2d as str8 line on x axis
 
 Settings menu
 
-Make some script for elements so that when they change visibility they get tweened for visual effect (like for notyfication it would expand visually instead of appearing)
+Make some script for elements so that when they change visibility they get tweened for visual effect (like for notes it would expand visually instead of appearing)
 
 For some menu (right now Init and Data{to be Exercise}) implement async loading with spinning loading indicator
 

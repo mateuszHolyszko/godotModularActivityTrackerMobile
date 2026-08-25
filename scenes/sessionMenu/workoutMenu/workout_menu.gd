@@ -12,6 +12,7 @@ extends Menu
 @onready var CRUDE_HB: HBoxContainer = %CRUDE_HB # contains buttons above
 
 @onready var insert_exercise_position: InsertPositionInput = %InsertPositionInput
+@onready var insert_exercise_button: Button = %InsertExerciseButton
 
 @onready var confirm_dialog: ConfirmationEntryMenu = %ConfirmationEntryMenu
 
@@ -33,7 +34,9 @@ func _ready():
 	abort_button.pressed.connect(_on_abort_pressed)
 	finish_button.pressed.connect(_on_finish_pressed)
 	back_button.pressed.connect(_on_back_pressed)
+	
 	insert_exercise_position.value_changed.connect(_on_insert_position_selected)
+	insert_exercise_button.pressed.connect(_on_insert_exercise_button_pressed)
 	
 	#GlobalElements.CurrentWorkout.print_summary()
 
@@ -140,6 +143,15 @@ func _connect_to_workout_signals() -> void:
 func _on_insert_position_selected(index: int) -> void:
 	_insert_position = index
 	_open_exercise_picker()
+
+func _on_insert_exercise_button_pressed() -> void:
+	# Check if there are any exercises in the container
+	if exercises_container.get_child_count() == 0:
+		# No exercises - directly open exercise picker at position 0
+		_on_insert_position_selected(0)
+	else:
+		# Has exercises - trigger InsertPositionInput
+		insert_exercise_position._on_pressed()
 
 func _open_exercise_picker() -> void:
 	if _exercise_picker:

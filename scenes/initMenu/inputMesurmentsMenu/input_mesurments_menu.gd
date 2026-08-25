@@ -49,7 +49,8 @@ func _color_input_buttons() -> void:
 	#_set_button_color(input_weight, "weight")
 
 func _on_back_pressed() -> void:
-	request_close()
+	#request_close() # this removes key, use close() instead
+	close()
 
 # Maps a measurement type to the NumericInputButton that holds its current value.
 func _input_for_type(measurement_type: String) -> NumericInputButton:

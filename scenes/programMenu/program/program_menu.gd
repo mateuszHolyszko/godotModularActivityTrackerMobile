@@ -317,7 +317,8 @@ func _on_back_button_pressed() -> void:
 		_on_back_confirmed()
 
 func _on_back_confirmed() -> void:
-	request_close()
+	#request_close() this will cause problems wiht program rows menus references, instead of closing submenu just reload program menu
+	MenuManager.switch_to("program")
 
 # Public methods
 

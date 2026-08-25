@@ -275,6 +275,7 @@ horizontal_alignment = 1
 
 [node name="InsertPositionInput" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1819400581]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_1eb8a")
@@ -284,6 +285,14 @@ script = ExtResource("9_iyjcn")
 entry_menu_scene_path = "res://elements/insertPosition/InsertPositionMenu.tscn"
 submenu_container_path = NodePath("../../../../../SubMenuContainer")
 metadata/_custom_type_script = "uid://gs78mry43ttf"
+
+[node name="InsertExerciseButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=833486470]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1eb8a")
+icon = ExtResource("8_rwvhw")
+expand_icon = true
 
 [node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1795444354]
 layout_mode = 2
