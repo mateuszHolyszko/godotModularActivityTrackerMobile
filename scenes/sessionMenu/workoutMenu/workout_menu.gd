@@ -8,6 +8,8 @@ extends Menu
 
 @onready var abort_button: Button = %AbortButton
 @onready var finish_button: Button = %FinishButton
+@onready var back_button: Button = %BackButton # Initially hidden 
+@onready var CRUDE_HB: HBoxContainer = %CRUDE_HB # contains buttons above
 
 @onready var insert_exercise_position: InsertPositionInput = %InsertPositionInput
 
@@ -18,6 +20,7 @@ var _insert_position: int = -1
 var _exercise_picker: PickExerciseEntry = null
 
 func _ready():
+	#is_persistent = true # Set to be persisent menu
 	# Load the workout exercise row scene once and cache it
 	_exercise_row_scene = load("res://scenes/sessionMenu/workoutMenu/workoutMenuElements/workoutExerciseRow.tscn")
 	
@@ -29,6 +32,7 @@ func _ready():
 	# Connect button signals
 	abort_button.pressed.connect(_on_abort_pressed)
 	finish_button.pressed.connect(_on_finish_pressed)
+	back_button.pressed.connect(_on_back_pressed)
 	insert_exercise_position.value_changed.connect(_on_insert_position_selected)
 	
 	#GlobalElements.CurrentWorkout.print_summary()
@@ -76,6 +80,7 @@ func _update_insert_position_options() -> void:
 func _on_exercise_updated(_exercise_index: int) -> void:
 	_update_insert_position_options()
 
+""" DO NOT USE _exit_tree in persistent menus
 func _exit_tree() -> void:
 	var workout = GlobalElements.CurrentWorkout
 	if not workout:
@@ -87,6 +92,7 @@ func _exit_tree() -> void:
 		workout.exercise_removed.disconnect(_on_exercise_removed)
 	if workout.exercise_updated.is_connected(_on_exercise_updated):
 		workout.exercise_updated.disconnect(_on_exercise_updated)
+"""
 
 func _on_exercise_added(index: int) -> void:
 	var workout = GlobalElements.CurrentWorkout
@@ -195,9 +201,7 @@ func _on_abort_confirmed() -> void:
 	# Clean up the workout reference
 	GlobalElements.null_current_workout()
 	
-	# Disable finish and abort buttons
-	abort_button.disabled = true
-	finish_button.disabled = true
+	_hide_all_except_back() # Hides all CRUDE elements (Abort and Finish btn) and shows back button
 	
 	NotificationManager.info("Session successfully aborted")
 	
@@ -263,14 +267,22 @@ func _on_finish_confirmed() -> void:
 	# Clean up the workout reference
 	GlobalElements.null_current_workout()
 	
-	# Disable finish and abort buttons
-	abort_button.disabled = true
-	finish_button.disabled = true
+	_hide_all_except_back() # Hides all CRUDE elements (Abort and Finish btn) and shows back button
 	
 	NotificationManager.success("Session successfully finished")
 	
 	# Optional: Navigate away or show completion screen
 	# get_parent().show_completion_summary(session)  # or whatever you want to do
+
+func _hide_all_except_back() -> void:
+	for child in CRUDE_HB.get_children():
+		child.hide()
+	
+	back_button.show()
+
+func _on_back_pressed() -> void:
+	request_close() #dont request close
+	#close()
 
 # Optional: Refresh the exercise list if needed
 func refresh_exercises() -> void:

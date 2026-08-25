@@ -1,13 +1,8 @@
 Create:
-	-SpinnerNumericInput
-	 > self explenatory
+	-SpinnerNumericInput ---DONE
 	
-	-InsertToList
-	> takes a list of options (non traversable) and between them gives buttons for insertion
-	> simply returns index where we want to insert a thing
+	-InsertToList ---DONE
 	
-												<-Insert here:button
-									Option1:label
-												<-Insert here:button
-									Option2:label
-												<-Insert here:button
+	-DateInputElement
+		> Using 3 SpinnerNumericInputs input year, month, day   used mostly for providing dates for queries
+	

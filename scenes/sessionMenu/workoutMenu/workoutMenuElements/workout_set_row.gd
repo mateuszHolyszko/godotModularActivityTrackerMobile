@@ -227,10 +227,13 @@ func _update_rep_range_indicators_visual() -> void:
 	else:
 		too_many_reps_indicator_tex_rect.visible = false
 
-func _exit_tree() -> void:
-	"""Clean up when the node is removed"""
+"""
+
+func _exit_tree() -> void: DO NOT USE _exit_tree in persistent menus
+	#Clean up when the node is removed
 	# Disconnect signals
 	if input_weight_button.value_changed.is_connected(_on_weight_changed):
 		input_weight_button.value_changed.disconnect(_on_weight_changed)
 	if input_reps_button.value_changed.is_connected(_on_reps_changed):
 		input_reps_button.value_changed.disconnect(_on_reps_changed)
+"""

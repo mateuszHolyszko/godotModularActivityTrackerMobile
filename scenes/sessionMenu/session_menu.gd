@@ -11,13 +11,10 @@ var _workout_menu: Menu
 
 
 func _ready():
+	is_persistent = true # Set to be persisent menu
 	_populate_program_buttons()
 
 func _populate_program_buttons() -> void:
-	
-	# Register submenu
-	_workout_menu = load(WORKOUT_MENU_SCENE_PATH).instantiate()
-	add_submenu("workoutMenu", _workout_menu)
 	
 	# Get all programs using the autoloaded DataManager
 	var programs = DataManager.ProgramManager.get_all_program_objects()
@@ -56,6 +53,10 @@ func _populate_program_buttons() -> void:
 		scroll_content.add_child(program_container)
 
 func _on_program_button_pressed(program: Program) -> void:
+	# Register submenu
+	_workout_menu = load(WORKOUT_MENU_SCENE_PATH).instantiate()
+	add_submenu("workoutMenu", _workout_menu)
+	
 	# Create a new WorkoutSession and store it in GlobalElements
 	GlobalElements.set_current_workout( WorkoutSession.new() ) 
 	

@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_ssjrq"]
 [ext_resource type="Script" uid="uid://cy34xf3aspg2d" path="res://elements/numericInput/numeric_entry_menu.gd" id="1_vxm2i"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_e2aci"]
+[ext_resource type="Texture2D" uid="uid://cml1tg0mj3khn" path="res://assets/icons/backspace.svg" id="4_e2aci"]
 
 [sub_resource type="Theme" id="Theme_l53xe"]
 Button/styles/normal = ExtResource("3_e2aci")
@@ -147,7 +148,9 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
-text = "C"
+icon = ExtResource("4_e2aci")
+icon_alignment = 1
+expand_icon = true
 
 [node name="VS" type="VSplitContainer" parent="Background/MarginContainer/VB/NumPadContainer/VBoxContainer" unique_id=1143103787]
 custom_minimum_size = Vector2(0, 60)

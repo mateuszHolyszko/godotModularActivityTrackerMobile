@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bgls7f4j8t785" path="res://scenes/sessionMenu/workoutMenu/workoutMenuElements/workout_set_row.gd" id="2_ag04g"]
 [ext_resource type="Script" uid="uid://n1gu6fh5kwm0" path="res://elements/numericInput/numeric_input_button.gd" id="3_ag04g"]
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="5_f0xjm"]
+[ext_resource type="Script" uid="uid://bwhe0gnehq2ca" path="res://elements/numericSpinerInput/numeric_input_spinner.gd" id="5_u1g22"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_u1g22"]
 
 [node name="WorkoutSetRow" type="Control" unique_id=1121304851]
@@ -95,17 +96,17 @@ theme_override_styles/normal = ExtResource("2_7ptm5")
 text = "Reps"
 horizontal_alignment = 1
 
-[node name="RepsWeightButton" type="Button" parent="HB/RepsVB" unique_id=1219903484]
+[node name="RepsWeightButton" type="Button" parent="HB/RepsVB" unique_id=1299815033]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("3_ag04g")
+script = ExtResource("5_u1g22")
 prompt_text = "Input reps"
 is_int = true
 max_value = 30.0
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+entry_menu_scene_path = "res://elements/numericSpinerInput/NumericSpinnerEntryMenu.tscn"
 include_prompt_text_in_button = false
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+metadata/_custom_type_script = "uid://bwhe0gnehq2ca"
 
 [node name="LastRepsEntryLabel" type="Label" parent="HB/RepsVB" unique_id=1287015949]
 unique_name_in_owner = true

@@ -2,7 +2,7 @@ extends Panel
 
 @onready var started_time_label: Label = %StartedTimeLabel # format "Started: hh:mm"
 @onready var elapsed_time_label: Label = %ElapsedTimeLabel # format "Elapsed: hh:mm"
-@onready var average_time_label: Label = %AverageTimeLabel # IMPLEMENT 
+@onready var average_time_label: Label = %AverageTimeLabel #  
 
 # Reference to the current workout session
 var current_workout: WorkoutSession = null
@@ -109,9 +109,3 @@ func get_workout_session() -> WorkoutSession:
 
 func is_workout_active() -> bool:
 	return current_workout != null and current_workout.is_active()
-
-# Clean up when node is removed
-func _exit_tree() -> void:
-	if update_timer:
-		update_timer.stop()
-		update_timer.queue_free()

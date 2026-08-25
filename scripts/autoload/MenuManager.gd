@@ -1,7 +1,5 @@
 extends Node
 
-# TODO add persistent menus (menus that dont get destroyed when switched, so thier state persist)
-
 signal menu_preloaded(menu_name: String)
 signal all_preloads_finished
 
@@ -13,6 +11,9 @@ var _preloaded_scenes: Dictionary = {}
 
 # Menus currently being loaded async: name -> true
 var _pending_preloads: Dictionary = {}
+
+# Live instances of menus flagged is_persistent, kept alive across switches: name -> Menu
+var _persistent_instances: Dictionary = {}
 
 var _container: Control = null
 var _active_menu: Menu = null
@@ -140,8 +141,20 @@ func switch_to(menu_name: String) -> void:
 		return
 
 	if _active_menu:
-		_active_menu.close()
-		_active_menu.queue_free()
+		if _active_menu.is_persistent:
+			_active_menu.deactivate()
+			_persistent_instances[_active_menu_name] = _active_menu
+		else:
+			_active_menu.close()
+			_active_menu.queue_free()
+
+	# Reuse a cached persistent instance if we have one, instead of instantiating fresh.
+	if _persistent_instances.has(menu_name):
+		var cached_menu: Menu = _persistent_instances[menu_name]
+		_active_menu = cached_menu
+		_active_menu_name = menu_name
+		_active_menu.reactivate(_container)
+		return
 
 	var scene: PackedScene = _preloaded_scenes.get(menu_name)
 	if not scene:
@@ -153,6 +166,9 @@ func switch_to(menu_name: String) -> void:
 	_active_menu_name = menu_name
 	_active_menu.open(_container)
 
+	if new_menu.is_persistent:
+		_persistent_instances[menu_name] = new_menu
+
 
 func get_active_menu_name() -> String:
 	return _active_menu_name
@@ -160,3 +176,26 @@ func get_active_menu_name() -> String:
 
 func get_active_menu() -> Menu:
 	return _active_menu
+
+
+func is_menu_persistent_instance_cached(menu_name: String) -> bool:
+	return _persistent_instances.has(menu_name)
+
+
+## Fully destroys a cached persistent menu instance (e.g. once you no longer
+## need its state to survive). Safe to call whether or not it's the active menu.
+func discard_persistent_menu(menu_name: String) -> void:
+	if not _persistent_instances.has(menu_name):
+		return
+
+	var menu: Menu = _persistent_instances[menu_name]
+	_persistent_instances.erase(menu_name)
+
+	if menu == _active_menu:
+		_active_menu = null
+		_active_menu_name = ""
+
+	if is_instance_valid(menu):
+		menu.is_persistent = false  # force close() to do a real teardown, not deactivate()
+		menu.close()
+		menu.queue_free()

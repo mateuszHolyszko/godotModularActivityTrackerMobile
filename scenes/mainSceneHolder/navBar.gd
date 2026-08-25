@@ -52,7 +52,9 @@ func _set_active_button(active_button: Button) -> void:
 	# Disable toggle mode for all buttons first
 	for button in buttons:
 		button.toggle_mode = false
+		button.mouse_filter = Control.MOUSE_FILTER_STOP
 
 	# Set the active button's toggle mode and press it
+	active_button.mouse_filter = Control.MOUSE_FILTER_IGNORE # So that we cant re-enter same menu we are currently in
 	active_button.toggle_mode = true
 	active_button.button_pressed = true

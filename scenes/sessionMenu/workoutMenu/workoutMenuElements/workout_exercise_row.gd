@@ -290,6 +290,8 @@ func refresh() -> void:
 	"""Manually refresh the row"""
 	_populate_sets(false)
 
+""" DO NOT USE _exit_tree in persistent menus
 # Clean up signals when the node is removed
 func _exit_tree() -> void:
 	_disconnect_from_workout_signals()
+"""

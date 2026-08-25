@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="6_5ydr7"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="7_0g45w"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_5ydr7"]
+[ext_resource type="Texture2D" uid="uid://cml1tg0mj3khn" path="res://assets/icons/backspace.svg" id="8_iyjcn"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="8_rwvhw"]
 [ext_resource type="Script" uid="uid://gs78mry43ttf" path="res://elements/insertPosition/insert_position_input_button.gd" id="9_iyjcn"]
 
@@ -94,6 +95,7 @@ func toggle_ui():
 func _enter_tree():
 	_connect_signals()
 
+\"\"\" DO NOT USE _exit_tree in persistent menus
 # Clean up connections when exiting
 func _exit_tree():
 	if workout_session:
@@ -103,6 +105,7 @@ func _exit_tree():
 			workout_session.workout_completed.disconnect(_on_workout_completed)
 		if workout_session.workout_cancelled.is_connected(_on_workout_cancelled):
 			workout_session.workout_cancelled.disconnect(_on_workout_cancelled)
+\"\"\"
 
 # Optional: Expose as a tool for debugging
 func _get_configuration_warnings():
@@ -224,6 +227,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="CRUDE_HB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1393533408]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 theme_override_constants/separation = 50
@@ -233,6 +237,15 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
+
+[node name="BackButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=2000661350]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+text = "Back"
+icon = ExtResource("8_iyjcn")
+expand_icon = true
 
 [node name="AbortButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=930404760]
 unique_name_in_owner = true

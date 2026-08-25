@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="3_0645l"]
 [ext_resource type="Texture2D" uid="uid://dgi4iip4rn21d" path="res://assets/icons/trash-svgrepo-com.svg" id="3_qn0gl"]
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="4_td7mw"]
-[ext_resource type="Script" uid="uid://n1gu6fh5kwm0" path="res://elements/numericInput/numeric_input_button.gd" id="5_rioul"]
+[ext_resource type="Script" uid="uid://bwhe0gnehq2ca" path="res://elements/numericSpinerInput/numeric_input_spinner.gd" id="5_0645l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krtbt"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
@@ -150,29 +150,29 @@ text = "top"
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="InputNumericBotRange" type="Button" parent="Backround/HB/VB/HB/RepRangePanel/VB/InputsHB" unique_id=2100589604]
+[node name="InputNumericBotRange" type="Button" parent="Backround/HB/VB/HB/RepRangePanel/VB/InputsHB" unique_id=637593700]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("5_rioul")
+script = ExtResource("5_0645l")
 prompt_text = "Bottom of rep range"
 is_int = true
 max_value = 30.0
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+entry_menu_scene_path = "res://elements/numericSpinerInput/NumericSpinnerEntryMenu.tscn"
 include_prompt_text_in_button = false
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+metadata/_custom_type_script = "uid://bwhe0gnehq2ca"
 
-[node name="InputNumericTopRange" type="Button" parent="Backround/HB/VB/HB/RepRangePanel/VB/InputsHB" unique_id=643634680]
+[node name="InputNumericTopRange" type="Button" parent="Backround/HB/VB/HB/RepRangePanel/VB/InputsHB" unique_id=422489871]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("5_rioul")
+script = ExtResource("5_0645l")
 prompt_text = "Top of rep range"
 is_int = true
 max_value = 30.0
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+entry_menu_scene_path = "res://elements/numericSpinerInput/NumericSpinnerEntryMenu.tscn"
 include_prompt_text_in_button = false
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+metadata/_custom_type_script = "uid://bwhe0gnehq2ca"
 
 [node name="VB2" type="VBoxContainer" parent="Backround/HB" unique_id=174733337]
 custom_minimum_size = Vector2(150, 0)
