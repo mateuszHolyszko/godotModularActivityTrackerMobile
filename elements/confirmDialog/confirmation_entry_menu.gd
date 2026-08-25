@@ -94,7 +94,7 @@ func _on_confirm_pressed() -> void:
 	if _on_confirm_callback.is_valid():
 		_on_confirm_callback.call()
 	_reset_callbacks()
-	request_close()
+	close()
 
 
 func _on_cancel_pressed() -> void:
@@ -102,7 +102,7 @@ func _on_cancel_pressed() -> void:
 	if _on_cancel_callback.is_valid():
 		_on_cancel_callback.call()
 	_reset_callbacks()
-	request_close()
+	close()
 
 
 func _reset_callbacks() -> void:

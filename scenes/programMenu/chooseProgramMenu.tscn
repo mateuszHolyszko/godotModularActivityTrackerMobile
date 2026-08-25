@@ -3,7 +3,9 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_fvt5r"]
 [ext_resource type="Script" uid="uid://cnppgnwrdssir" path="res://scenes/programMenu/choose_program_menu.gd" id="2_gases"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_6d5ee"]
-[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="5_mqakw"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="4_685kb"]
+[ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="5_nqcy3"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_6w484"]
 [ext_resource type="Script" uid="uid://bykq1cnwvygbt" path="res://scenes/programMenu/programs_summary_v_flow.gd" id="6_hkdud"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="7_hkdud"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="7_nqcy3"]
@@ -61,10 +63,22 @@ theme_override_constants/margin_bottom = 10
 [node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=732710800]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=89964748 node_paths=PackedStringArray("scroll_container")]
+[node name="ScrollButtonTop" type="Button" parent="Background/MarginContainer/VB" unique_id=75212259]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("4_685kb")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=89964748 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("5_mqakw")
+size_flags_stretch_ratio = 1.2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("5_nqcy3")
+scroll_top_button = NodePath("../ScrollButtonTop")
+scroll_bottom_button = NodePath("../ScrollButtonBot")
 scroll_container = NodePath("CenterContainer/ScrollContent")
 
 [node name="CenterContainer" type="CenterContainer" parent="Background/MarginContainer/VB/ScrollContainer" unique_id=357352886]
@@ -79,13 +93,23 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
+[node name="ScrollButtonBot" type="Button" parent="Background/MarginContainer/VB" unique_id=1748281456]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("6_6w484")
+icon_alignment = 1
+expand_icon = true
+
 [node name="AddProgramButton" type="Button" parent="Background/MarginContainer/VB" unique_id=54855697]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(500, 85)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_styles/normal = SubResource("StyleBoxFlat_emm4a")
+text = "Add Program"
 icon = ExtResource("7_nqcy3")
-icon_alignment = 1
+alignment = 0
+icon_alignment = 2
 expand_icon = true
 
 [node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VB" unique_id=903963522]

@@ -1,8 +1,5 @@
 SEE TODO IN elements
 
-In bodyweight sets add last recorded body-weight to weight
-Dont allow for workout to start if no bodyweight can be found (perhaps notify user if last mesurment is old)
-
 Isometric exercises
 
 Remove supersets from exercise entry
@@ -27,3 +24,6 @@ In volume summary make query time input
 ### DONE ==============================================================================
 
 #Presistent menu (namely for Session) 
+
+#In bodyweight sets add last recorded body-weight to weight
+#Dont allow for workout to start if no bodyweight can be found (perhaps notify user if last mesurment is old) # workout_menu.gd ready func

@@ -2,6 +2,7 @@ class_name NumericInputButton
 extends Button
 
 signal value_changed(new_value: float)
+signal value_confirmed(new_value: float)
 
 @export var prompt_text: String = ""
 @export var suffix_text: String = ""
@@ -86,6 +87,7 @@ func _on_pressed() -> void:
 
 func _on_value_confirmed(new_value: float) -> void:
 	current_value = new_value
+	value_confirmed.emit(current_value)
 	_close_entry_menu()
 
 

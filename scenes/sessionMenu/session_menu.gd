@@ -62,6 +62,19 @@ func _populate_program_buttons() -> void:
 		scroll_content.add_child(program_container)
 
 func _on_program_button_pressed(program: Program) -> void:
+	# Check that a weight measurement exists before starting the workout
+	var last_weight = DataManager.MeasurementManager.get_last_measurement("weight")
+	if last_weight.is_empty():
+		NotificationManager.error("No weight measurement found. Please log your weight before starting a workout.",6)
+		#push_warning("No weight measurement found. Please log your weight before starting a workout.")
+		return
+	
+	var seconds_in_month := 30 * 24 * 60 * 60
+	var now := Time.get_unix_time_from_system()
+	if now - last_weight.timestamp > seconds_in_month:
+		NotificationManager.warning("Your weight hasn't been updated in over a month")
+		#push_warning("Your weight hasn't been updated in over a month (last recorded: %s)." % last_weight.date)
+	
 	# Register submenu
 	_workout_menu = load(WORKOUT_MENU_SCENE_PATH).instantiate()
 	add_submenu("workoutMenu", _workout_menu)

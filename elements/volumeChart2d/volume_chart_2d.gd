@@ -13,6 +13,7 @@ class_name VolumeChart2D
 @export var bar_height: float = 20.0
 @export var min_segment_width: float = 2.0  # Minimum width for tiny segments
 
+
 # ========================
 # INTERNAL
 # ========================

@@ -6,6 +6,7 @@ var program: Program = null
 var start_timestamp: int = 0  # Unix timestamp
 var end_timestamp: int = 0    # Unix timestamp
 var exercise_data: Array = []  # Array of WorkoutExerciseData
+var body_weight: float = 0.0  # Body weight in kg, logged for this workout
 
 # Internal tracking
 var _is_active: bool = false
@@ -120,6 +121,7 @@ func start_workout(p_program: Program) -> void:
 	end_timestamp = 0
 	_is_active = true
 	exercise_data.clear()
+	body_weight = 0.0
 	
 	# Pre-populate with exercises from program
 	if program:
@@ -228,6 +230,12 @@ func get_elapsed_time_string() -> String:
 	var secs = seconds % 60
 	return "%02d:%02d" % [minutes, secs]
 
+func set_body_weight(weight: float) -> void:
+	body_weight = weight
+
+func get_body_weight() -> float:
+	return body_weight
+
 # === Exercise Management ===
 
 func add_exercise(exercise: Exercise) -> int:
@@ -318,7 +326,7 @@ func remove_set_from_exercise(exercise_index: int, set_index: int) -> bool:
 		set_removed.emit(exercise_index, set_index)
 	return result
 
-func update_set(exercise_index: int, set_index: int, weight: float, reps: int) -> bool:
+func update_set(exercise_index: int, set_index: int, weight: float, reps: int, is_bodyweight: bool = false) -> bool:
 	if not _is_active:
 		push_error("WorkoutSession: Cannot update set in inactive workout")
 		return false
@@ -327,7 +335,12 @@ func update_set(exercise_index: int, set_index: int, weight: float, reps: int) -
 	if not data:
 		return false
 	
-	var result = data.update_set(set_index, weight, reps)
+	# If bodyweight exercise, add bodyweight to the weight
+	var actual_weight := weight
+	if is_bodyweight:
+		actual_weight = weight + get_body_weight()
+	
+	var result = data.update_set(set_index, actual_weight, reps)
 	if result:
 		set_updated.emit(exercise_index, set_index)
 	return result
@@ -355,7 +368,9 @@ func save_to_session(exercise_manager, entry_manager, session_manager) -> Sessio
 	var session = session_manager.create_session(
 		program,
 		Time.get_date_string_from_system(),
-		get_duration_minutes()
+		get_duration_minutes(),
+		"",
+		body_weight
 	)
 	
 	# Create exercise entries
@@ -384,6 +399,7 @@ func _clear_workout_data() -> void:
 	start_timestamp = 0
 	end_timestamp = 0
 	_is_active = false
+	body_weight = 0.0
 
 func to_dict() -> Dictionary:
 	"""Serialize the entire workout"""
@@ -396,6 +412,7 @@ func to_dict() -> Dictionary:
 		"start_timestamp": start_timestamp,
 		"end_timestamp": end_timestamp,
 		"is_active": _is_active,
+		"body_weight": body_weight,
 		"exercise_data": serialized_exercises
 	}
 
@@ -409,6 +426,7 @@ func from_dict(d: Dictionary, exercise_manager) -> void:
 	start_timestamp = int(d.get("start_timestamp", 0))
 	end_timestamp = int(d.get("end_timestamp", 0))
 	_is_active = bool(d.get("is_active", false))
+	body_weight = float(d.get("body_weight", 0.0))
 	
 	var raw_exercises = d.get("exercise_data", [])
 	if typeof(raw_exercises) == TYPE_ARRAY:
@@ -427,6 +445,7 @@ func print_summary() -> void:
 	print("=== WORKOUT SUMMARY ===")
 	print("Program: %s" % (program.program_name if program else "None"))
 	print("Duration: %d minutes" % get_duration_minutes())
+	print("Body Weight: %.1f kg" % body_weight)
 	print("Total Volume: %.1f kg" % get_total_volume())
 	print("Exercises: %d" % exercise_data.size())
 	print("---")

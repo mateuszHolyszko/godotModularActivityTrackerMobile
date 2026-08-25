@@ -80,6 +80,7 @@ expand_icon = true
 
 [node name="ExpandNotePanel" type="Panel" parent="." unique_id=241263563]
 unique_name_in_owner = true
+visible = false
 modulate = Color(1, 1, 1, 0.88235295)
 layout_mode = 1
 anchors_preset = -1

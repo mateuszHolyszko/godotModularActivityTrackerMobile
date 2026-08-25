@@ -123,7 +123,8 @@ expand_icon = true
 
 [node name="InsertPositionInput" type="Button" parent="Background/MarginContainer/VB" unique_id=804128067]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 80)
+visible = false
+custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Insert Exercise"
@@ -134,6 +135,16 @@ script = ExtResource("7_286ap")
 prompt_text = "Choose insert position"
 entry_menu_scene_path = "res://elements/insertPosition/InsertPositionMenu.tscn"
 metadata/_custom_type_script = "uid://gs78mry43ttf"
+
+[node name="InsertPositionButton" type="Button" parent="Background/MarginContainer/VB" unique_id=1855869697]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Insert Exercise"
+icon = ExtResource("7_b4i4s")
+icon_alignment = 2
+expand_icon = true
 
 [node name="HS" type="HSeparator" parent="Background/MarginContainer/VB" unique_id=1306708930]
 layout_mode = 2

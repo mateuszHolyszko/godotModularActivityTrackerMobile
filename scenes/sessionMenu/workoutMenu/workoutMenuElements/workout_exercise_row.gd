@@ -182,8 +182,10 @@ func _on_add_set_pressed() -> void:
 		print("No exercise selected")
 		return
 	
-	# Add a new set with default values (0 weight, 0 reps)
+	# Add a new set with default values (0 weight, 0 reps), if its bodyweight exercise 0 means bodyweight
 	var default_weight = 0.0
+	if GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise.bodyweight:
+		default_weight = GlobalElements.CurrentWorkout.get_body_weight()
 	var default_reps = 0
 	
 	GlobalElements.CurrentWorkout.add_set_to_exercise(exercise_index, default_weight, default_reps)

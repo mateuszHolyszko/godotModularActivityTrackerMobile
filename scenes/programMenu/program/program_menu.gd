@@ -7,7 +7,8 @@ extends Menu
 @onready var save_changes_button: Button = %SaveButton
 @onready var items_container: VBoxContainer = %ScrollContent
 
-@onready var insert_item_button: InsertPositionInput = %InsertPositionInput
+@onready var insert_item_input: InsertPositionInput = %InsertPositionInput
+@onready var insert_item_button: Button = %InsertPositionButton
 
 @onready var sub_menu_container: Container = %SubMenuContainer
 @onready var confirm_dialog: ConfirmationEntryMenu = %ConfirmationEntryMenu
@@ -35,9 +36,11 @@ func _ready():
 	# Connect signals
 	back_button.pressed.connect(_on_back_button_pressed)
 	save_changes_button.pressed.connect(_on_save_changes_pressed)
-	insert_item_button.value_changed.connect(_on_insert_position_selected)
 	
-	insert_item_button.submenu_container_path = sub_menu_container.get_path()
+	insert_item_input.value_changed.connect(_on_insert_position_selected)
+	insert_item_button.pressed.connect(_on_insert_item_button_pressed)
+	
+	insert_item_input.submenu_container_path = sub_menu_container.get_path()
 
 # Called when the program changes (either on open or when updated)
 func on_program_changed(new_program: Program) -> void:
@@ -54,7 +57,7 @@ func on_program_changed(new_program: Program) -> void:
 		else:
 			_working_program = null
 			program_label.text = "No Program Selected"
-			insert_item_button.set_options_data([])
+			insert_item_input.set_options_data([])
 			_clear_items_display()
 		
 		# Reset unsaved changes flag
@@ -121,7 +124,7 @@ func _display_program_items() -> void:
 	var option_labels: Array[String] = []
 	for item in items:
 		option_labels.append(_get_item_display_label(item))
-	insert_item_button.set_options_data(option_labels)
+	insert_item_input.set_options_data(option_labels)
 	
 	if items.is_empty():
 		_add_debug_label("(no items)")
@@ -245,6 +248,15 @@ func _on_item_deleted(index: int) -> void:
 	
 	# Refresh the display
 	_display_program_items()
+
+func _on_insert_item_button_pressed() -> void:
+	# Check if there are any exercises in the container
+	if _working_program.items.is_empty():
+		# No exercises - directly open exercise picker at position 0
+		_on_insert_position_selected(0)
+	else:
+		# Has exercises - trigger InsertPositionInput
+		insert_item_input._on_pressed()
 
 func _on_save_changes_pressed() -> void:
 	"""

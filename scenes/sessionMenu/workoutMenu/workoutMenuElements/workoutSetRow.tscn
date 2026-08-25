@@ -52,7 +52,8 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="HB/WeightVB" unique_id=1236718242]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
+size_flags_stretch_ratio = 0.3
+theme_override_font_sizes/font_size = 55
 theme_override_styles/normal = ExtResource("2_7ptm5")
 text = "Weight"
 horizontal_alignment = 1
@@ -63,18 +64,36 @@ layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_ag04g")
 prompt_text = "Input weight"
-suffix_text = "[kg]"
 max_value = 400.0
 entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
 include_prompt_text_in_button = false
 metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
 
+[node name="CalisthenicAddedWeightLabel" type="Label" parent="HB/WeightVB/InputWeightButton" unique_id=280976512]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.859
+anchor_right = 1.0
+anchor_bottom = 0.72
+offset_left = -0.14001465
+offset_top = 0.5
+offset_right = -1.0
+offset_bottom = 0.019996643
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.654902)
+theme_override_font_sizes/font_size = 55
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="LastWeightEntryLabel" type="Label" parent="HB/WeightVB" unique_id=765702986]
 unique_name_in_owner = true
-custom_maximum_size = Vector2(-1, 35)
+custom_maximum_size = Vector2(-1, 55)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6542321, 0.6542321, 0.654232, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 45
 theme_override_styles/normal = ExtResource("2_7ptm5")
 text = "Last Weight: --"
 horizontal_alignment = 1
@@ -91,7 +110,8 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="HB/RepsVB" unique_id=1147441647]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
+size_flags_stretch_ratio = 0.3
+theme_override_font_sizes/font_size = 55
 theme_override_styles/normal = ExtResource("2_7ptm5")
 text = "Reps"
 horizontal_alignment = 1
@@ -110,10 +130,10 @@ metadata/_custom_type_script = "uid://bwhe0gnehq2ca"
 
 [node name="LastRepsEntryLabel" type="Label" parent="HB/RepsVB" unique_id=1287015949]
 unique_name_in_owner = true
-custom_maximum_size = Vector2(-1, 35)
+custom_maximum_size = Vector2(-1, 55)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6542321, 0.6542321, 0.654232, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 45
 theme_override_styles/normal = ExtResource("2_7ptm5")
 text = "Last Repst: --"
 horizontal_alignment = 1

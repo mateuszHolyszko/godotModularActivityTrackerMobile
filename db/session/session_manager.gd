@@ -155,6 +155,19 @@ func remove_all() -> void:
 	
 	items.clear()
 
+func get_latest_body_weight() -> float:
+	"""Get the most recent body weight from the latest session"""
+	if items.is_empty():
+		return 0.0
+	
+	# Items are already sorted by date (newest first)
+	for item in items:
+		var session: Session = item.get("session")
+		if session and session.body_weight > 0:
+			return session.body_weight
+	
+	return 0.0
+
 func get_sessions() -> Array:
 	"""Returns all session dictionaries: [{"session": Session, "file_name": String}]"""
 	return items.duplicate()
@@ -339,14 +352,14 @@ func get_volume_for_all_muscles_in_range(days: int) -> Dictionary:
 	
 	return result
 
-func create_session(program: Program, date: String, duration: int = 0, session_id: String = "") -> Session:
+func create_session(program: Program, date: String, duration: int = 0, session_id: String = "", body_weight: float = 0.0) -> Session:
 	"""Convenience method to create a new session"""
 	var session := Session.new()
-	#print("SAVED PROGRAM: ",program.program_name)
 	session.program = program
 	session.date = date
 	session.duration = duration
 	session.session_id = session_id if session_id != "" else _generate_session_id()
+	session.body_weight = body_weight  
 	return session
 
 func _generate_session_id() -> String:

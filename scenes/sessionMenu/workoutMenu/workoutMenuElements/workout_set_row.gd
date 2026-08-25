@@ -6,6 +6,7 @@ extends Control
 
 @onready var set_number_label: Label = %SetNumber
 @onready var input_weight_button: NumericInputButton = %InputWeightButton
+@onready var calisthenic_added_weight_label: Label = %CalisthenicAddedWeightLabel
 @onready var input_reps_button: NumericInputButton = %RepsWeightButton
 
 @onready var last_reps_label: Label = %LastRepsEntryLabel
@@ -29,6 +30,8 @@ var _edit_tween: Tween
 var _default_bg_color: Color
 var _preserve_edit_state: bool = false
 
+var is_bodyweight: bool
+
 func _ready():
 	_ready_called = true
 	_default_bg_color = bg_rect.color
@@ -39,8 +42,8 @@ func _ready():
 	input_reps_button.submenu_container_path = sub_menu_container.get_path()
 	
 	# Connect value changed signals
-	input_weight_button.value_changed.connect(_on_weight_changed)
-	input_reps_button.value_changed.connect(_on_reps_changed)
+	input_weight_button.value_confirmed.connect(_on_weight_changed) # Dont use value_changed signal, since in case of bw exercises we adjust weight in code, that calls value_change causing infinit recursion
+	input_reps_button.value_confirmed.connect(_on_reps_changed)
 	
 	# If we were already setup, complete the initialization now
 	if _is_setup:
@@ -56,6 +59,9 @@ func setup(p_set_data: Dictionary, p_exercise_index: int, p_set_index: int, pres
 	# Mark as setup
 	_is_setup = true
 	
+	# Check if exercise is bodyweight
+	is_bodyweight = GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise.bodyweight
+	
 	# If ready already ran, finish setup now
 	if _ready_called:
 		_finish_setup()
@@ -70,12 +76,26 @@ func _finish_setup() -> void:
 	set_number_label.text = str(set_index + 1)
 	_update_muscle_color( GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise.name )
 	
-	# Set initial values from the set data
-	if set_data and set_data.has("weight"):
-		input_weight_button.current_value = set_data.get("weight", 0.0)
-		input_weight_button.text = "--"
-		last_weight_label.text = str("Last Weight: ", set_data.get("weight", 0.0), " [kg]")
+	#print("IS_BW: ", is_bodyweight)
 	
+	if is_bodyweight == false:
+		# Set initial values from the set data
+		if set_data and set_data.has("weight"):
+			input_weight_button.current_value = set_data.get("weight", 0.0)
+			input_weight_button.text = "--"
+			last_weight_label.text = str("Last Weight: ", set_data.get("weight", 0.0))
+	else:
+		# NOTE this is historic data so when we get bodyweight we cant do CurrentWorkout.get_body_weight() we need to get via last entry.session.bodyweight
+		# get Historic BW if there is no last entry defult to current weight!
+		var historic_bw := DataManager.SessionManager.get_session_by_id(  DataManager.ExerciseEntryManager.get_latest_entry_for_exercise( GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise.name ).session_id  ).body_weight
+		print("HISTORIC BW: ", historic_bw)
+		
+		if set_data and set_data.has("weight"):
+			var added_weight = set_data.get("weight", 0.0) - historic_bw
+			input_weight_button.current_value = added_weight
+			input_weight_button.text = "--"
+			last_weight_label.text = str("W: ", added_weight, " BW: ", historic_bw)
+
 	if set_data and set_data.has("reps"):
 		input_reps_button.current_value = set_data.get("reps", 0)
 		input_reps_button.text = "--"
@@ -124,13 +144,18 @@ func _on_weight_changed(new_weight: float) -> void:
 	if exercise_index < 0 or set_index < 0:
 		return
 	
-	# Update the workout session data
 	var success = GlobalElements.CurrentWorkout.update_set(
 		exercise_index,
 		set_index,
 		new_weight,
-		int(input_reps_button.current_value)
+		int(input_reps_button.current_value),
+		is_bodyweight
 	)
+	
+	# If its bodyweight, show label that indicates how much weight is added to bodyweight
+	if is_bodyweight:
+		calisthenic_added_weight_label.show() 
+		calisthenic_added_weight_label.text = str(new_weight)
 	
 	if not success:
 		push_error("Failed to update set weight")

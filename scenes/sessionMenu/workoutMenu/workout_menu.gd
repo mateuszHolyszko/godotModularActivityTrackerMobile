@@ -25,8 +25,10 @@ func _ready():
 	# Load the workout exercise row scene once and cache it
 	_exercise_row_scene = load("res://scenes/sessionMenu/workoutMenu/workoutMenuElements/workoutExerciseRow.tscn")
 	
-	_connect_to_workout_signals()
+	# Set bodyweight 
+	GlobalElements.CurrentWorkout.set_body_weight( DataManager.MeasurementManager.get_last_measurement("weight")["value"] ) # TODO alert when weight is old, cancel if its empty
 	
+	_connect_to_workout_signals()
 	# Populate exercises from current workout
 	_populate_exercises()
 	
@@ -207,6 +209,7 @@ func _on_abort_pressed() -> void:
 func _on_abort_confirmed() -> void:
 	# Cancel the current workout
 	if GlobalElements.CurrentWorkout and GlobalElements.CurrentWorkout.is_active():
+		#GlobalElements.CurrentWorkout.print_summary()
 		GlobalElements.CurrentWorkout.cancel_workout()
 		print("Workout aborted")
 	

@@ -3,12 +3,14 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_17yhk"]
 [ext_resource type="Script" uid="uid://6k3otf5f1t7y" path="res://scenes/sessionMenu/session_menu.gd" id="2_17yhk"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_mhxne"]
-[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="4_7asqm"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="4_7ayd6"]
 [ext_resource type="Script" uid="uid://dkxm4fsb4pv2n" path="res://scenes/sessionMenu/session_history_container.gd" id="5_6vpg2"]
+[ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="5_54srq"]
 [ext_resource type="Texture2D" uid="uid://cwlrp5fy2pxst" path="res://assets/icons/next-svgrepo-com.svg" id="5_n6hhi"]
 [ext_resource type="Script" uid="uid://871al5g78btm" path="res://scenes/sessionMenu/volume_summary_panel.gd" id="5_t8o8h"]
 [ext_resource type="Script" uid="uid://cotduoob334mx" path="res://elements/barChart/bar_chart.gd" id="5_wk662"]
 [ext_resource type="Script" uid="uid://bhd3fyyuiflib" path="res://elements/volumeChart2d/volume_chart_2d.gd" id="6_wk662"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_yd07r"]
 
 [sub_resource type="Theme" id="Theme_7asqm"]
 Button/styles/normal = ExtResource("3_mhxne")
@@ -24,11 +26,15 @@ grow_end = 4.0
 thickness = 4
 vertical = true
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_1eb8a"]
-color = Color(1, 1, 1, 1)
-grow_begin = 4.0
-grow_end = 4.0
-thickness = 4
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_thh0t"]
+color = Color(0.7121294, 0.7121294, 0.71212935, 1)
+grow_begin = -20.0
+grow_end = -20.0
+thickness = 3
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_83os8"]
+color = Color(0.5729883, 0.5729883, 0.5729883, 1)
+thickness = 2
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_gbkoi"]
 color = Color(1, 1, 1, 1)
@@ -78,26 +84,49 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB/HB" unique_id=1654918513 node_paths=PackedStringArray("scroll_container")]
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=720622811]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScrollButtonTop" type="Button" parent="Background/MarginContainer/VB/HB/VB" unique_id=2095545933]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("4_7ayd6")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/VB" unique_id=1654918513 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("4_7asqm")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("5_54srq")
+scroll_top_button = NodePath("../ScrollButtonTop")
+scroll_bottom_button = NodePath("../ScrollButtonBot")
 scroll_container = NodePath("CenterContainer/ScrollContent")
 
-[node name="CenterContainer" type="CenterContainer" parent="Background/MarginContainer/VB/HB/ScrollContainer" unique_id=481184065]
+[node name="CenterContainer" type="CenterContainer" parent="Background/MarginContainer/VB/HB/VB/ScrollContainer" unique_id=481184065]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/ScrollContainer/CenterContainer" unique_id=1925865881]
+[node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/VB/ScrollContainer/CenterContainer" unique_id=1925865881]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 80
 alignment = 1
 
+[node name="ScrollButtonBot" type="Button" parent="Background/MarginContainer/VB/HB/VB" unique_id=1724129828]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("6_yd07r")
+icon_alignment = 1
+expand_icon = true
+
 [node name="VS" type="VSeparator" parent="Background/MarginContainer/VB/HB" unique_id=1173030704]
+visible = false
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_k0xpk")
@@ -108,17 +137,18 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.6
 
 [node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/SessionHistoryVB" unique_id=16745291]
+custom_minimum_size = Vector2(0, 170)
 layout_mode = 2
-theme_override_font_sizes/font_size = 80
+theme_override_font_sizes/font_size = 70
 text = "Session
 History"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/HB/SessionHistoryVB" unique_id=760030250]
+visible = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 
 [node name="SessionHistoryContainer" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/SessionHistoryVB" unique_id=827401974]
 unique_name_in_owner = true
@@ -128,17 +158,47 @@ size_flags_vertical = 3
 theme_override_constants/separation = 35
 script = ExtResource("5_6vpg2")
 
-[node name="SessionHistoryLabel_tamplate" type="Label" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer" unique_id=1001614042]
+[node name="SessionHistoryVB_template" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer" unique_id=15373862]
 unique_name_in_owner = true
 visible = false
+modulate = Color(0.7647059, 0.7647059, 0.7647059, 0.8901961)
+custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.48962224, 0.48962224, 0.48962218, 1)
+alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer/SessionHistoryVB_template" unique_id=447335244]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_thh0t")
+
+[node name="SessionNameLabel" type="Label" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer/SessionHistoryVB_template" unique_id=607496126]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.52906674, 0.5290667, 0.5290667, 1)
 theme_override_font_sizes/font_size = 50
-text = "Program Name
-5 year ago"
+text = "Program Name "
 horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 5
+
+[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer/SessionHistoryVB_template" unique_id=909458633]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/separator = SubResource("StyleBoxLine_83os8")
+
+[node name="SessionDateLabel" type="Label" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer/SessionHistoryVB_template" unique_id=1110614181]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.52906674, 0.5290667, 0.5290667, 1)
+theme_override_font_sizes/font_size = 35
+text = "5 days ago"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 5
+
+[node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer/SessionHistoryVB_template" unique_id=1436867988]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_thh0t")
 
 [node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB" unique_id=1802480797]
 custom_minimum_size = Vector2(0, 25)
