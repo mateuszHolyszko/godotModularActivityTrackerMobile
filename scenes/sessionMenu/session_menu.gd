@@ -3,6 +3,8 @@ extends Menu
 @onready var scroll_content: VBoxContainer = %ScrollContent
 @onready var start_program_button_template: Button = %StartProgramButton_tamplate
 @onready var volume_chart_2d_template: VolumeChart2D = %VolumeChart2DTemplate  
+@onready var session_history_container: SessionHistoryContainer = %SessionHistoryContainer
+@onready var volume_summary_panel: VolumeSummaryPanel = %VolumeSummaryPanel
 
 # === Sub Menu
 @onready var submenu_container: Control = %SubMenuContainer
@@ -11,8 +13,15 @@ var _workout_menu: Menu
 
 
 func _ready():
+	DataManager.ProgramManager.programs_changed.connect(_populate_program_buttons) # Update when programs get changed to reflect new changes
+	
 	is_persistent = true # Set to be persisent menu
 	_populate_program_buttons()
+	refresh()
+
+func refresh() -> void:
+	volume_summary_panel.refresh()
+	session_history_container.refresh()
 
 func _populate_program_buttons() -> void:
 	
@@ -56,6 +65,7 @@ func _on_program_button_pressed(program: Program) -> void:
 	# Register submenu
 	_workout_menu = load(WORKOUT_MENU_SCENE_PATH).instantiate()
 	add_submenu("workoutMenu", _workout_menu)
+	_workout_menu.closed.connect(refresh)
 	
 	# Create a new WorkoutSession and store it in GlobalElements
 	GlobalElements.set_current_workout( WorkoutSession.new() ) 

@@ -61,12 +61,6 @@ theme_override_constants/margin_bottom = 10
 [node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=732710800]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Background/MarginContainer/VB" unique_id=2100981082]
-layout_mode = 2
-theme_override_font_sizes/font_size = 120
-text = "Choose program"
-horizontal_alignment = 1
-
 [node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB" unique_id=89964748 node_paths=PackedStringArray("scroll_container")]
 layout_mode = 2
 size_flags_vertical = 3

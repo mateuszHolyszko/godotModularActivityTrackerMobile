@@ -1,6 +1,9 @@
 class_name ProgramManager
 extends RefCounted
 
+# Signal emitted whenever any program data changes
+signal programs_changed()
+
 const FILE_EXTENSION := ".json"
 
 # items is an array of dictionaries: {"program": Program, "file_name": String}
@@ -39,6 +42,8 @@ func load() -> void:
 	dir.list_dir_end()
 
 	items.sort_custom(func(a, b): return a["file_name"] < b["file_name"])
+	
+	programs_changed.emit()
 
 func load_program_file(file_path: String) -> Program:
 	var file := FileAccess.open(file_path, FileAccess.READ)
@@ -88,6 +93,8 @@ func add(p: Program) -> void:
 	var file_name := save_program_file(p)
 	items.append({"program": p, "file_name": file_name})
 	items.sort_custom(func(a, b): return a["file_name"] < b["file_name"])
+	
+	programs_changed.emit()
 
 func remove_at(index: int) -> void:
 	if index < 0 or index >= items.size():
@@ -103,6 +110,8 @@ func remove_at(index: int) -> void:
 				dir.remove(file_name)
 
 	items.remove_at(index)
+	
+	programs_changed.emit()
 
 func remove_program(program_name: String) -> bool:
 	if program_name.strip_edges() == "":
@@ -125,6 +134,8 @@ func remove_program(program_name: String) -> bool:
 
 			items.remove_at(i)
 			print("ProgramManager: Removed program '%s'" % program.program_name)
+			
+			programs_changed.emit()
 			return true
 
 	print("ProgramManager: Program '%s' not found" % program_name)
@@ -142,6 +153,8 @@ func remove_all() -> void:
 		dir.list_dir_end()
 
 	items.clear()
+	
+	programs_changed.emit()
 
 func rename_program(old_name: String, new_name: String) -> bool:
 	"""
@@ -200,6 +213,8 @@ func rename_program(old_name: String, new_name: String) -> bool:
 	program_item["file_name"] = new_file_name
 	
 	print("ProgramManager: Renamed program '%s' to '%s'" % [old_name_clean, new_name_clean])
+	
+	programs_changed.emit()
 	return true
 
 func add_program(name: String) -> Program:
@@ -212,6 +227,8 @@ func add_program(name: String) -> Program:
 	add(program)
 
 	print("ProgramManager: Added program '%s'" % program.program_name)
+	
+	# Signal already emitted in add()
 	return program
 
 func get_programs() -> Array:
@@ -370,6 +387,12 @@ func _get_superset_at(program: Program, superset_index: int) -> Dictionary:
 		return {}
 	return item
 
+func _emit_if_changed(result: bool) -> void:
+	"""
+	Helper to emit programs_changed if the operation was successful.
+	"""
+	if result:
+		programs_changed.emit()
 
 # --- top-level items[] editing ------------------------------------------
 
@@ -391,7 +414,9 @@ func move_program_item(program_name: String, from_index: int, to_index: int) -> 
 	program.items.remove_at(from_index)
 	program.items.insert(to_index, entry)
 
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func add_exercise_item_at(program_name: String, index: int, exercise_name: String) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -408,7 +433,9 @@ func add_exercise_item_at(program_name: String, index: int, exercise_name: Strin
 		return false
 
 	program.items.insert(index, {"type": "exercise", "exercise_name": exercise_name.strip_edges()})
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func add_superset_item_at(program_name: String, index: int, exercise_names: Array) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -427,7 +454,9 @@ func add_superset_item_at(program_name: String, index: int, exercise_names: Arra
 			names.append(str(n).strip_edges())
 
 	program.items.insert(index, {"type": "superset", "exercise_names": names})
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func replace_item_with_exercise(program_name: String, index: int, exercise_name: String) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -444,7 +473,9 @@ func replace_item_with_exercise(program_name: String, index: int, exercise_name:
 		return false
 
 	program.items[index] = {"type": "exercise", "exercise_name": exercise_name.strip_edges()}
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func replace_item_with_superset(program_name: String, index: int, exercise_names: Array) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -463,7 +494,9 @@ func replace_item_with_superset(program_name: String, index: int, exercise_names
 			names.append(str(n).strip_edges())
 
 	program.items[index] = {"type": "superset", "exercise_names": names}
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func remove_program_item_at(program_name: String, index: int) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -477,7 +510,9 @@ func remove_program_item_at(program_name: String, index: int) -> bool:
 		return false
 
 	program.items.remove_at(index)
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 
 # --- superset sub-items editing (exercise_names[] within a superset) ----
@@ -505,7 +540,9 @@ func move_superset_exercise(program_name: String, superset_index: int, from_inde
 	names.remove_at(from_index)
 	names.insert(to_index, name)
 
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func add_superset_exercise_at(program_name: String, superset_index: int, index: int, exercise_name: String) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -527,7 +564,9 @@ func add_superset_exercise_at(program_name: String, superset_index: int, index: 
 		return false
 
 	names.insert(index, exercise_name.strip_edges())
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func replace_superset_exercise_at(program_name: String, superset_index: int, index: int, exercise_name: String) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -549,7 +588,9 @@ func replace_superset_exercise_at(program_name: String, superset_index: int, ind
 		return false
 
 	names[index] = exercise_name.strip_edges()
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 
 func remove_superset_exercise_at(program_name: String, superset_index: int, index: int) -> bool:
 	var program_item := _get_program_item(program_name)
@@ -568,7 +609,9 @@ func remove_superset_exercise_at(program_name: String, superset_index: int, inde
 		return false
 
 	names.remove_at(index)
-	return _persist(program_item)
+	var result = _persist(program_item)
+	_emit_if_changed(result)
+	return result
 #endregion
 
 
@@ -600,6 +643,8 @@ func seed_example_programs() -> void:
 		_persist(_get_program_item(program_c.program_name))
 
 	print("ProgramManager: Seeded %d example programs" % items.size())
+	
+	# remove_all already emitted, but subsequent additions will emit too
 
 func print_all_programs() -> void:
 	if items.is_empty():

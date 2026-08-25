@@ -3,6 +3,18 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_dhypl"]
 [ext_resource type="Script" uid="uid://wdcfkquan8mq" path="res://elements/confirmDialog/confirmation_entry_menu.gd" id="2_mtiv7"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dhypl"]
+bg_color = Color(0.03137255, 0.13725491, 0.03137255, 0.41960785)
+border_width_left = 8
+border_width_top = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtiv7"]
+bg_color = Color(0.11764706, 0.03137255, 0.03137255, 0.41960785)
+border_width_left = 8
+border_width_top = 4
+border_color = Color(1, 1, 1, 1)
+
 [node name="ConfirmationEntryMenu" type="Control" unique_id=1119870501]
 modulate = Color(1, 1, 1, 0.9411765)
 layout_mode = 3
@@ -66,6 +78,7 @@ unique_name_in_owner = true
 custom_maximum_size = Vector2(-1, 250)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_dhypl")
 
 [node name="HSeparator2" type="HSeparator" parent="Background/VB/HB" unique_id=607568341]
 layout_mode = 2
@@ -77,6 +90,7 @@ unique_name_in_owner = true
 custom_maximum_size = Vector2(-1, 250)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtiv7")
 
 [node name="HSeparator" type="HSeparator" parent="Background/VB/HB" unique_id=334009279]
 layout_mode = 2

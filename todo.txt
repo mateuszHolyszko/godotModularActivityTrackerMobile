@@ -1,3 +1,5 @@
+SEE TODO IN elements
+
 In bodyweight sets add last recorded body-weight to weight
 Dont allow for workout to start if no bodyweight can be found (perhaps notify user if last mesurment is old)
 
@@ -17,6 +19,10 @@ Settings menu
 Make some script for elements so that when they change visibility they get tweened for visual effect (like for notyfication it would expand visually instead of appearing)
 
 For some menu (right now Init and Data{to be Exercise}) implement async loading with spinning loading indicator
+
+If session is active prohibit CRUDE operations (perhaps guard on manager level?)
+
+In volume summary make query time input
 
 ### DONE ==============================================================================
 

@@ -4,7 +4,9 @@
 [ext_resource type="Script" uid="uid://6k3otf5f1t7y" path="res://scenes/sessionMenu/session_menu.gd" id="2_17yhk"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_mhxne"]
 [ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="4_7asqm"]
+[ext_resource type="Script" uid="uid://dkxm4fsb4pv2n" path="res://scenes/sessionMenu/session_history_container.gd" id="5_6vpg2"]
 [ext_resource type="Texture2D" uid="uid://cwlrp5fy2pxst" path="res://assets/icons/next-svgrepo-com.svg" id="5_n6hhi"]
+[ext_resource type="Script" uid="uid://871al5g78btm" path="res://scenes/sessionMenu/volume_summary_panel.gd" id="5_t8o8h"]
 [ext_resource type="Script" uid="uid://cotduoob334mx" path="res://elements/barChart/bar_chart.gd" id="5_wk662"]
 [ext_resource type="Script" uid="uid://bhd3fyyuiflib" path="res://elements/volumeChart2d/volume_chart_2d.gd" id="6_wk662"]
 
@@ -15,139 +17,18 @@ Button/styles/normal = ExtResource("3_mhxne")
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_k0xpk"]
+color = Color(1, 1, 1, 1)
+grow_begin = 4.0
+grow_end = 4.0
+thickness = 4
+vertical = true
+
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_1eb8a"]
 color = Color(1, 1, 1, 1)
 grow_begin = 4.0
 grow_end = 4.0
 thickness = 4
-
-[sub_resource type="GDScript" id="GDScript_1eb8a"]
-script/source = "extends VBoxContainer
-
-@onready var session_history_label_template: Label = %SessionHistoryLabel_tamplate
-
-func _ready():
-	_update_session_history()
-
-func _update_session_history() -> void:
-	# Clear existing history items (keep the template hidden)
-	for child in get_children():
-		if child != session_history_label_template:
-			child.queue_free()
-	
-	# Get recent sessions
-	var recent_sessions = DataManager.SessionManager.get_recent_sessions(10)
-	
-	if recent_sessions.is_empty():
-		# Show \"No sessions\" message
-		var empty_label = Label.new()
-		empty_label.text = \"No sessions yet\"
-		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		empty_label.add_theme_color_override(\"font_color\", Color(0.5, 0.5, 0.5))
-		add_child(empty_label)
-		return
-	
-	# Create a label for each session
-	for item in recent_sessions:
-		var session: Session = item.get(\"session\")
-		if not session:
-			continue
-		
-		# Duplicate the template
-		var new_label = session_history_label_template.duplicate()
-		new_label.visible = true
-		
-		# Format the text: Program name on top, relative date on bottom
-		var program_name = session.program.program_name if session.program else \"Unknown Program\"
-		var relative_date = _get_relative_date(session.date)
-		
-		new_label.text = \"%s\\n%s\" % [program_name, relative_date]
-		
-		add_child(new_label)
-
-
-
-func _calculate_days_difference(year1: int, month1: int, day1: int, year2: int, month2: int, day2: int) -> int:
-	# Calculate total days for each date (approximate)
-	var days_in_month := [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	
-	# Function to calculate total days from year 0
-	var total_days1 = year1 * 365 + day1
-	var total_days2 = year2 * 365 + day2
-	
-	# Add months (simplified - using 31 days per month)
-	for i in range(month1 - 1):
-		total_days1 += 31  # Simplified
-	for i in range(month2 - 1):
-		total_days2 += 31  # Simplified
-	
-	return total_days2 - total_days1
-
-# Alternative: More accurate day calculation using Time
-func _get_days_between(year1: int, month1: int, day1: int, year2: int, month2: int, day2: int) -> int:
-	# Convert both dates to Unix timestamps
-	var datetime1 = {\"year\": year1, \"month\": month1, \"day\": day1, \"hour\": 0, \"minute\": 0, \"second\": 0}
-	var datetime2 = {\"year\": year2, \"month\": month2, \"day\": day2, \"hour\": 0, \"minute\": 0, \"second\": 0}
-	
-	var timestamp1 = Time.get_unix_time_from_datetime_dict(datetime1)
-	var timestamp2 = Time.get_unix_time_from_datetime_dict(datetime2)
-	
-	var diff_seconds = abs(timestamp2 - timestamp1)
-	var diff_days = floor(diff_seconds / 86400)  # 86400 seconds in a day
-	
-	return diff_days
-
-# Use this more accurate version instead of _calculate_days_difference
-func _get_relative_date(date_str: String) -> String:
-	# If no date, return default
-	if date_str == \"\":
-		return \"No date\"
-	
-	# Parse the date string (assuming format: YYYY-MM-DD)
-	var date_parts = date_str.split(\"-\")
-	if date_parts.size() != 3:
-		return date_str
-	
-	var year = int(date_parts[0])
-	var month = int(date_parts[1])
-	var day = int(date_parts[2])
-	
-	# Get current date
-	var current_date = Time.get_date_dict_from_system()
-	
-	# Calculate days difference using Unix timestamps
-	var session_datetime = {\"year\": year, \"month\": month, \"day\": day, \"hour\": 0, \"minute\": 0, \"second\": 0}
-	var current_datetime = {\"year\": current_date.year, \"month\": current_date.month, \"day\": current_date.day, \"hour\": 0, \"minute\": 0, \"second\": 0}
-	
-	var session_timestamp = Time.get_unix_time_from_datetime_dict(session_datetime)
-	var current_timestamp = Time.get_unix_time_from_datetime_dict(current_datetime)
-	
-	var diff_seconds = current_timestamp - session_timestamp
-	var days_diff = floor(diff_seconds / 86400)  # 86400 seconds in a day
-	
-	# Handle future dates
-	if days_diff < 0:
-		return \"in the future\"
-	
-	# Handle today
-	if days_diff == 0:
-		return \"today\"
-	
-	# Determine the appropriate time unit
-	var days_in_month := 31  # Simplified assumption
-	
-	if days_diff < 7:
-		return \"%d day%s ago\" % [days_diff, \"s\" if days_diff != 1 else \"\"]
-	elif days_diff < 31:
-		var weeks = floor(days_diff / 7)
-		return \"%d week%s ago\" % [weeks, \"s\" if weeks != 1 else \"\"]
-	elif days_diff < 365:
-		var months = floor(days_diff / days_in_month)
-		return \"%d month%s ago\" % [months, \"s\" if months != 1 else \"\"]
-	else:
-		var years = floor(days_diff / 365)
-		return \"%d year%s ago\" % [years, \"s\" if years != 1 else \"\"]
-"
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_gbkoi"]
 color = Color(1, 1, 1, 1)
@@ -156,56 +37,6 @@ grow_end = 4.0
 thickness = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1eb8a"]
-
-[sub_resource type="GDScript" id="GDScript_t8o8h"]
-script/source = "extends Panel
-
-@onready var bar_chart: BarChart = %BarChart
-@onready var no_data_container: CenterContainer = $NoDataContainer
-
-func _ready():
-	_update_chart()
-
-func _update_chart() -> void:
-	# Get volume data for all muscles in the last 31 days
-	var volume_dict = DataManager.SessionManager.get_volume_for_all_muscles_in_range(31)
-	
-	# Check if there's any data
-	var has_data := false
-	for value in volume_dict.values():
-		if value > 0:
-			has_data = true
-			break
-	
-	# Show/hide appropriate containers
-	if has_data:
-		bar_chart.visible = true
-		no_data_container.visible = false
-		bar_chart.set_data(volume_dict)
-	else:
-		bar_chart.visible = false
-		no_data_container.visible = true
-
-# Call this to refresh with different time range
-func refresh(days: int = 31) -> void:
-	var volume_dict = DataManager.SessionManager.get_volume_for_all_muscles_in_range(days)
-	
-	# Check if there's any data
-	var has_data := false
-	for value in volume_dict.values():
-		if value > 0:
-			has_data = true
-			break
-	
-	# Show/hide appropriate containers
-	if has_data:
-		bar_chart.visible = true
-		no_data_container.visible = false
-		bar_chart.set_data(volume_dict)
-	else:
-		bar_chart.visible = false
-		no_data_container.visible = true
-"
 
 [node name="SessionMenu" type="Control" unique_id=1947260131]
 layout_mode = 3
@@ -266,6 +97,11 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 80
 alignment = 1
 
+[node name="VS" type="VSeparator" parent="Background/MarginContainer/VB/HB" unique_id=1173030704]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_k0xpk")
+
 [node name="SessionHistoryVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=63093079]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -285,11 +121,12 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 
 [node name="SessionHistoryContainer" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/SessionHistoryVB" unique_id=827401974]
+unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 35
-script = SubResource("GDScript_1eb8a")
+script = ExtResource("5_6vpg2")
 
 [node name="SessionHistoryLabel_tamplate" type="Label" parent="Background/MarginContainer/VB/HB/SessionHistoryVB/SessionHistoryContainer" unique_id=1001614042]
 unique_name_in_owner = true
@@ -315,11 +152,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VolumeSummaryPanel" type="Panel" parent="Background/MarginContainer/VB" unique_id=1073512160]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 theme_override_styles/panel = SubResource("StyleBoxEmpty_1eb8a")
-script = SubResource("GDScript_t8o8h")
+script = ExtResource("5_t8o8h")
 
 [node name="BarChart" type="Control" parent="Background/MarginContainer/VB/VolumeSummaryPanel" unique_id=1612951888]
 unique_name_in_owner = true
