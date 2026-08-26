@@ -1,8 +1,14 @@
+#### IMPORTANT when bw has no history its always in not edited mode and doesnt save properly
+
 SEE TODO IN elements
 
 In init instead of carousel bellow 3d make user choose which 3d scene to display, and scroll in 360 sllowly, make possible to rotate with mouse
 
 to exercise add device type {dummbell, barbell, calisthenic, band, cabel, machine, jury-riged}, mainly for filtering
+
+to exercise add other modifiers, like incline, decline, seated, wraps, one arm, can be stacked, could be signified by icons, can reduce names lenght
+
+to exercise add half targets, like dip can hit triceps 0,5 times per set
 
 Isometric exercises
 

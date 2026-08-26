@@ -87,7 +87,19 @@ func _finish_setup() -> void:
 	else:
 		# NOTE this is historic data so when we get bodyweight we cant do CurrentWorkout.get_body_weight() we need to get via last entry.session.bodyweight
 		# get Historic BW if there is no last entry defult to current weight!
-		var historic_bw := DataManager.SessionManager.get_session_by_id(  DataManager.ExerciseEntryManager.get_latest_entry_for_exercise( GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise.name ).session_id  ).body_weight
+		var historic_bw: float
+		# Get the exercise name
+		var exercise_name = GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise.name
+		# Get the latest entry (might be null if none exists)
+		var latest_entry = DataManager.ExerciseEntryManager.get_latest_entry_for_exercise(exercise_name)
+		# Check if we got a valid entry
+		if latest_entry != null:
+			var session = DataManager.SessionManager.get_session_by_id(latest_entry.session_id)
+			if session != null:
+				historic_bw = GlobalElements.CurrentWorkout.get_body_weight()
+		else:
+			historic_bw = GlobalElements.CurrentWorkout.get_body_weight()
+		
 		print("HISTORIC BW: ", historic_bw)
 		
 		if set_data and set_data.has("weight"):
