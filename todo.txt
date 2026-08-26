@@ -2,6 +2,8 @@ SEE TODO IN elements
 
 In init instead of carousel bellow 3d make user choose which 3d scene to display, and scroll in 360 sllowly, make possible to rotate with mouse
 
+to exercise add device type {dummbell, barbell, calisthenic, band, cabel, machine, jury-riged}, mainly for filtering
+
 Isometric exercises
 
 Remove supersets from exercise entry

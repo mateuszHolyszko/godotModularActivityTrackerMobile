@@ -1,6 +1,5 @@
 extends Node
 
-# TODO later: Perhaps later get them from menu, and here just store the transform i need to apply for each??
 @onready var bodyModel: Node3D = %WholeBodyModel
 @onready var armModel: Node3D = %ArmModel
 @onready var legModel: Node3D = %LegModel
@@ -8,37 +7,110 @@ extends Node
 @onready var camera: Camera3D = %Camera3D
 
 
-@export var rotation_time: float = 4.0
-@export var pause_time: float = 1.0
+# ============================================================
+# CONFIG
+# ============================================================
+
+@export var rotation_speed: float = 0.5
+## Automatic rotation speed in radians per second.
+
+@export var swipe_sensitivity: float = 0.01
+## Rotation amount per pixel of horizontal swipe.
+
+@export var switch_fade: ColorRect
+@export var fade_duration: float = 0.25
 
 
-var models: Array[Node3D] = []
+# ============================================================
+# MODELS
+# ============================================================
 
-var current_model_index: int = 0
+var models: Dictionary = {}
+
+var current_model: Node3D = null
+var current_model_key: String = ""
+
+
+# ============================================================
+# CAMERA
+# ============================================================
+
 var current_angle: float = 0.0
-
 var starting_camera_position: Vector3
 
 
+# ============================================================
+# STATE
+# ============================================================
+
+var is_dragging: bool = false
+
+var _fade_tween: Tween
+
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
+
 func _ready() -> void:
-	models = [
-		bodyModel,
-		armModel,
-		legModel
-	]
+	# ------------------------------------------------
+	# Register models
+	# ------------------------------------------------
+
+	models = {
+		"body": bodyModel,
+		"arm": armModel,
+		"leg": legModel
+	}
+
+	# ------------------------------------------------
+	# Camera setup
+	# ------------------------------------------------
 
 	starting_camera_position = camera.position
 
-	for model in models:
+	# ------------------------------------------------
+	# Hide all models
+	# ------------------------------------------------
+
+	for model in models.values():
 		model.visible = false
 
-	models[0].visible = true
+	# ------------------------------------------------
+	# Fade setup
+	# ------------------------------------------------
 
-	_set_camera_angle(0.0)
+	if switch_fade != null:
+		switch_fade.modulate.a = 0.0
 
-	_start_rotation()
+	# ------------------------------------------------
+	# Initial model
+	# ------------------------------------------------
+
+	switch_to_display("body")
 
 
+# ============================================================
+# PROCESS
+# ============================================================
+
+func _process(delta: float) -> void:
+	# Don't automatically rotate while the user is dragging.
+	if is_dragging:
+		return
+
+	# Constant automatic rotation.
+	current_angle += rotation_speed * delta
+
+	# Prevent the angle from growing forever.
+	current_angle = fmod(current_angle, TAU)
+
+	_set_camera_angle(current_angle)
+
+
+# ============================================================
+# CAMERA ROTATION
+# ============================================================
 
 func _set_camera_angle(angle: float) -> void:
 	camera.position = starting_camera_position.rotated(
@@ -49,90 +121,91 @@ func _set_camera_angle(angle: float) -> void:
 	camera.look_at(Vector3.ZERO)
 
 
-func _start_rotation() -> void:
-	# ------------------------------------------------
-	# FRONT -> BACK
-	# ------------------------------------------------
+# ============================================================
+# DRAG INPUT
+# ============================================================
 
-	var start_angle := current_angle
-	var back_angle := current_angle + PI
-
-	var tween := create_tween()
-
-	tween.set_trans(Tween.TRANS_QUAD)
-	tween.set_ease(Tween.EASE_IN_OUT)
-
-	tween.tween_method(
-		_set_camera_angle,
-		start_angle,
-		back_angle,
-		rotation_time
-	)
-
-	# We are now at the back.
-	tween.tween_callback(func():
-		current_angle = back_angle
-		_set_camera_angle(current_angle)
-	)
-
-	# Pause at the back.
-	tween.tween_interval(pause_time)
+func set_dragging(dragging: bool) -> void:
+	is_dragging = dragging
 
 
-	# ------------------------------------------------
-	# BACK -> FRONT
-	# ------------------------------------------------
-
-	var front_angle := back_angle + PI
-
-	tween.tween_method(
-		_set_camera_angle,
-		back_angle,
-		front_angle,
-		rotation_time
-	)
-
-	# We are now back at the front.
-	tween.tween_callback(func():
-		current_angle = front_angle
-		_set_camera_angle(current_angle)
-	)
-
-	# Pause at the front.
-	tween.tween_interval(pause_time)
-
-
-	# ------------------------------------------------
-	# SWITCH MODEL
-	# ------------------------------------------------
-
-	tween.tween_callback(_switch_model)
-
-	# Normalize angle so it doesn't grow forever.
-	tween.tween_callback(func():
-		current_angle = fmod(current_angle, TAU)
-		_set_camera_angle(current_angle)
-	)
-
-	# Start the next model.
-	tween.tween_callback(_start_rotation)
-
-
-func _switch_model() -> void:
-	models[current_model_index].visible = false
-
-	current_model_index += 1
-
-	if current_model_index >= models.size():
-		current_model_index = 0
-
-	models[current_model_index].visible = true
-
-
-func set_focused_muscle(muscle_name: String):
+func apply_swipe(delta_x: float) -> void:
 	"""
-	Apply focus to all visible models.
-	Called by the main menu when focus changes.
+	Apply horizontal swipe movement to the camera.
+
+	Positive delta_x = swipe right.
+	Negative delta_x = swipe left.
 	"""
-	for model in models:
+
+	current_angle -= delta_x * swipe_sensitivity
+
+	current_angle = fmod(current_angle, TAU)
+
+	_set_camera_angle(current_angle)
+
+
+# ============================================================
+# MODEL SWITCHING
+# ============================================================
+
+func switch_to_display(model_key: String) -> void:
+	if not models.has(model_key):
+		push_warning("Unknown model key: " + model_key)
+		return
+
+	# Already displaying this model.
+	if current_model_key == model_key:
+		return
+
+	# No fade element assigned.
+	if switch_fade == null:
+		_switch_model(model_key)
+		return
+
+	# Stop previous fade.
+	if _fade_tween != null and _fade_tween.is_valid():
+		_fade_tween.kill()
+
+	_fade_tween = create_tween()
+
+	# Fade in.
+	_fade_tween.tween_property(
+		switch_fade,
+		"modulate:a",
+		1.0,
+		fade_duration
+	)
+
+	# Switch while covered.
+	_fade_tween.tween_callback(func():
+		_switch_model(model_key)
+	)
+
+	# Fade out.
+	_fade_tween.tween_property(
+		switch_fade,
+		"modulate:a",
+		0.0,
+		fade_duration
+	)
+
+
+func _switch_model(model_key: String) -> void:
+	# Hide previous model.
+	if current_model != null:
+		current_model.visible = false
+
+	# Show requested model.
+	current_model = models[model_key]
+	current_model.visible = true
+
+	current_model_key = model_key
+
+
+# ============================================================
+# MUSCLE FOCUS
+# ============================================================
+
+func set_focused_muscle(muscle_name: String) -> void:
+	for model in models.values():
 		model.set_focused_muscle(muscle_name)

@@ -18,12 +18,15 @@ func _ready() -> void:
 	#print(DataManager.ExerciseManager.get_exercise_objects_for_target("Chest")[0].name)
 	#DataManager.ExerciseManager.print_exercises()
 	### PROGRAMS
+	#DataManager.ProgramManager.remove_all()
 	#DataManager.ProgramManager.seed_example_programs()
 	#DataManager.ProgramManager.print_all_programs()
 	#DataManager.ProgramManager.print_program("Superset Circuit")
 	### EXERCISE_ENTRY
+	#DataManager.ExerciseEntryManager.remove_all()
 	#DataManager.ExerciseEntryManager.seed_example_data( DataManager.ExerciseManager )  
 	#DataManager.ExerciseEntryManager.print_entries()
 	### SESSIONS
+	#DataManager.SessionManager.remove_all()
 	#DataManager.SessionManager.print_sessions( DataManager.ExerciseEntryManager )
 	print("--- DebugDB end ---")

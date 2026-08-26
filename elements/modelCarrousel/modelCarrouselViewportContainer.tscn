@@ -38,12 +38,12 @@ spot_angle = 13.890026
 [node name="WholeBodyModel" parent="SubViewport" unique_id=580338721 instance=ExtResource("2_nomlh")]
 unique_name_in_owner = true
 transform = Transform3D(0.48, 0, 0, 0, 0.48, 0, 0, 0, 0.48, -0.6276252, -0.35197037, -0.053337097)
-visible = false
 script = ExtResource("3_nomlh")
 
 [node name="ArmModel" parent="SubViewport" unique_id=231036385 instance=ExtResource("3_02ul3")]
 unique_name_in_owner = true
 transform = Transform3D(0.865, 0, 0, 0, 0.865, 0, 0, 0, 0.865, -1.3468734, -1.0985625, -0.09032917)
+visible = false
 script = ExtResource("3_nomlh")
 
 [node name="LegModel" parent="SubViewport" unique_id=688360775 instance=ExtResource("4_hihu2")]

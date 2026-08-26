@@ -3,8 +3,12 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_3g8e0"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="2_3qgkd"]
 [ext_resource type="Script" uid="uid://d0uvj3l00tw47" path="res://scenes/initMenu/init_menu.gd" id="2_cydvj"]
+[ext_resource type="Script" uid="uid://dtsy4n6elqdxr" path="res://scripts/screen_drag_input.gd" id="4_0ucgm"]
 [ext_resource type="PackedScene" uid="uid://c44necwp10hkt" path="res://elements/modelCarrousel/modelCarrouselViewportContainer.tscn" id="4_cydvj"]
 [ext_resource type="Script" uid="uid://cmcr7pklskv7a" path="res://scenes/initMenu/volumePanel.gd" id="5_dmq71"]
+[ext_resource type="Texture2D" uid="uid://bxr8cebqano0f" path="res://assets/images/model buttons/body.png" id="6_q75qr"]
+[ext_resource type="Texture2D" uid="uid://cg3binegw4u01" path="res://assets/images/model buttons/arm.png" id="7_kb0v8"]
+[ext_resource type="Texture2D" uid="uid://dqtmgvf3l67mq" path="res://assets/images/model buttons/leg.png" id="8_0ucgm"]
 
 [sub_resource type="Theme" id="Theme_cydvj"]
 Button/styles/normal = ExtResource("2_3qgkd")
@@ -61,7 +65,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_gvlv4")
 
-[node name="MC" type="MarginContainer" parent="Background/VB/HB/DisplayPanel" unique_id=2061816444]
+[node name="MC" type="MarginContainer" parent="Background/VB/HB/DisplayPanel" unique_id=2061816444 node_paths=PackedStringArray("input_element")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,10 +76,18 @@ theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 10
+script = ExtResource("4_0ucgm")
+input_element = NodePath("ModelCarrouselViewportContainer")
 
-[node name="ModelCarrouselViewportContainer" parent="Background/VB/HB/DisplayPanel/MC" unique_id=525765370 instance=ExtResource("4_cydvj")]
+[node name="ModelCarrouselViewportContainer" parent="Background/VB/HB/DisplayPanel/MC" unique_id=525765370 node_paths=PackedStringArray("switch_fade") instance=ExtResource("4_cydvj")]
 unique_name_in_owner = true
 layout_mode = 2
+swipe_sensitivity = 0.005
+switch_fade = NodePath("../FadeRect")
+
+[node name="FadeRect" type="ColorRect" parent="Background/VB/HB/DisplayPanel/MC" unique_id=1539608605]
+layout_mode = 2
+color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 
 [node name="VolumePanel" type="Panel" parent="Background/VB/HB" unique_id=676548833]
 unique_name_in_owner = true
@@ -106,16 +118,50 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.3
-theme_override_constants/margin_left = 80
-theme_override_constants/margin_top = 80
-theme_override_constants/margin_right = 80
-theme_override_constants/margin_bottom = 80
+size_flags_stretch_ratio = 0.2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="HB" type="HBoxContainer" parent="Background/VB/SummaryPanel" unique_id=1612200668]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="BodyButton" type="Button" parent="Background/VB/SummaryPanel/HB" unique_id=1705114369]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Body"
+icon = ExtResource("6_q75qr")
+expand_icon = true
+
+[node name="ArmButton" type="Button" parent="Background/VB/SummaryPanel/HB" unique_id=1460781329]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Arm"
+icon = ExtResource("7_kb0v8")
+expand_icon = true
+
+[node name="LegButton" type="Button" parent="Background/VB/SummaryPanel/HB" unique_id=629140326]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Leg"
+icon = ExtResource("8_0ucgm")
+expand_icon = true
 
 [node name="HB2" type="HBoxContainer" parent="Background/VB" unique_id=1733887973]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
+size_flags_stretch_ratio = 0.15
 
 [node name="HS2" type="HSeparator" parent="Background/VB/HB2" unique_id=485798226]
 layout_mode = 2

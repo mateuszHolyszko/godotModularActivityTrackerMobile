@@ -47,8 +47,8 @@ func _create_exercise_row(exercise: Exercise, file_name: String = ""):
 	scroll_content.add_child(exercise_row)
 
 func _on_filter_changed(_value):
-	current_filters["target_muscle"] = input_filter_target.current_value if input_filter_target else ""
-	current_filters["bodyweight"] = input_filter_bodyweight.current_value if input_filter_bodyweight else ""
+	current_filters["target_muscle"] = input_filter_target.current_value if input_filter_target and input_filter_target.current_value != null else ""
+	current_filters["bodyweight"] = input_filter_bodyweight.current_value if input_filter_bodyweight and input_filter_bodyweight.current_value != null else ""
 	_apply_filters()
 
 func _apply_filters() -> void:
@@ -100,7 +100,7 @@ func _apply_filters() -> void:
 # Runs on a background thread. MUST NOT touch scene tree, Nodes, or
 # anything not passed in as plain data/resources here.
 func _compute_filtered_list(target_muscle: String, bodyweight_filter: String) -> Array:
-	#OS.delay_msec(500)  # 0.5 second delay to simiulate big data
+	#OS.delay_msec(500)  # 0.5 second delay
 	var has_target_filter = target_muscle != null and target_muscle != "" and target_muscle != "None" and target_muscle != "All"
 	var has_bodyweight_filter = bodyweight_filter != null and bodyweight_filter != "" and bodyweight_filter != "All"
 
