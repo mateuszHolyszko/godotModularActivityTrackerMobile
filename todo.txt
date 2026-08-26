@@ -2,13 +2,13 @@
 
 SEE TODO IN elements
 
-In init instead of carousel bellow 3d make user choose which 3d scene to display, and scroll in 360 sllowly, make possible to rotate with mouse
-
 to exercise add device type {dummbell, barbell, calisthenic, band, cabel, machine, jury-riged}, mainly for filtering
 
 to exercise add other modifiers, like incline, decline, seated, wraps, one arm, can be stacked, could be signified by icons, can reduce names lenght
 
 to exercise add half targets, like dip can hit triceps 0,5 times per set
+
+For some menu (right now Init and Data{to be Exercise}) implement async loading with spinning loading indicator
 
 Isometric exercises
 
@@ -23,8 +23,6 @@ Settings menu
 
 Make some script for elements so that when they change visibility they get tweened for visual effect (like for notes it would expand visually instead of appearing)
 
-
-
 If session is active prohibit CRUDE operations (perhaps guard on manager level?)
 
 In volume summary make query time input
@@ -37,4 +35,4 @@ In volume summary make query time input
 #Dont allow for workout to start if no bodyweight can be found (perhaps notify user if last mesurment is old) # workout_menu.gd ready func
 #Freestyle session thats uneditable (wont show up in Program menu)
 
-#?#For some menu (right now Init and Data{to be Exercise}) implement async loading with spinning loading indicator
+#In init instead of carousel bellow 3d make user choose which 3d scene to display, and scroll in 360 sllowly, make possible to rotate with mouse

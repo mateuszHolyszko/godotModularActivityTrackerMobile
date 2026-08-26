@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="6_erlbs"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="7_7v82i"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_7v82i"]
-[ext_resource type="PackedScene" uid="uid://cadbw6mkco325" path="res://elements/loadingPanel/LoadingPanel.tscn" id="9_2am60"]
 
 [sub_resource type="Theme" id="Theme_ufd3r"]
 Button/styles/normal = ExtResource("3_y63my")
@@ -195,16 +194,3 @@ offset_left = 48.0
 offset_top = -367.0
 offset_right = -77.0
 offset_bottom = 404.0
-
-[node name="LoadingPanel" parent="." unique_id=1928935499 node_paths=PackedStringArray("loading_container") instance=ExtResource("9_2am60")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 1
-prompt_text = "Loading Exercises"
-loading_container = NodePath("../Background/MarginContainer/VB/ScrollContainer")
-fade_out_duration = 1.0
