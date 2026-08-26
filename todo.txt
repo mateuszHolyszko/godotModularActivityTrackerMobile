@@ -1,10 +1,10 @@
 SEE TODO IN elements
 
+In init instead of carousel bellow 3d make user choose which 3d scene to display, and scroll in 360 sllowly, make possible to rotate with mouse
+
 Isometric exercises
 
 Remove supersets from exercise entry
-
-Freestyle session thats uneditable (wont show up in Program menu)
 
 rename data menu to exercise menu, add data menu for data manipulation (perhaps we can transfer data to pc?)
 
@@ -15,7 +15,7 @@ Settings menu
 
 Make some script for elements so that when they change visibility they get tweened for visual effect (like for notes it would expand visually instead of appearing)
 
-For some menu (right now Init and Data{to be Exercise}) implement async loading with spinning loading indicator
+
 
 If session is active prohibit CRUDE operations (perhaps guard on manager level?)
 
@@ -27,3 +27,6 @@ In volume summary make query time input
 
 #In bodyweight sets add last recorded body-weight to weight
 #Dont allow for workout to start if no bodyweight can be found (perhaps notify user if last mesurment is old) # workout_menu.gd ready func
+#Freestyle session thats uneditable (wont show up in Program menu)
+
+#?#For some menu (right now Init and Data{to be Exercise}) implement async loading with spinning loading indicator

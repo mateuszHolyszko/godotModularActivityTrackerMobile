@@ -230,13 +230,13 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 30
 alignment = 1
 
 [node name="HS3" type="HSeparator" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=324673761]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.1
 
 [node name="BackButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=2000661350]
 unique_name_in_owner = true
@@ -249,13 +249,13 @@ expand_icon = true
 
 [node name="AbortButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=930404760]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 text = "Abort"
 
 [node name="FinishButton" type="Button" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1229082666]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 text = "Finish"
 
@@ -263,6 +263,7 @@ text = "Finish"
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
 theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 
 [node name="Label" type="Label" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1039429929]
@@ -297,7 +298,7 @@ expand_icon = true
 [node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/CRUDE_HB" unique_id=1795444354]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.1
 
 [node name="SubMenuContainerExercisePicker" type="Container" parent="." unique_id=120232230]
 unique_name_in_owner = true
@@ -325,13 +326,13 @@ grow_vertical = 2
 z_index = 100
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.009000001
-anchor_top = 0.07
-anchor_right = 0.99100006
-anchor_bottom = 0.92
-offset_left = 0.27999973
-offset_right = -0.2800293
-offset_bottom = -1.0
+anchor_top = 0.047000002
+anchor_right = 1.0
+anchor_bottom = 0.94200003
+offset_top = 1.199997
+offset_bottom = 4.199951
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0)
@@ -340,10 +341,12 @@ color = Color(1, 1, 1, 0)
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 48.0
-offset_top = -367.0
-offset_right = -77.0
-offset_bottom = 404.0
+anchors_preset = -1
+anchor_left = 0.044000003
+anchor_top = 0.347
+anchor_right = 0.929
+anchor_bottom = 0.66800004
+offset_left = 0.47999573
+offset_top = 0.2000122
+offset_right = -0.32000732
+offset_bottom = 0.79992676

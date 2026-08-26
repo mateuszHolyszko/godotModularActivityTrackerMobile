@@ -6,6 +6,7 @@ const CHANGE_THRESHOLD := 0.01
 
 @onready var back_button: Button = %BackButton
 @onready var save_button: Button = %SaveButton
+@onready var confirm_dialog: ConfirmationEntryMenu = %ConfirmationEntryMenu
 
 @onready var plotter_container: MarginContainer = %PlotterContainer
 
@@ -29,6 +30,8 @@ const CHANGE_THRESHOLD := 0.01
 @onready var last_thigh_date_label: Label = %LabelDateThigh
 @onready var input_thigh: NumericInputButton = %InputThigh
 
+var _has_unsaved_changes: bool = false
+
 func _ready() -> void:
 	back_button.pressed.connect(_on_back_pressed)
 	save_button.pressed.connect(_on_save_pressed)
@@ -39,6 +42,36 @@ func _ready() -> void:
 	
 	# Color the input buttons
 	_color_input_buttons()
+	
+	# Track edits on each input so the Save button reflects unsaved state.
+	# NOTE: assumes NumericInputButton emits `value_changed`; rename if different.
+	for measurement_type in MEASUREMENT_TYPES:
+		var input := _input_for_type(measurement_type)
+		if input and input.has_signal("value_changed"):
+			input.value_changed.connect(_on_input_value_changed)
+	
+	_update_save_button_state()
+
+func _on_input_value_changed(_value: float = 0.0) -> void:
+	_mark_unsaved_changes()
+
+func _mark_unsaved_changes() -> void:
+	"""
+	Mark that there are unsaved changes and update the Save button styling.
+	"""
+	_has_unsaved_changes = true
+	_update_save_button_state()
+
+func _update_save_button_state() -> void:
+	"""
+	Update the save button appearance based on unsaved changes.
+	"""
+	if _has_unsaved_changes:
+		save_button.text = "Save Changes *"
+		save_button.modulate = Color(1, 1, 0)  # Yellow tint
+	else:
+		save_button.text = "Save Changes"
+		save_button.modulate = Color(1, 1, 1)  # Reset color
 
 func _color_input_buttons() -> void:
 	# Color each input button with its corresponding measurement color
@@ -49,8 +82,19 @@ func _color_input_buttons() -> void:
 	#_set_button_color(input_weight, "weight")
 
 func _on_back_pressed() -> void:
+	# Check for unsaved changes before closing
+	if _has_unsaved_changes:
+		confirm_dialog.request_confirmation(
+			"You have unsaved changes. Are you sure you want to leave?",
+			_on_back_confirmed
+		)
+	else:
+		_on_back_confirmed()
+
+func _on_back_confirmed() -> void:
 	#request_close() # this removes key, use close() instead
-	close()
+	#close()
+	MenuManager.switch_to("init")
 
 # Maps a measurement type to the NumericInputButton that holds its current value.
 func _input_for_type(measurement_type: String) -> NumericInputButton:
@@ -98,6 +142,8 @@ func _on_save_pressed() -> void:
 		if should_save:
 			DataManager.MeasurementManager.add_entry(measurement_type, value, timestamp)
 			saved_types.append(measurement_type)
+			# Update weight label in parent menu
+			_parent_menu._update_weight_label()
 	
 	if not saved_types.is_empty():
 		# Update the labels with the new values
@@ -112,6 +158,10 @@ func _on_save_pressed() -> void:
 	else:
 		print("No changes detected. Nothing saved.")
 		NotificationManager.info("No changes detected — nothing to save")
+	
+	# Reset unsaved changes flag and styling after a save attempt
+	_has_unsaved_changes = false
+	_update_save_button_state()
 
 func _update_last_measurement_labels() -> void:
 	# Get the last measurements for all types

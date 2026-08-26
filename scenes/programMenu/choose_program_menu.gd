@@ -39,9 +39,10 @@ func _populate_programs() -> void:
 	# Get all programs from DataManager
 	var programs: Array[Program] = DataManager.ProgramManager.get_all_program_objects()
 	
-	# Create a row for each program
+	# Create a row for each program excluding "unplanned session", because its not meant to be edited
 	for program in programs:
-		_create_program_row(program)
+		if program.program_name != "unplanned session": 
+			_create_program_row(program)
 
 func _create_program_row(program: Program) -> void:
 	if not _program_row_scene:

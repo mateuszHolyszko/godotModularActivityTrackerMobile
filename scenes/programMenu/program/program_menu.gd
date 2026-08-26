@@ -127,7 +127,7 @@ func _display_program_items() -> void:
 	insert_item_input.set_options_data(option_labels)
 	
 	if items.is_empty():
-		_add_debug_label("(no items)")
+		print("no items")
 		return
 	
 	# Debug print all items

@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://cotduoob334mx" path="res://elements/barChart/bar_chart.gd" id="5_wk662"]
 [ext_resource type="Script" uid="uid://bhd3fyyuiflib" path="res://elements/volumeChart2d/volume_chart_2d.gd" id="6_wk662"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_yd07r"]
+[ext_resource type="PackedScene" uid="uid://cadbw6mkco325" path="res://elements/loadingPanel/LoadingPanel.tscn" id="12_54srq"]
 
 [sub_resource type="Theme" id="Theme_7asqm"]
 Button/styles/normal = ExtResource("3_mhxne")
@@ -288,3 +289,11 @@ offset_bottom = 812.0
 script = ExtResource("6_wk662")
 bar_height = 25.0
 metadata/_custom_type_script = "uid://bhd3fyyuiflib"
+
+[node name="LoadingPanel" parent="." unique_id=1928935499 node_paths=PackedStringArray("loading_container") instance=ExtResource("12_54srq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchors_preset = 0
+loading_container = NodePath("../Background")
+fade_out_duration = 0.5

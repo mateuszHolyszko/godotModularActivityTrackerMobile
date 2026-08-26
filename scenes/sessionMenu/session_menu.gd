@@ -6,6 +6,8 @@ extends Menu
 @onready var session_history_container: SessionHistoryContainer = %SessionHistoryContainer
 @onready var volume_summary_panel: VolumeSummaryPanel = %VolumeSummaryPanel
 
+@onready var loading_panel: LoadingPanel = %LoadingPanel
+
 # === Sub Menu
 @onready var submenu_container: Control = %SubMenuContainer
 const WORKOUT_MENU_SCENE_PATH := "res://scenes/sessionMenu/workoutMenu/workoutMenu.tscn"

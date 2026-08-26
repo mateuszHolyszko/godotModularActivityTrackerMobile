@@ -615,30 +615,36 @@ func remove_superset_exercise_at(program_name: String, superset_index: int, inde
 #endregion
 
 
+func seed_programs() -> void:
+	remove_all()
+
+	# Program A:in build "freestyle program without exercises"
+	var program_a := add_program("unplanned session")
+	if program_a:
+		_persist(_get_program_item(program_a.program_name))
+
+
 func seed_example_programs() -> void:
 	remove_all()
 
-	# Program A: straightforward list, no supersets
-	var program_a := add_program("Full Body A")
+	var program_a := add_program("full body a")
 	if program_a:
 		program_a.add_exercise("squat")
 		program_a.add_exercise("bench press")
 		program_a.add_exercise("deadlift")
 		_persist(_get_program_item(program_a.program_name))
 
-	# Program B: opens and closes with single exercises, superset in the middle
-	var program_b := add_program("Push Pull B")
+	var program_b := add_program("push pull b")
 	if program_b:
 		program_b.add_exercise("pushup")
-		program_b.add_superset(["pullup", "bench press"])
+		program_b.add_exercise("pullup")
 		program_b.add_exercise("deadlift")
 		_persist(_get_program_item(program_b.program_name))
 
-	# Program C: two supersets back to back
-	var program_c := add_program("Superset Circuit")
+	var program_c := add_program("full body c")
 	if program_c:
-		program_c.add_superset(["pushup", "squat"])
-		program_c.add_superset(["pullup", "deadlift"])
+		program_c.add_exercise("squat")
+		program_c.add_exercise("deadlift")
 		program_c.add_exercise("bench press")
 		_persist(_get_program_item(program_c.program_name))
 

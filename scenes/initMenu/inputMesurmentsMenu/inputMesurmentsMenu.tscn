@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dfeoxq4thp148" path="res://scenes/initMenu/inputMesurmentsMenu/plotter_container.gd" id="5_vyh2y"]
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="5_w0xk6"]
 [ext_resource type="Script" uid="uid://dov8hnc8vqfff" path="res://elements/plotter2D/Plotter2D.gd" id="6_84fym"]
+[ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_rmtl0"]
 
 [sub_resource type="Theme" id="Theme_84fym"]
 Button/styles/normal = ExtResource("3_vyh2y")
@@ -528,3 +529,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ConfirmationEntryMenu" parent="." unique_id=1119870501 instance=ExtResource("8_rmtl0")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 48.0
+offset_top = -367.0
+offset_right = -77.0
+offset_bottom = 404.0

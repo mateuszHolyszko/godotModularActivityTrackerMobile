@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://cadbw6mkco325"]
+
+[ext_resource type="Script" uid="uid://2t4yqxxx1p3r" path="res://elements/loadingPanel/loading_panel.gd" id="1_cakka"]
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_k3h4e"]
+[ext_resource type="Script" uid="uid://d2aykux8rvkj1" path="res://elements/loadingPanel/loading_spinner.gd" id="3_euavt"]
+
+[node name="LoadingPanel" type="Panel" unique_id=1928935499]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_k3h4e")
+script = ExtResource("1_cakka")
+
+[node name="VB" type="VBoxContainer" parent="." unique_id=1863622770]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VS2" type="VSeparator" parent="VB" unique_id=1288102348]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PromptLabel" type="Label" parent="VB" unique_id=1210865869]
+layout_mode = 2
+theme_override_font_sizes/font_size = 110
+text = "Loading..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LoadingSpinner" type="Control" parent="VB" unique_id=2031123157]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_euavt")
+circle_radius = 7.0
+circle_spacing = 8.0
+wave_width = 8.0
+wave_speed = 40.0
+metadata/_custom_type_script = "uid://d2aykux8rvkj1"
+
+[node name="VS" type="VSeparator" parent="VB" unique_id=89873683]
+layout_mode = 2
+size_flags_vertical = 3
