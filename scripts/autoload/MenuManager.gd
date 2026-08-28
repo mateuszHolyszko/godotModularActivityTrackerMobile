@@ -159,7 +159,7 @@ func switch_to(menu_name: String) -> void:
 	var scene: PackedScene = _preloaded_scenes.get(menu_name)
 	if not scene:
 		scene = load(_menu_paths[menu_name])
-
+	
 	var new_menu: Menu = scene.instantiate()
 
 	_active_menu = new_menu

@@ -204,7 +204,7 @@ text = "========"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoadingLabelData" type="Label" parent="Background/MC/VBoxContainer/VB" unique_id=1740917725]
+[node name="LoadingLabelExercises" type="Label" parent="Background/MC/VBoxContainer/VB" unique_id=1740917725]
 unique_name_in_owner = true
 layout_mode = 2
 text = "========"

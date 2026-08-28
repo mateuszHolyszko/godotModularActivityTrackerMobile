@@ -23,7 +23,7 @@ func _ready():
 	exercise_manager = DataManager.ExerciseManager
 	
 	# Load the exercise row scene once and cache it
-	exercise_row_scene = load("res://scenes/dataMenu/exerciseRow/exerciseRow.tscn")
+	exercise_row_scene = load("res://scenes/exercisesMenu/exerciseRow/exerciseRow.tscn")
 	
 	add_exercise_button.pressed.connect(_on_add_exercise_pressed)
 	

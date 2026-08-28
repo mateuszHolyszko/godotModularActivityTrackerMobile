@@ -3,14 +3,14 @@ extends Node
 @onready var initButton: Button = %ButtonInit
 @onready var sessionButton: Button = %ButtonSession
 @onready var programButton: Button = %ButtonProgram
-@onready var dataButton: Button = %ButtonData
+@onready var exercisesButton: Button = %ButtonExercise
 
 
 func _ready() -> void:
 	initButton.pressed.connect(_on_init_pressed)
 	sessionButton.pressed.connect(_on_session_pressed)
 	programButton.pressed.connect(_on_program_pressed)
-	dataButton.pressed.connect(_on_data_pressed)
+	exercisesButton.pressed.connect(_on_exercises_pressed)
 
 	MenuManager.all_preloads_finished.connect(_on_all_preloads_finished)
 	_set_buttons_disabled(true)
@@ -31,9 +31,9 @@ func _on_program_pressed() -> void:
 	_set_active_button(programButton)
 
 
-func _on_data_pressed() -> void:
-	MenuManager.switch_to("data")
-	_set_active_button(dataButton)
+func _on_exercises_pressed() -> void:
+	MenuManager.switch_to("exercises")
+	_set_active_button(exercisesButton)
 
 
 func _on_all_preloads_finished() -> void:
@@ -41,13 +41,13 @@ func _on_all_preloads_finished() -> void:
 
 
 func _set_buttons_disabled(disabled: bool) -> void:
-	for button in [initButton, sessionButton, programButton, dataButton]:
+	for button in [initButton, sessionButton, programButton, exercisesButton]:
 		button.disabled = disabled
 
 
 func _set_active_button(active_button: Button) -> void:
 	# Get all button nodes
-	var buttons = [initButton, sessionButton, programButton, dataButton]
+	var buttons = [initButton, sessionButton, programButton, exercisesButton]
 
 	# Disable toggle mode for all buttons first
 	for button in buttons:

@@ -271,7 +271,7 @@ size_flags_stretch_ratio = 0.1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Init"
+text = "Overview"
 
 [node name="ButtonSession" type="Button" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1646751027]
 unique_name_in_owner = true
@@ -285,11 +285,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Program"
 
-[node name="ButtonData" type="Button" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1692311346]
+[node name="ButtonExercise" type="Button" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1692311346]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Data"
+text = "Exercises"
 
 [node name="HS" type="HSplitContainer" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1943922628]
 layout_mode = 2
@@ -323,8 +323,13 @@ script = SubResource("GDScript_gbkoi")
 
 [node name="GlobalLoadingPanel" parent="SubViewport/Background" unique_id=1928935499 instance=ExtResource("7_p55gq")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Screen" type="TextureRect" parent="." unique_id=79033039 node_paths=PackedStringArray("sub_viewport")]
 unique_name_in_owner = true

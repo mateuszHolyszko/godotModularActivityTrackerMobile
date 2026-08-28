@@ -10,7 +10,7 @@ Isometric exercises
 
 Remove supersets from exercise entry
 
-rename data menu to exercise menu, add data menu for data manipulation (perhaps we can transfer data to pc?)
+add data menu for data manipulation (perhaps we can transfer data to pc?)
 
 in mesurment menu and to mesurment resource and to plotter2d, add "phases" like CUT or BULK, basicly we can add start_bulk and end_bulk with dates
 than we could plot that on plotter 2d as str8 line on x axis
@@ -33,3 +33,4 @@ In volume summary make query time input
 #In init instead of carousel bellow 3d make user choose which 3d scene to display, and scroll in 360 sllowly, make possible to rotate with mouse
 #to exercise add device type {dummbell, barbell, calisthenic, band, cabel, machine, jury-riged}, mainly for filtering
 #to exercise add other modifiers, like incline, decline, seated, wraps, one arm, can be stacked, could be signified by icons, can reduce names lenght
+#rename data menu to exercise menu,
