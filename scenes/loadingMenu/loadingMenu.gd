@@ -5,6 +5,9 @@ extends Menu
 @onready var label_loading_session: Label = %LoadingLabelSession
 @onready var label_loading_program: Label = %LoadingLabelProgramMenu
 @onready var label_loading_exercises: Label = %LoadingLabelExercises
+@onready var label_loading_stats: Label = %LoadingLabelStats
+@onready var label_loading_data: Label = %LoadingLabelData
+@onready var label_loading_settings: Label = %LoadingLabelSettings
 
 @export var bar_width: int = 20
 @export var filled_char: String = "#"
@@ -21,6 +24,9 @@ func _on_open() -> void:
 		"session": label_loading_session,
 		"program": label_loading_program,
 		"exercises": label_loading_exercises,
+		"stats": label_loading_stats,
+		"data": label_loading_data,
+		"settings": label_loading_settings,
 	}
 
 	MenuManager.menu_preloaded.connect(_on_menu_preloaded)

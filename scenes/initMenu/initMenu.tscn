@@ -25,6 +25,12 @@ border_color = Color(1, 1, 1, 1)
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ucgm"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
 [node name="InitMenu" type="Control" unique_id=1621518686]
 layout_mode = 3
 anchors_preset = 15
@@ -114,25 +120,27 @@ theme_override_constants/margin_bottom = 10
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SummaryPanel" type="MarginContainer" parent="Background/VB" unique_id=1599186512]
+[node name="SummaryPanel" type="Panel" parent="Background/VB" unique_id=1302645063]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 40
+size_flags_stretch_ratio = 0.1
+theme_override_styles/panel = SubResource("StyleBoxFlat_0ucgm")
 
 [node name="HB" type="HBoxContainer" parent="Background/VB/SummaryPanel" unique_id=1612200668]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 50
+alignment = 1
 
 [node name="BodyButton" type="Button" parent="Background/VB/SummaryPanel/HB" unique_id=1705114369]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 4
 text = "Body"
 icon = ExtResource("6_q75qr")
@@ -140,9 +148,8 @@ expand_icon = true
 
 [node name="ArmButton" type="Button" parent="Background/VB/SummaryPanel/HB" unique_id=1460781329]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 4
 text = "Arm"
 icon = ExtResource("7_kb0v8")
@@ -150,13 +157,17 @@ expand_icon = true
 
 [node name="LegButton" type="Button" parent="Background/VB/SummaryPanel/HB" unique_id=629140326]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 4
 text = "Leg"
 icon = ExtResource("8_0ucgm")
 expand_icon = true
+
+[node name="VS" type="VSeparator" parent="Background/VB" unique_id=1882031107]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
 
 [node name="HB2" type="HBoxContainer" parent="Background/VB" unique_id=1733887973]
 layout_mode = 2

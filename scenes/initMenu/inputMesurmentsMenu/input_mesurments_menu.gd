@@ -185,7 +185,7 @@ func _update_last_measurement_labels() -> void:
 	# Update arms
 	if last_measurements.has("arms"):
 		var arms_data = last_measurements["arms"]
-		last_arms_label.text = "%.1f cm" % arms_data.value
+		last_arms_label.text = "%.2f cm" % arms_data.value
 		last_arms_date_label.text = _format_date(arms_data.date)
 	else:
 		last_arms_label.text = "No data"
@@ -194,7 +194,7 @@ func _update_last_measurement_labels() -> void:
 	# Update chest
 	if last_measurements.has("chest"):
 		var chest_data = last_measurements["chest"]
-		last_chest_label.text = "%.1f cm" % chest_data.value
+		last_chest_label.text = "%.2f cm" % chest_data.value
 		last_chest_date_label.text = _format_date(chest_data.date)
 	else:
 		last_chest_label.text = "No data"
@@ -203,7 +203,7 @@ func _update_last_measurement_labels() -> void:
 	# Update waist
 	if last_measurements.has("waist"):
 		var waist_data = last_measurements["waist"]
-		last_waist_label.text = "%.1f cm" % waist_data.value
+		last_waist_label.text = "%.2f cm" % waist_data.value
 		last_waist_date_label.text = _format_date(waist_data.date)
 	else:
 		last_waist_label.text = "No data"
@@ -212,7 +212,7 @@ func _update_last_measurement_labels() -> void:
 	# Update thigh
 	if last_measurements.has("thigh"):
 		var thigh_data = last_measurements["thigh"]
-		last_thigh_label.text = "%.1f cm" % thigh_data.value
+		last_thigh_label.text = "%.2f cm" % thigh_data.value
 		last_thigh_date_label.text = _format_date(thigh_data.date)
 	else:
 		last_thigh_label.text = "No data"
@@ -221,7 +221,7 @@ func _update_last_measurement_labels() -> void:
 	# Update weight
 	if last_measurements.has("weight"):
 		var weight_data = last_measurements["weight"]
-		last_weight_label.text = "%.1f kg" % weight_data.value
+		last_weight_label.text = "%.2f kg" % weight_data.value
 		last_weight_date_label.text = _format_date(weight_data.date)
 	else:
 		last_weight_label.text = "No data"

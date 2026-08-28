@@ -25,7 +25,7 @@ grow_begin = 4.0
 grow_end = 4.0
 thickness = 4
 
-[node name="DataMenu" type="Control" unique_id=948828480]
+[node name="ExerciesesMenu" type="Control" unique_id=948828480]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

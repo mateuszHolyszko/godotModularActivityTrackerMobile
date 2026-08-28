@@ -6,7 +6,9 @@
 [ext_resource type="Script" uid="uid://d3wtsock3xrpw" path="res://scenes/mainSceneHolder/topBar.gd" id="4_1vr3a"]
 [ext_resource type="Script" uid="uid://b5p1n6pt01ckg" path="res://scenes/mainSceneHolder/navBar.gd" id="4_jcns2"]
 [ext_resource type="Shader" uid="uid://63kbterrlu6a" path="res://assets/shaders/screen_shader.tres" id="6_dxo64"]
+[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="6_kyfjg"]
 [ext_resource type="Texture2D" uid="uid://dflf3ffr4svho" path="res://assets/scanlines500x500.png" id="6_p55gq"]
+[ext_resource type="Texture2D" uid="uid://dd0v7rvaeqkig" path="res://assets/icons/sliders-2-svgrepo-com.svg" id="7_j0ycl"]
 [ext_resource type="PackedScene" uid="uid://cadbw6mkco325" path="res://elements/loadingPanel/LoadingPanel.tscn" id="7_p55gq"]
 
 [sub_resource type="Theme" id="Theme_hkyjk"]
@@ -23,6 +25,18 @@ border_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_adxvw"]
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kyfjg"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="GDScript" id="GDScript_gbkoi"]
 script/source = "extends ColorRect
@@ -247,51 +261,95 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_jqn4x")
 
 [node name="NavBarPanel" type="Panel" parent="SubViewport/Background/VB" unique_id=387854482]
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-size_flags_vertical = 3
 size_flags_stretch_ratio = 0.08
 theme_override_styles/panel = SubResource("StyleBoxFlat_adxvw")
 script = ExtResource("4_jcns2")
 
-[node name="HB" type="HBoxContainer" parent="SubViewport/Background/VB/NavBarPanel" unique_id=1424930875]
+[node name="ScrollContainer" type="ScrollContainer" parent="SubViewport/Background/VB/NavBarPanel" unique_id=628394140 node_paths=PackedStringArray("scroll_container")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("6_kyfjg")
+scroll_container = NodePath("NavButtonsHB")
+
+[node name="NavButtonsHB" type="HBoxContainer" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer" unique_id=1424930875]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 40
 
-[node name="HS2" type="HSplitContainer" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=286771087]
+[node name="HS2" type="HSplitContainer" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=286771087]
 layout_mode = 2
 size_flags_horizontal = 5
 size_flags_stretch_ratio = 0.1
 
-[node name="ButtonInit" type="Button" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=689601035]
+[node name="ButtonInit" type="Button" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=689601035]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kyfjg")
 text = "Overview"
 
-[node name="ButtonSession" type="Button" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1646751027]
+[node name="ButtonSession" type="Button" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=1646751027]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kyfjg")
 text = "Session"
 
-[node name="ButtonProgram" type="Button" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1614278925]
+[node name="ButtonProgram" type="Button" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=1614278925]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kyfjg")
 text = "Program"
 
-[node name="ButtonExercise" type="Button" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1692311346]
+[node name="ButtonExercise" type="Button" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=1692311346]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kyfjg")
 text = "Exercises"
 
-[node name="HS" type="HSplitContainer" parent="SubViewport/Background/VB/NavBarPanel/HB" unique_id=1943922628]
+[node name="ButtonStats" type="Button" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=224932550]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kyfjg")
+text = "Stats"
+
+[node name="ButtonData" type="Button" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=1651047940]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kyfjg")
+text = "Data"
+
+[node name="ButtonSettings" type="Button" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=1618410073]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kyfjg")
+icon = ExtResource("7_j0ycl")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HS" type="HSplitContainer" parent="SubViewport/Background/VB/NavBarPanel/ScrollContainer/NavButtonsHB" unique_id=1943922628]
 layout_mode = 2
 size_flags_horizontal = 5
 size_flags_stretch_ratio = 0.1

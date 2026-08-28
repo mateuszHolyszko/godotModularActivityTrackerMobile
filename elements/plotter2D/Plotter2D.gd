@@ -202,9 +202,9 @@ func _draw() -> void:
 	var font: Font = load("res://assets/fonts/VT323-Regular.ttf")
 
 
-	# --------------------------------------------------------
+	# ============================================================
 	# DRAW PLOTS
-	# --------------------------------------------------------
+	# ============================================================
 
 	for plot in plot_lines:
 
@@ -215,6 +215,9 @@ func _draw() -> void:
 
 		if y_span <= 0.0:
 			y_span = 1.0
+		
+		# Calculate y_padding once per plot
+		var y_padding: float = height * y_padding_percent
 
 
 		for i in range(plot.timestamps.size() - 1):
@@ -247,9 +250,6 @@ func _draw() -> void:
 			# Y POSITION
 			# ------------------------------------------------
 
-			var y_padding: float = height * y_padding_percent
-			#var plot_height: float = height - y_padding * 2.0
-
 			var normalized_y1: float = (
 				value_1 - plot.y_min
 			) / y_span
@@ -279,12 +279,12 @@ func _draw() -> void:
 				Vector2(x1, y1),
 				Vector2(x2, y2),
 				plot.color,
-				3.0  # Increased from 2.0 to 3.0
+				3.0
 			)
 
 
 			# ------------------------------------------------
-			# VALUE LABEL
+			# VALUE LABEL - for current point
 			# ------------------------------------------------
 
 			var value_label: String = "%.2f" % value_1
@@ -303,6 +303,49 @@ func _draw() -> void:
 				value_font_size,
 				plot.color
 			)
+
+		# ------------------------------------------------
+		# VALUE LABEL - for the LAST point
+		# ------------------------------------------------
+		
+		# Get the last point
+		var last_index: int = plot.timestamps.size() - 1
+		var last_timestamp: float = plot.timestamps[last_index]
+		var last_value: float = plot.y_points[last_index]
+		
+		# Calculate position for last point
+		var last_x: float = (
+			(last_timestamp - min_time)
+			/ time_span
+			* width
+		)
+		
+		var last_normalized_y: float = (
+			last_value - plot.y_min
+		) / y_span
+		
+		var last_y: float = lerp(
+			height - y_padding,
+			y_padding,
+			last_normalized_y
+		)
+		
+		# Draw label for last point
+		var last_value_label: String = "%.2f" % last_value
+		var last_label_position := Vector2(
+			last_x + 4.0,
+			last_y - 4.0
+		)
+		
+		draw_string(
+			font,
+			last_label_position,
+			last_value_label,
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1.0,
+			value_font_size,
+			plot.color
+		)
 
 
 	# ========================================================

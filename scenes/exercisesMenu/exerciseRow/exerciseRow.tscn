@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://1yom74vswn7x" path="res://assets/fonts/VT323-Regular.ttf" id="1_td7mw"]
 [ext_resource type="Texture2D" uid="uid://cauer1tkhgdsc" path="res://assets/icons/save-svgrepo-com.svg" id="2_i4i6o"]
-[ext_resource type="Script" uid="uid://dkpqn5vfjg13w" path="res://scenes/dataMenu/exerciseRow/exercise_row.gd" id="2_krtbt"]
+[ext_resource type="Script" uid="uid://dkpqn5vfjg13w" path="res://scenes/exercisesMenu/exerciseRow/exercise_row.gd" id="2_krtbt"]
 [ext_resource type="StyleBox" uid="uid://p44gd3qdgfc8" path="res://assets/style/element_hover.tres" id="2_rioul"]
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="3_0645l"]
 [ext_resource type="StyleBox" uid="uid://bdbujjesxaywg" path="res://assets/style/element_pressed.tres" id="3_j6nt0"]
@@ -10,10 +10,10 @@
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="4_td7mw"]
 [ext_resource type="Script" uid="uid://bwhe0gnehq2ca" path="res://elements/numericSpinerInput/numeric_input_spinner.gd" id="5_0645l"]
 [ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="7_rioul"]
-[ext_resource type="Script" uid="uid://cw830v715uduv" path="res://scenes/dataMenu/exerciseRow/ModalityDisplay.gd" id="8_ch62d"]
+[ext_resource type="Script" uid="uid://cw830v715uduv" path="res://scenes/exercisesMenu/exerciseRow/ModalityDisplay.gd" id="8_ch62d"]
 [ext_resource type="Script" uid="uid://blktcts8ine3p" path="res://elements/modifiersInput/modifiers_pick_button.gd" id="8_j6nt0"]
 [ext_resource type="Texture2D" uid="uid://c8x7onjlhpaqn" path="res://assets/icons/modality/dummbell.svg" id="9_5yan4"]
-[ext_resource type="Script" uid="uid://dhyq51fgmf7un" path="res://scenes/dataMenu/exerciseRow/ModifiersDisplay.gd" id="9_8splk"]
+[ext_resource type="Script" uid="uid://dhyq51fgmf7un" path="res://scenes/exercisesMenu/exerciseRow/ModifiersDisplay.gd" id="9_8splk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yan4"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)

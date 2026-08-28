@@ -10,6 +10,10 @@ extends Control
 @export var session_menu_scene_path: String = "res://scenes/sessionMenu/sessionMenu.tscn"
 @export var program_menu_scene_path: String = "res://scenes/programMenu/chooseProgramMenu.tscn"
 @export var exercises_menu_scene_path: String = "res://scenes/exercisesMenu/exercisesMenu.tscn"
+@export var stats_menu_scene_path: String = "res://scenes/dataMenu/dataMenu.tscn"
+@export var data_menu_scene_path: String = "res://scenes/statsMenu/statsMenu.tscn"
+@export var settings_menu_scene_path: String = "res://scenes/settingsMenu/SettingsMenu.tscn"
+
 
 
 func _ready() -> void:
@@ -28,6 +32,9 @@ func _ready() -> void:
 		"session": session_menu_scene_path,
 		"program": program_menu_scene_path,
 		"exercises": exercises_menu_scene_path,
+		"stats": stats_menu_scene_path,
+		"data": data_menu_scene_path,
+		"settings": settings_menu_scene_path
 	})
 
 	MenuManager.switch_to("loading")

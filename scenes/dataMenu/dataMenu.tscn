@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dtems5towbsj4"]
+
+[ext_resource type="Script" uid="uid://bpbhdp28aspra" path="res://scripts/classes/Menu.gd" id="1_1fi4d"]
+
+[node name="DataMenu" type="Control" unique_id=757229797]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_1fi4d")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
