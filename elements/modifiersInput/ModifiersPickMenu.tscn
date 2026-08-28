@@ -1,0 +1,293 @@
+[gd_scene format=3 uid="uid://d0pnp6iva5g1x"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_q6d6m"]
+[ext_resource type="Script" uid="uid://cu7lqu0wen66k" path="res://elements/modifiersInput/modifiers_pick_menu.gd" id="2_1iou4"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_7cqrg"]
+[ext_resource type="Texture2D" uid="uid://dyoh2wraju884" path="res://assets/icons/modifiers/flat.svg" id="4_oxykp"]
+[ext_resource type="Texture2D" uid="uid://1cffrg8a5nr6" path="res://assets/icons/modifiers/decline.svg" id="5_iolwv"]
+[ext_resource type="Texture2D" uid="uid://dxv10r6wu6h4j" path="res://assets/icons/modifiers/incline.svg" id="6_3uac4"]
+[ext_resource type="Texture2D" uid="uid://bvnfg153i7rve" path="res://assets/icons/involvement/unilateral.svg" id="7_oxykp"]
+[ext_resource type="Texture2D" uid="uid://bwpxy6f86o1jb" path="res://assets/icons/involvement/bilateral.svg" id="8_iolwv"]
+[ext_resource type="Texture2D" uid="uid://dv4ptafdopnca" path="res://assets/icons/foot_placement/feet_elevated.svg" id="9_1iou4"]
+[ext_resource type="Texture2D" uid="uid://c4p1iue3ewgbo" path="res://assets/icons/foot_placement/feet_narrow.svg" id="10_khgmw"]
+[ext_resource type="Texture2D" uid="uid://yndwrb3mq171" path="res://assets/icons/foot_placement/feet_wide.svg" id="11_45rar"]
+[ext_resource type="Texture2D" uid="uid://cml1tg0mj3khn" path="res://assets/icons/backspace.svg" id="12_khgmw"]
+
+[sub_resource type="Theme" id="Theme_1iou4"]
+Button/styles/normal = ExtResource("3_7cqrg")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khgmw"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[node name="ModifiersPickMenu" type="Control" unique_id=2143718817]
+modulate = Color(1, 1, 1, 0.9411765)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_q6d6m")
+script = ExtResource("2_1iou4")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=2016738438]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_1iou4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_khgmw")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1583337551]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1398768518]
+layout_mode = 2
+
+[node name="HB_prompt" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1477550253]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+alignment = 1
+
+[node name="Prompt" type="Label" parent="Background/MarginContainer/VB/HB_prompt" unique_id=594698078]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+theme_override_font_sizes/font_size = 100
+text = "Select modifiers"
+
+[node name="VB_mods" type="VBoxContainer" parent="Background/MarginContainer/VB" unique_id=471942924]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB_Posture" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_mods" unique_id=2015371182]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_mods/HB_Posture" unique_id=484008146]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+alignment = 1
+
+[node name="VS" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_Posture/VB" unique_id=915999306]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/VB_mods/HB_Posture/VB" unique_id=1353828673]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+theme_override_font_sizes/font_size = 100
+text = "Posture:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VS2" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_Posture/VB" unique_id=1386761079]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VS3" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_Posture/VB" unique_id=460356554]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB_options" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_mods/HB_Posture" unique_id=1593550643]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="PostureFlatButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_Posture/VB_options" unique_id=435212270]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Flat"
+icon = ExtResource("4_oxykp")
+expand_icon = true
+
+[node name="PostureDeclineButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_Posture/VB_options" unique_id=456769366]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Decline"
+icon = ExtResource("5_iolwv")
+expand_icon = true
+
+[node name="PostureInclineButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_Posture/VB_options" unique_id=551410291]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Incline"
+icon = ExtResource("6_3uac4")
+expand_icon = true
+
+[node name="HB_Involvement" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_mods" unique_id=529700788]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement" unique_id=1810636963]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+alignment = 1
+
+[node name="VS" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement/VB" unique_id=1069965922]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement/VB" unique_id=1609478547]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+theme_override_font_sizes/font_size = 80
+text = "Involvement:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VS2" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement/VB" unique_id=1751471980]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VS3" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement/VB" unique_id=1243340872]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB_options" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement" unique_id=155394973]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="InvolvementUnilateralButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement/VB_options" unique_id=1890870017]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Unilateral"
+icon = ExtResource("7_oxykp")
+expand_icon = true
+
+[node name="InvolvementBilateralButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_Involvement/VB_options" unique_id=1693583022]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Bilateral"
+icon = ExtResource("8_iolwv")
+expand_icon = true
+
+[node name="HB_feet" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_mods" unique_id=1812200210]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_mods/HB_feet" unique_id=1216829054]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+alignment = 1
+
+[node name="VS" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_feet/VB" unique_id=432575909]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/VB_mods/HB_feet/VB" unique_id=2034686369]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+theme_override_font_sizes/font_size = 80
+text = "Foot placement:"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="VS2" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_feet/VB" unique_id=1983874594]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VS3" type="VSeparator" parent="Background/MarginContainer/VB/VB_mods/HB_feet/VB" unique_id=912690838]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB_options" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_mods/HB_feet" unique_id=1206613329]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="FtPlcmtElevatedButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_feet/VB_options" unique_id=248121171]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Elevated"
+icon = ExtResource("9_1iou4")
+expand_icon = true
+
+[node name="FtPlcmtNarrowButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_feet/VB_options" unique_id=497923120]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Narrow"
+icon = ExtResource("10_khgmw")
+expand_icon = true
+
+[node name="FtPlcmtWideButton" type="Button" parent="Background/MarginContainer/VB/VB_mods/HB_feet/VB_options" unique_id=1464195697]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Wide"
+icon = ExtResource("11_45rar")
+expand_icon = true
+
+[node name="HB_cancel" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1508438215]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1452377801]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 75
+icon = ExtResource("12_khgmw")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ConfirmButton" type="Button" parent="Background/MarginContainer/VB/HB_cancel" unique_id=1091236420]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 75
+text = "Confirm"
+icon_alignment = 1
+expand_icon = true

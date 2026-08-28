@@ -182,7 +182,16 @@ func remove_all() -> void:
 	
 	items.clear()
 
-func add_exercise(name: String, target_muscle: String, bodyweight: bool, rep_range_min: int, rep_range_max: int) -> bool:
+func add_exercise(
+	name: String,
+	target_muscle: String,
+	bodyweight: bool,
+	rep_range_min: int,
+	rep_range_max: int,
+	secondary_targets: Dictionary = {},
+	modality: String = "",
+	modifiers: Array[String] = []
+) -> bool:
 	# Validate inputs
 	if name.strip_edges() == "":
 		push_error("ExerciseManager.add_exercise: exercise name cannot be empty")
@@ -203,6 +212,36 @@ func add_exercise(name: String, target_muscle: String, bodyweight: bool, rep_ran
 	if rep_range_min > rep_range_max:
 		push_error("ExerciseManager.add_exercise: min reps (%d) cannot be greater than max reps (%d)" % [rep_range_min, rep_range_max])
 		return false
+
+	# Validate secondary_targets: { muscle: String -> fraction: float (0-1) }
+	for muscle in secondary_targets.keys():
+		if not (muscle is String) or not muscle in MuscleDict.MUSCLE_COLORS.keys():
+			push_error("ExerciseManager.add_exercise: invalid secondary target muscle '%s'" % str(muscle))
+			return false
+		var fraction = secondary_targets[muscle]
+		if typeof(fraction) != TYPE_FLOAT and typeof(fraction) != TYPE_INT:
+			push_error("ExerciseManager.add_exercise: secondary target fraction for '%s' must be a number" % muscle)
+			return false
+		if fraction < 0.0 or fraction > 1.0:
+			push_error("ExerciseManager.add_exercise: secondary target fraction for '%s' must be between 0 and 1" % muscle)
+			return false
+
+	# Validate modality
+	if modality != "" and not modality in Exercise.MODALITIES:
+		push_error("ExerciseManager.add_exercise: invalid modality '%s'" % modality)
+		return false
+
+	# Validate modifiers: valid values, at most one per category
+	var seen_categories := {}
+	for m in modifiers:
+		var category := Exercise.get_modifier_category(m)
+		if category == "":
+			push_error("ExerciseManager.add_exercise: invalid modifier '%s'" % m)
+			return false
+		if seen_categories.has(category):
+			push_error("ExerciseManager.add_exercise: multiple modifiers given for category '%s'" % category)
+			return false
+		seen_categories[category] = true
 	
 	# Create exercise resource
 	var exercise := Exercise.new()
@@ -211,11 +250,14 @@ func add_exercise(name: String, target_muscle: String, bodyweight: bool, rep_ran
 	exercise.target_muscle = target_muscle.strip_edges()
 	exercise.bodyweight = bodyweight
 	exercise.rep_range = Vector2i(rep_range_min, rep_range_max)
+	exercise.secondary_targets = secondary_targets.duplicate()
+	exercise.modality = modality
+	exercise.modifiers = modifiers.duplicate()
 	
 	# Save and track the exercise
 	add(exercise)
 	
-	print("ExerciseManager: Added exercise '%s' (muscle: %s, bodyweight: %s, reps: %d-%d)" % [exercise.name, exercise.target_muscle, str(exercise.bodyweight), rep_range_min, rep_range_max])
+	print("ExerciseManager: Added exercise '%s' (muscle: %s, bodyweight: %s, reps: %d-%d, modality: %s, modifiers: %s, secondary_targets: %s)" % [exercise.name, exercise.target_muscle, str(exercise.bodyweight), rep_range_min, rep_range_max, (modality if modality != "" else "-"), str(exercise.modifiers), str(exercise.secondary_targets)])
 	return true
 
 
@@ -301,6 +343,53 @@ func get_exercise_objects_for_target(target_muscle: String) -> Array[Exercise]:
 	
 	return filtered
 
+func get_exercises_for_modality(modality: String) -> Array[Exercise]:
+	"""
+	Returns Exercise objects whose modality matches (case-sensitive, must be a value from
+	Exercise.MODALITIES). Returns empty array if modality is invalid or nothing matches.
+	"""
+	if modality.strip_edges() == "" or not modality in Exercise.MODALITIES:
+		push_error("ExerciseManager.get_exercises_for_modality: invalid modality '%s'" % modality)
+		return []
+
+	var filtered: Array[Exercise] = []
+	for item in items:
+		var exercise: Exercise = item.get("exercise")
+		if exercise and exercise.modality == modality:
+			filtered.append(exercise)
+	return filtered
+
+func get_exercises_with_secondary_target(muscle: String) -> Array[Exercise]:
+	"""
+	Returns Exercise objects that list `muscle` among their secondary_targets (any fraction).
+	"""
+	if muscle.strip_edges() == "" or not muscle in MuscleDict.MUSCLE_COLORS.keys():
+		push_error("ExerciseManager.get_exercises_with_secondary_target: invalid muscle '%s'" % muscle)
+		return []
+
+	var filtered: Array[Exercise] = []
+	for item in items:
+		var exercise: Exercise = item.get("exercise")
+		if exercise and exercise.secondary_targets.has(muscle):
+			filtered.append(exercise)
+	return filtered
+
+func get_exercises_with_modifier(modifier_value: String) -> Array[Exercise]:
+	"""
+	Returns Exercise objects that have `modifier_value` set (must be a value from
+	Exercise.MODIFIER_CATEGORIES).
+	"""
+	if Exercise.get_modifier_category(modifier_value) == "":
+		push_error("ExerciseManager.get_exercises_with_modifier: invalid modifier '%s'" % modifier_value)
+		return []
+
+	var filtered: Array[Exercise] = []
+	for item in items:
+		var exercise: Exercise = item.get("exercise")
+		if exercise and modifier_value in exercise.modifiers:
+			filtered.append(exercise)
+	return filtered
+
 func get_all_exercise_objects() -> Array[Exercise]:
 	"""
 	Returns an array of all Exercise objects directly (not dictionaries).
@@ -322,9 +411,22 @@ func print_exercises() -> void:
 		return
 	print("ExerciseManager: %d exercise(s)" % items.size())
 	for item in items:
-		var e = item["exercise"]
+		var e: Exercise = item["exercise"]
 		var rr = e.rep_range
-		print("%s -> muscle:%s bodyweight:%s rep_range:%dx%d" % [e.name, e.target_muscle, str(e.bodyweight), rr.x, rr.y])
+
+		var secondary_str := "-"
+		if not e.secondary_targets.is_empty():
+			var parts: Array[String] = []
+			for muscle in e.secondary_targets.keys():
+				parts.append("%s:%.2f" % [muscle, e.secondary_targets[muscle]])
+			secondary_str = ", ".join(parts)
+
+		var modality_str := e.modality if e.modality != "" else "-"
+		var modifiers_str := ", ".join(e.modifiers) if not e.modifiers.is_empty() else "-"
+
+		print("%s -> muscle:%s bodyweight:%s rep_range:%dx%d modality:%s modifiers:[%s] secondary:[%s]" % [
+			e.name, e.target_muscle, str(e.bodyweight), rr.x, rr.y, modality_str, modifiers_str, secondary_str
+		])
 
 func seed_example_data() -> void:
 	remove_all()
@@ -338,5 +440,21 @@ func seed_example_data() -> void:
 		ex.target_muscle = muscles[i % muscles.size()]
 		ex.bodyweight = (ex.name == "pushup" or ex.name == "pullup")
 		ex.rep_range = Vector2i(5 + (i % 5), 8 + (i % 6))
+
+		# Sprinkle in the optional fields on a couple of entries so seeded data
+		# also exercises secondary_targets / modality / modifiers end-to-end.
+		match ex.name:
+			"bench press":
+				ex.modality = "barbell"
+				ex.set_modifier("incline")
+				if muscles.size() > i + 1:
+					ex.set_secondary_target(muscles[(i + 1) % muscles.size()], 0.4)
+			"squat":
+				ex.modality = "barbell"
+				ex.set_modifier("unilateral")
+			"pushup":
+				ex.modality = "calisthenics"
+				ex.set_modifier("feet_elevated")
+
 		add(ex)
 	print("ExerciseManager: Seeded %d example exercises" % items.size())

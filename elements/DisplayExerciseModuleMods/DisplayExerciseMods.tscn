@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://4qmw3ytv10dr"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_yn6s6"]
+[ext_resource type="Texture2D" uid="uid://c8x7onjlhpaqn" path="res://assets/icons/modality/dummbell.svg" id="2_5y6k5"]
+[ext_resource type="Script" uid="uid://de34587pilo0h" path="res://elements/DisplayExerciseModuleMods/display_exercise_mods.gd" id="2_rtdm2"]
+[ext_resource type="Texture2D" uid="uid://dyoh2wraju884" path="res://assets/icons/modifiers/flat.svg" id="3_f7db1"]
+[ext_resource type="Texture2D" uid="uid://bwpxy6f86o1jb" path="res://assets/icons/involvement/bilateral.svg" id="5_506kc"]
+[ext_resource type="Texture2D" uid="uid://dv4ptafdopnca" path="res://assets/icons/foot_placement/feet_elevated.svg" id="6_5pkcr"]
+
+[node name="DisplayExerciseMods" type="Control" unique_id=313581696]
+custom_maximum_size = Vector2(-1, 70)
+layout_mode = 3
+anchor_top = 0.485
+anchor_right = 1.0
+anchor_bottom = 0.51500005
+offset_top = -1164.0
+offset_bottom = 1163.9999
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yn6s6")
+script = ExtResource("2_rtdm2")
+
+[node name="Background" type="ColorRect" parent="." unique_id=2056748738]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.5882353)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="HB" type="HBoxContainer" parent="." unique_id=912458533]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ModalityContainer" type="CenterContainer" parent="HB" unique_id=1858883648]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 7
+
+[node name="ModalityTextRect" type="TextureRect" parent="HB/ModalityContainer" unique_id=1755057210]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_5y6k5")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="PostureContainer" type="CenterContainer" parent="HB" unique_id=574333459]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 7
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 5)
+
+[node name="PostureTextRect" type="TextureRect" parent="HB/PostureContainer" unique_id=1725364918]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_f7db1")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="InvolvementContainer" type="CenterContainer" parent="HB" unique_id=33068340]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 7
+
+[node name="InvolvementTextRect" type="TextureRect" parent="HB/InvolvementContainer" unique_id=606167175]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("5_506kc")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="FootPlacementContainer" type="CenterContainer" parent="HB" unique_id=1351586488]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 7
+
+[node name="FootPlacement" type="TextureRect" parent="HB/FootPlacementContainer" unique_id=577244382]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -5)
+texture = ExtResource("6_5pkcr")
+expand_mode = 2
+stretch_mode = 5

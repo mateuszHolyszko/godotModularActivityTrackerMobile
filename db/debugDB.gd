@@ -16,7 +16,7 @@ func _ready() -> void:
 	#DataManager.ExerciseManager.remove_all()
 	#DataManager.ExerciseManager.add_exercise("ring pushup","Chest",true,6,12)
 	#print(DataManager.ExerciseManager.get_exercise_objects_for_target("Chest")[0].name)
-	#DataManager.ExerciseManager.print_exercises()
+	DataManager.ExerciseManager.print_exercises()
 	### PROGRAMS
 	#DataManager.ProgramManager.remove_all()
 	#DataManager.ProgramManager.seed_example_programs()

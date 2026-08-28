@@ -9,6 +9,8 @@ extends Control
 @onready var expand_note_panel: Panel = %ExpandNotePanel # holds inputNoteButton
 @onready var input_note_button: TextInputButton = %InputNoteButton
 
+@onready var display_exercise_mods: DisplayExerciseMods = %DisplayExerciseMods
+
 @onready var set_container: VBoxContainer = %SetContainerVB
 var _exercise_set_row_scene: PackedScene = null
 
@@ -91,6 +93,9 @@ func _finish_setup() -> void:
 		
 		# Apply muscle color to the pick exercise button
 		_update_muscle_color(exercise_data.exercise.name)
+		
+		# Apply display exercise mods
+		display_exercise_mods.set_exercise( GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise )
 	
 	# Populate existing sets
 	_populate_sets()
@@ -113,6 +118,7 @@ func _update_muscle_color(exercise_name: String) -> void:
 		var stylebox = StyleBoxFlat.new()
 		stylebox.bg_color = muscle_color
 		pick_exercise_button.add_theme_stylebox_override("normal", stylebox)
+		
 
 func _on_note_changed(new_note: String) -> void:
 	if _is_initializing or not exercise_data:
@@ -152,9 +158,9 @@ func _populate_sets(reset_edit_state: bool = false, reuse_sets: bool = true) -> 
 		
 	# For some reason in scroll it doesnt expand correctly, so adjust manualy
 	if sets.size() > 0:
-		custom_minimum_size.y = 200 + sets.size() * 250
+		custom_minimum_size.y = 270 + sets.size() * 250
 	else:
-		custom_minimum_size.y = 200
+		custom_minimum_size.y = 270
 
 func _append_set_row(set_index: int) -> void:
 	if not exercise_data or set_index < 0 or set_index >= exercise_data.sets.size():
@@ -164,7 +170,7 @@ func _append_set_row(set_index: int) -> void:
 	row.sub_menu_container = sub_menu_container
 	row.setup(exercise_data.sets[set_index], exercise_index, set_index, false)
 	set_container.add_child(row)
-	custom_minimum_size.y = 200 + set_container.get_child_count() * 250
+	custom_minimum_size.y = 270 + set_container.get_child_count() * 250
 
 func _reindex_set_rows(start_index: int = 0) -> void:
 	for index in range(start_index, set_container.get_child_count()):
@@ -237,6 +243,9 @@ func _on_exercise_changed(new_exercise_name: String) -> void:
 		# Update the muscle color for the new exercise
 		_update_muscle_color(new_exercise_name)
 		GlobalElements.CurrentWorkout.exercise_updated.emit(exercise_index)
+		
+		# Update display exercise mods
+		display_exercise_mods.set_exercise( GlobalElements.CurrentWorkout.get_exercise_data_at(exercise_index).exercise )
 
 func _connect_to_workout_signals() -> void:
 	"""Connect to workout signals to update UI in real-time"""
@@ -277,7 +286,7 @@ func _on_set_removed(exercise_idx: int, set_index: int) -> void:
 		if set_index >= 0 and set_index < set_container.get_child_count():
 			set_container.get_child(set_index).free()
 			_reindex_set_rows(set_index)
-			custom_minimum_size.y = 200 + set_container.get_child_count() * 250
+			custom_minimum_size.y = 270 + set_container.get_child_count() * 250
 
 func _on_set_updated(exercise_idx: int, set_index: int) -> void:
 	"""Called when a set is updated in any exercise"""

@@ -22,6 +22,8 @@ signal item_selected(index: int, exercise_name: String)
 @onready var delete_button: Button = %DeleteButton
 @onready var target_color_indicator: ColorRect = %TargetColorIndicator
 
+@onready var display_exercise_mods: Control = %DisplayExerciseMods
+
 func _ready():
 	# Set up the item display
 	_update_display()
@@ -40,6 +42,9 @@ func _ready():
 	
 	# Update color based on exercise target
 	_update_color()
+	
+	# Initialize exercise modifiers display
+	_update_exercise_mods_display()
 
 func _update_display() -> void:
 	"""
@@ -104,6 +109,34 @@ func _update_color() -> void:
 		var muscle_color = MuscleDict.get_color(target_muscle)
 		target_color_indicator.color = muscle_color if muscle_color else Color.GRAY
 
+func _update_exercise_mods_display() -> void:
+	"""
+	Update the exercise modifiers display when exercise changes.
+	"""
+	if not display_exercise_mods:
+		return
+	
+	# If exercise_name is empty, clear the display
+	if exercise_name.is_empty():
+		display_exercise_mods.visible = false
+		return
+	
+	# Get the actual Exercise object from the manager
+	var exercise_obj = DataManager.ExerciseManager.get_exercise(exercise_name)
+	
+	if not exercise_obj:
+		display_exercise_mods.visible = false
+		return
+	
+	# Set the exercise on the display component
+	if display_exercise_mods.has_method("set_exercise"):
+		display_exercise_mods.set_exercise(exercise_obj)
+	else:
+		# If it has an 'exercise' property, set it directly
+		display_exercise_mods.exercise = exercise_obj
+	
+	display_exercise_mods.visible = true
+
 func _notify_parent_of_change() -> void:
 	"""
 	Notify the parent menu that a change was made.
@@ -140,6 +173,9 @@ func _on_item_value_changed(new_value) -> void:
 		
 		# Update the color based on new exercise
 		_update_color()
+		
+		# Update the exercise modifiers display
+		_update_exercise_mods_display()
 		
 		# Notify parent of change
 		_notify_parent_of_change()
@@ -295,6 +331,7 @@ func set_item_data(index: int, type: String, name: String, resource: Program) ->
 	
 	_update_display()
 	_update_color()
+	_update_exercise_mods_display()
 
 func update_order_label(new_index: int) -> void:
 	"""
@@ -309,6 +346,7 @@ func refresh_display() -> void:
 	"""
 	_update_display()
 	_update_color()
+	_update_exercise_mods_display()
 
 func get_item_data() -> Dictionary:
 	"""
@@ -335,6 +373,8 @@ func set_superset_data(exercise_names: Array) -> void:
 		target_color_indicator.clear_color()
 	elif target_color_indicator:
 		target_color_indicator.color = Color.WHITE
+	# Hide modifiers for supersets
+	display_exercise_mods.visible = false
 
 # Clean up when the row is removed
 func _exit_tree() -> void:

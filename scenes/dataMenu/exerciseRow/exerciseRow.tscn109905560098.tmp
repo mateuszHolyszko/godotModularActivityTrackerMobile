@@ -10,10 +10,6 @@
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="4_td7mw"]
 [ext_resource type="Script" uid="uid://bwhe0gnehq2ca" path="res://elements/numericSpinerInput/numeric_input_spinner.gd" id="5_0645l"]
 [ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="7_rioul"]
-[ext_resource type="Script" uid="uid://cw830v715uduv" path="res://scenes/dataMenu/exerciseRow/ModalityDisplay.gd" id="8_ch62d"]
-[ext_resource type="Script" uid="uid://blktcts8ine3p" path="res://elements/modifiersInput/modifiers_pick_button.gd" id="8_j6nt0"]
-[ext_resource type="Texture2D" uid="uid://c8x7onjlhpaqn" path="res://assets/icons/modality/dummbell.svg" id="9_5yan4"]
-[ext_resource type="Script" uid="uid://dhyq51fgmf7un" path="res://scenes/dataMenu/exerciseRow/ModifiersDisplay.gd" id="9_8splk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yan4"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
@@ -144,58 +140,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="ModalityPanel" type="Panel" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB" unique_id=1140341896]
-custom_minimum_size = Vector2(250, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-
-[node name="VB" type="VBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel" unique_id=1608312666]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 4
-
-[node name="Label" type="Label" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB" unique_id=1104697523]
-layout_mode = 2
-theme_override_font_sizes/font_size = 45
-text = "Modality"
-horizontal_alignment = 1
-
-[node name="InputOptionModality" type="Button" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB" unique_id=964797770]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 0)
-theme_override_colors/font_focus_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
-theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
-theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0)
-text_overrun_behavior = 5
-script = ExtResource("3_0645l")
-prompt_text = "Choose modality:"
-options = Array[String](["barbell", "dumbbell", "kettlebell", "machines", "cable", "calisthenics", "bands"])
-entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
-metadata/_custom_type_script = "uid://bfh1873cepx2g"
-
-[node name="CenterContainer" type="CenterContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB/InputOptionModality" unique_id=1074826440]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("8_ch62d")
-
-[node name="TextRectModality" type="TextureRect" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB/InputOptionModality/CenterContainer" unique_id=2092474291]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(125, 125)
-layout_mode = 2
-texture = ExtResource("9_5yan4")
-expand_mode = 3
-
 [node name="BodyweightPanel" type="Panel" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB" unique_id=688895948]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
@@ -297,66 +241,119 @@ entry_menu_scene_path = "res://elements/numericSpinerInput/NumericSpinnerEntryMe
 include_prompt_text_in_button = false
 metadata/_custom_type_script = "uid://bwhe0gnehq2ca"
 
-[node name="ModsPanel" type="Panel" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB" unique_id=185104469]
+[node name="ModalityPanel" type="Panel" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB" unique_id=1140341896]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
+size_flags_horizontal = 5
 
-[node name="VB" type="VBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel" unique_id=2103270693]
+[node name="VB" type="VBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel" unique_id=1608312666]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 4
 
-[node name="Label" type="Label" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel/VB" unique_id=192725929]
+[node name="Label" type="Label" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB" unique_id=1104697523]
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
-text = "Modificators"
+text = "Modality"
 horizontal_alignment = 1
 
-[node name="ModifierPickButton" type="Button" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel/VB" unique_id=411334494]
+[node name="InputOptionModality" type="Button" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB" unique_id=964797770]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("8_j6nt0")
-metadata/_custom_type_script = "uid://blktcts8ine3p"
+text_overrun_behavior = 5
+script = ExtResource("3_0645l")
+prompt_text = "Choose modality:"
+options = Array[String](["barbell", "dumbbell", "kettlebell", "machines", "cable", "calisthenics", "bands"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
 
-[node name="CenterContainer" type="CenterContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel/VB/ModifierPickButton" unique_id=1405515724]
-custom_maximum_size = Vector2(-1, 173)
+[node name="ModifiersPanel" type="Panel" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB" unique_id=593451347]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+
+[node name="HB" type="HBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel" unique_id=1394173777]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="HB" type="HBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel/VB/ModifierPickButton/CenterContainer" unique_id=429356093]
+[node name="VB" type="VBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB" unique_id=393228119]
 layout_mode = 2
-alignment = 1
-script = ExtResource("9_8splk")
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
 
-[node name="TextRectPosture" type="TextureRect" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel/VB/ModifierPickButton/CenterContainer/HB" unique_id=1875103302]
+[node name="Label" type="Label" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB/VB" unique_id=747065180]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "posture"
+horizontal_alignment = 1
+
+[node name="InputOptionModifiers_posture" type="Button" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB/VB" unique_id=1595816004]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture = ExtResource("9_5yan4")
-expand_mode = 5
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text_overrun_behavior = 5
+script = ExtResource("3_0645l")
+prompt_text = "Posture modifier:"
+options = Array[String](["flat", "incline", "decline"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
 
-[node name="TextRectInvolvement" type="TextureRect" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel/VB/ModifierPickButton/CenterContainer/HB" unique_id=1225112867]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 80)
+[node name="VB2" type="VBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB" unique_id=2058708205]
 layout_mode = 2
-texture = ExtResource("9_5yan4")
-expand_mode = 5
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
 
-[node name="TextRectFootPlcmt" type="TextureRect" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModsPanel/VB/ModifierPickButton/CenterContainer/HB" unique_id=1534960704]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 80)
+[node name="Label" type="Label" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB/VB2" unique_id=175282707]
 layout_mode = 2
-texture = ExtResource("9_5yan4")
-expand_mode = 5
+theme_override_font_sizes/font_size = 35
+text = "involvment"
+horizontal_alignment = 1
+
+[node name="InputOptionModifiers_involvement" type="Button" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB/VB2" unique_id=1494853115]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text_overrun_behavior = 5
+script = ExtResource("3_0645l")
+prompt_text = "Involvement modifier:"
+options = Array[String](["unilateral", "bilateral"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="VB3" type="VBoxContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB" unique_id=1496106116]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB/VB3" unique_id=1307025301]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "ft placement"
+horizontal_alignment = 1
+
+[node name="InputOptionModifiers_foot_placement" type="Button" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModifiersPanel/HB/VB3" unique_id=1411566075]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text_overrun_behavior = 5
+script = ExtResource("3_0645l")
+prompt_text = "foot placement modifier:"
+options = Array[String](["elevated", "wide", "narrow"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
 
 [node name="VB2" type="VBoxContainer" parent="Backround/HB" unique_id=174733337]
 custom_minimum_size = Vector2(150, 0)
@@ -400,6 +397,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-mouse_behavior_recursive = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_rioul")

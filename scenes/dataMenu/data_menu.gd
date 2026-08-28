@@ -4,8 +4,6 @@ extends Menu
 @onready var scroll_content: VBoxContainer = %ScrollContent
 @onready var input_container: Container = %SubMenuInputContainer
 
-@onready var loading_panel: LoadingPanel = %LoadingPanel
-
 @onready var input_filter_target: OptionInputButton = %InputOptionTarget
 @onready var input_filter_bodyweight: OptionInputButton = %InputOptionBodyweight
 

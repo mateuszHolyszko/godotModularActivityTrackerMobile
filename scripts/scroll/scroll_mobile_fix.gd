@@ -1,6 +1,6 @@
 extends ScrollContainer
 
-@export var scroll_container: VBoxContainer 
+@export var scroll_container: BoxContainer 
 
 func _ready() -> void:
 	if scroll_container:

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="4_ihnrr"]
 [ext_resource type="Script" uid="uid://djubjhnt54hfn" path="res://elements/pickExercise/pick_exercise_button.gd" id="5_rqugi"]
 [ext_resource type="Texture2D" uid="uid://dgi4iip4rn21d" path="res://assets/icons/trash-svgrepo-com.svg" id="5_wk8b3"]
+[ext_resource type="PackedScene" uid="uid://4qmw3ytv10dr" path="res://elements/DisplayExerciseModuleMods/DisplayExerciseMods.tscn" id="6_ihnrr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v2353"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
@@ -65,7 +66,7 @@ func clear_color() -> void:
 "
 
 [node name="ProgramItemRow" type="Control" unique_id=2106324]
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 3
 anchors_preset = 14
 anchor_top = 0.5
@@ -128,19 +129,32 @@ expand_icon = true
 [node name="ItemVB" type="VBoxContainer" parent="HB" unique_id=72952916]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="TargetColorIndicator" type="ColorRect" parent="HB/ItemVB" unique_id=1279232315]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.1
 script = SubResource("GDScript_rqugi")
 
-[node name="Item" type="Button" parent="HB/ItemVB" unique_id=1924804758]
+[node name="DisplayExerciseMods" parent="HB/ItemVB" unique_id=313581696 instance=ExtResource("6_ihnrr")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB" type="HBoxContainer" parent="HB/ItemVB" unique_id=1069520196]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Item" type="Button" parent="HB/ItemVB/HB" unique_id=1924804758]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 90
+autowrap_mode = 3
 script = ExtResource("5_rqugi")
 metadata/_custom_type_script = "uid://djubjhnt54hfn"
 
