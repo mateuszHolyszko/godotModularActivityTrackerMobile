@@ -180,7 +180,7 @@ options = Array[String](["barbell", "dumbbell", "kettlebell", "machines", "cable
 entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
 metadata/_custom_type_script = "uid://bfh1873cepx2g"
 
-[node name="CenterContainer" type="CenterContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB/InputOptionModality" unique_id=1074826440]
+[node name="CenterContainer" type="CenterContainer" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB/InputOptionModality" unique_id=1074826440 node_paths=PackedStringArray("input_modality")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -188,6 +188,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_ch62d")
+input_modality = NodePath("..")
 
 [node name="TextRectModality" type="TextureRect" parent="Backround/HB/VB/HB/ScrollContainer/EditFieldsHB/ModalityPanel/VB/InputOptionModality/CenterContainer" unique_id=2092474291]
 unique_name_in_owner = true

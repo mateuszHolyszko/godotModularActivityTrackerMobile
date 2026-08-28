@@ -3,10 +3,13 @@
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_06v4r"]
 [ext_resource type="Script" uid="uid://ca0paov75tehy" path="res://scenes/dataMenu/data_menu.gd" id="2_y63my"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_y63my"]
+[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="4_bl1o7"]
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="4_ufd3r"]
 [ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="6_7v82i"]
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="6_erlbs"]
+[ext_resource type="Script" uid="uid://cw830v715uduv" path="res://scenes/dataMenu/exerciseRow/ModalityDisplay.gd" id="6_lhi85"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="7_7v82i"]
+[ext_resource type="Texture2D" uid="uid://c8x7onjlhpaqn" path="res://assets/icons/modality/dummbell.svg" id="7_ooncw"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_7v82i"]
 
 [sub_resource type="Theme" id="Theme_ufd3r"]
@@ -64,11 +67,26 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.13
 
-[node name="FiltetTargetPanel" type="Panel" parent="Background/MarginContainer/VB/FilterHB" unique_id=1844073475]
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VB/FilterHB" unique_id=830790779 node_paths=PackedStringArray("scroll_container")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("4_bl1o7")
+scroll_container = NodePath("HBoxContainer")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer" unique_id=542852180]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FiltetTargetPanel" type="Panel" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer" unique_id=1844073475]
+custom_minimum_size = Vector2(350, 0)
+custom_maximum_size = Vector2(350, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/FilterHB/FiltetTargetPanel" unique_id=128690396]
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FiltetTargetPanel" unique_id=128690396]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,14 +95,14 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Background/MarginContainer/VB/FilterHB/FiltetTargetPanel/VB" unique_id=340033042]
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FiltetTargetPanel/VB" unique_id=340033042]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "Target
 Muscle"
 horizontal_alignment = 1
 
-[node name="InputOptionTarget" type="Button" parent="Background/MarginContainer/VB/FilterHB/FiltetTargetPanel/VB" unique_id=2141973491]
+[node name="InputOptionTarget" type="Button" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FiltetTargetPanel/VB" unique_id=2141973491]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -92,14 +110,16 @@ script = ExtResource("4_ufd3r")
 prompt_text = "Targeted muscle"
 options = Array[String](["Chest", "Back", "Quads", "Hamstrings", "Glutes", "Shoulders", "Biceps", "Triceps", "Abs", "Calves", "Forearms"])
 entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
+submenu_container_path = NodePath("../../../../../../../../../SubMenuInputContainer")
 metadata/_custom_type_script = "uid://bfh1873cepx2g"
 
-[node name="FiltetBodyweightPanel" type="Panel" parent="Background/MarginContainer/VB/FilterHB" unique_id=1991637300]
+[node name="FiltetBodyweightPanel" type="Panel" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer" unique_id=1991637300]
+custom_minimum_size = Vector2(350, 0)
+custom_maximum_size = Vector2(350, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/FilterHB/FiltetBodyweightPanel" unique_id=1258872145]
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FiltetBodyweightPanel" unique_id=1258872145]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -108,14 +128,14 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Background/MarginContainer/VB/FilterHB/FiltetBodyweightPanel/VB" unique_id=1194583235]
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FiltetBodyweightPanel/VB" unique_id=1194583235]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "Is 
 Bodyweight?"
 horizontal_alignment = 1
 
-[node name="InputOptionBodyweight" type="Button" parent="Background/MarginContainer/VB/FilterHB/FiltetBodyweightPanel/VB" unique_id=1707837280]
+[node name="InputOptionBodyweight" type="Button" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FiltetBodyweightPanel/VB" unique_id=1707837280]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -123,13 +143,67 @@ script = ExtResource("4_ufd3r")
 prompt_text = "Is exercise bodyweight?"
 options = Array[String](["Yes", "No"])
 entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
+submenu_container_path = NodePath("../../../../../../../../../SubMenuInputContainer")
 metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="FilterModality" type="Panel" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer" unique_id=578073767]
+custom_minimum_size = Vector2(350, 0)
+custom_maximum_size = Vector2(350, -1)
+layout_mode = 2
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FilterModality" unique_id=683613553]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FilterModality/VB" unique_id=450306353]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Modality"
+horizontal_alignment = 1
+
+[node name="InputOptionModalityFilter" type="Button" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FilterModality/VB" unique_id=951598024]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 0)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0)
+text_overrun_behavior = 5
+script = ExtResource("4_ufd3r")
+prompt_text = "Choose modality:"
+options = Array[String](["barbell", "dumbbell", "kettlebell", "machines", "cable", "calisthenics", "bands"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../../../../../../SubMenuInputContainer")
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="CenterContainer" type="CenterContainer" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FilterModality/VB/InputOptionModalityFilter" unique_id=1054635128 node_paths=PackedStringArray("input_modality")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_lhi85")
+input_modality = NodePath("..")
+
+[node name="TextRectModality" type="TextureRect" parent="Background/MarginContainer/VB/FilterHB/ScrollContainer/HBoxContainer/FilterModality/VB/InputOptionModalityFilter/CenterContainer" unique_id=137508234]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 125)
+layout_mode = 2
+texture = ExtResource("7_ooncw")
+expand_mode = 3
 
 [node name="AddExerciseButton" type="Button" parent="Background/MarginContainer/VB/FilterHB" unique_id=1137547570]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
 text = "Add
 Exercise"
 

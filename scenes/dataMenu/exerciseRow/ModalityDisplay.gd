@@ -1,6 +1,6 @@
 extends CenterContainer
 
-@onready var input_modality: OptionInputButton = %InputOptionModality
+@export var input_modality: OptionInputButton
 
 @onready var text_rect_modality: TextureRect = %TextRectModality
 

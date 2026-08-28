@@ -6,6 +6,7 @@ extends Menu
 
 @onready var input_filter_target: OptionInputButton = %InputOptionTarget
 @onready var input_filter_bodyweight: OptionInputButton = %InputOptionBodyweight
+@onready var input_filter_modality: OptionInputButton = %InputOptionModalityFilter
 
 @onready var _confirm_dialog: ConfirmationEntryMenu = %ConfirmationEntryMenu
 
@@ -14,7 +15,8 @@ var exercise_row_scene: PackedScene = null
 
 var current_filters: Dictionary = {
 	"target_muscle": "",
-	"bodyweight": ""
+	"bodyweight": "",
+	"modality": ""  # Added modality filter
 }
 
 func _ready():
@@ -30,6 +32,8 @@ func _ready():
 		input_filter_target.value_changed.connect(_on_filter_changed)
 	if input_filter_bodyweight:
 		input_filter_bodyweight.value_changed.connect(_on_filter_changed)
+	if input_filter_modality:
+		input_filter_modality.value_changed.connect(_on_filter_changed)
 	
 	# Load all existing exercises
 	_load_all_exercises()
@@ -55,11 +59,12 @@ func _create_exercise_row(exercise: Exercise, file_name: String = ""):
 
 func _on_filter_changed(value):
 	"""
-	Called when either filter changes. Updates the displayed exercises.
+	Called when any filter changes. Updates the displayed exercises.
 	"""
 	# Update current filters
 	current_filters["target_muscle"] = input_filter_target.current_value if input_filter_target else ""
 	current_filters["bodyweight"] = input_filter_bodyweight.current_value if input_filter_bodyweight else ""
+	current_filters["modality"] = input_filter_modality.current_value if input_filter_modality else ""
 	
 	# Re-apply filters
 	_apply_filters()
@@ -75,59 +80,73 @@ func _apply_filters():
 	# Clear all existing exercise rows
 	_clear_exercise_rows()
 	
-	# Get the target muscle filter value
+	# Get filter values
 	var target_muscle = current_filters.get("target_muscle", "")
 	var bodyweight_filter = current_filters.get("bodyweight", "")
+	var modality_filter = current_filters.get("modality", "")
 	
 	# Check if filters are active - handle null values properly
 	var has_target_filter = target_muscle != null and target_muscle != "" and target_muscle != "None" and target_muscle != "All"
 	var has_bodyweight_filter = bodyweight_filter != null and bodyweight_filter != "" and bodyweight_filter != "All"
+	var has_modality_filter = modality_filter != null and modality_filter != "" and modality_filter != "All"
 	
 	# Get filtered exercises
 	var exercises_to_display = []
 	
-	if has_target_filter and not has_bodyweight_filter:
-		# Filter by target muscle only
-		var filtered_items = exercise_manager.get_exercises_for_target(target_muscle)
-		for item in filtered_items:
-			var exercise = item.get("exercise")
-			var file_name = item.get("file_name", "")
-			if exercise:
-				exercises_to_display.append({"exercise": exercise, "file_name": file_name})
-				
-	elif not has_target_filter and has_bodyweight_filter:
-		# Filter by bodyweight only
-		var all_items = exercise_manager.get_exercises()
-		var is_bodyweight = bodyweight_filter == "Yes"
-		for item in all_items:
-			var exercise = item.get("exercise")
-			var file_name = item.get("file_name", "")
-			if exercise and exercise.bodyweight == is_bodyweight:
-				exercises_to_display.append({"exercise": exercise, "file_name": file_name})
-				
-	elif has_target_filter and has_bodyweight_filter:
-		# Filter by both target muscle and bodyweight
-		var filtered_items = exercise_manager.get_exercises_for_target(target_muscle)
-		var is_bodyweight = bodyweight_filter == "Yes"
-		for item in filtered_items:
-			var exercise = item.get("exercise")
-			var file_name = item.get("file_name", "")
-			if exercise and exercise.bodyweight == is_bodyweight:
-				exercises_to_display.append({"exercise": exercise, "file_name": file_name})
+	# Start with all exercises
+	var all_items = exercise_manager.get_exercises()
+	var filtered_items = []
+	
+	# Apply target muscle filter first (most efficient)
+	if has_target_filter:
+		var target_items = exercise_manager.get_exercises_for_target(target_muscle)
+		for item in target_items:
+			filtered_items.append(item)
 	else:
-		# No filters active - show all exercises
-		var all_items = exercise_manager.get_exercises()
+		# Start with all items
 		for item in all_items:
+			filtered_items.append(item)
+	
+	# Apply bodyweight filter
+	if has_bodyweight_filter:
+		var is_bodyweight = bodyweight_filter == "Yes"
+		var temp_items = []
+		for item in filtered_items:
 			var exercise = item.get("exercise")
-			var file_name = item.get("file_name", "")
-			if exercise:
-				exercises_to_display.append({"exercise": exercise, "file_name": file_name})
+			if exercise and exercise.bodyweight == is_bodyweight:
+				temp_items.append(item)
+		filtered_items = temp_items
+	
+	# Apply modality filter
+	if has_modality_filter:
+		# Use the ExerciseManager's get_exercises_for_modality method
+		# Note: This returns Exercise objects directly, not dictionaries
+		var modality_exercises = exercise_manager.get_exercises_for_modality(modality_filter)
+		
+		# Convert to dictionary format to match our item structure
+		var modality_exercise_names = {}
+		for ex in modality_exercises:
+			modality_exercise_names[ex.name] = true
+		
+		var temp_items = []
+		for item in filtered_items:
+			var exercise = item.get("exercise")
+			if exercise and modality_exercise_names.has(exercise.name):
+				temp_items.append(item)
+		filtered_items = temp_items
+	
+	# Build the final display list
+	for item in filtered_items:
+		var exercise = item.get("exercise")
+		var file_name = item.get("file_name", "")
+		if exercise:
+			exercises_to_display.append({"exercise": exercise, "file_name": file_name})
 	
 	# Create rows for each exercise
 	for exercise_data in exercises_to_display:
 		_create_exercise_row(exercise_data["exercise"], exercise_data["file_name"])
 	
-	print("Displayed %d exercise(s) with filters: target='%s', bodyweight='%s'" % [exercises_to_display.size(), target_muscle, bodyweight_filter])
+	print("Displayed %d exercise(s) with filters: target='%s', bodyweight='%s', modality='%s'" % [exercises_to_display.size(), target_muscle, bodyweight_filter, modality_filter])
 
 func _clear_exercise_rows():
 	"""
@@ -149,6 +168,7 @@ func _load_all_exercises():
 	# Reset filters to default
 	current_filters["target_muscle"] = ""
 	current_filters["bodyweight"] = ""
+	current_filters["modality"] = ""
 	
 	# Load and display all exercises
 	_apply_filters()
@@ -163,13 +183,16 @@ func _on_add_exercise_pressed():
 	# Check if any filters are active
 	var target_filter = input_filter_target.current_value if input_filter_target else ""
 	var bodyweight_filter = input_filter_bodyweight.current_value if input_filter_bodyweight else ""
+	var modality_filter = input_filter_modality.current_value if input_filter_modality else ""
 	
 	var has_target_filter = target_filter != null and target_filter != "" and target_filter != "None" and target_filter != "All"
 	var has_bodyweight_filter = bodyweight_filter != null and bodyweight_filter != "" and bodyweight_filter != "All"
+	var has_modality_filter = modality_filter != null and modality_filter != "" and modality_filter != "All"
 	
-	if has_target_filter or has_bodyweight_filter:
+	if has_target_filter or has_bodyweight_filter or has_modality_filter:
 		input_filter_target.current_value = "All"
 		input_filter_bodyweight.current_value = "All"
+		input_filter_modality.current_value = "All"
 		_on_filter_changed(null)  # Trigger filter update
 		NotificationManager.info("Filters cleared for adding exercise")
 	

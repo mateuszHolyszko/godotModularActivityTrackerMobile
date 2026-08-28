@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://b5p1n6pt01ckg" path="res://scenes/mainSceneHolder/navBar.gd" id="4_jcns2"]
 [ext_resource type="Shader" uid="uid://63kbterrlu6a" path="res://assets/shaders/screen_shader.tres" id="6_dxo64"]
 [ext_resource type="Texture2D" uid="uid://dflf3ffr4svho" path="res://assets/scanlines500x500.png" id="6_p55gq"]
+[ext_resource type="PackedScene" uid="uid://cadbw6mkco325" path="res://elements/loadingPanel/LoadingPanel.tscn" id="7_p55gq"]
 
 [sub_resource type="Theme" id="Theme_hkyjk"]
 Button/styles/normal = ExtResource("3_1vr3a")
@@ -319,6 +320,11 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
 script = SubResource("GDScript_gbkoi")
+
+[node name="GlobalLoadingPanel" parent="SubViewport/Background" unique_id=1928935499 instance=ExtResource("7_p55gq")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
 
 [node name="Screen" type="TextureRect" parent="." unique_id=79033039 node_paths=PackedStringArray("sub_viewport")]
 unique_name_in_owner = true

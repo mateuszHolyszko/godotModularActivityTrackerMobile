@@ -6,6 +6,7 @@ extends Node
 # Registered elements
 var TransitionRect: ColorRect = null
 var CurrentWorkout: WorkoutSession = null
+var LoadingScreen: LoadingPanel = null
 
 # Signal for workout changes (emits the new workout or null)
 signal CurrentWorkoutChanged(workout: WorkoutSession)
