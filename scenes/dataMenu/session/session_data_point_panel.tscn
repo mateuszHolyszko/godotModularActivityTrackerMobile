@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://mnnymybjfqf3"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_vmniw"]
+[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="2_rjgsk"]
+[ext_resource type="Script" uid="uid://dsflostag0wdo" path="res://scenes/dataMenu/session/session_data_point_panel.gd" id="2_t2jdb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmi6g"]
+bg_color = Color(1, 1, 1, 0)
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[node name="SessionDataPointPanel" type="Panel" unique_id=1413953805]
+custom_minimum_size = Vector2(500, 300)
+custom_maximum_size = Vector2(530, -1)
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme = ExtResource("1_vmniw")
+script = ExtResource("2_t2jdb")
+
+[node name="VB" type="VBoxContainer" parent="." unique_id=1373224626]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="DateLabel" type="Label" parent="VB" unique_id=1564166331]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_qmi6g")
+text = "Date: dd-mm-yyyy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VB" unique_id=1404106577]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="FieldsVB" type="VBoxContainer" parent="VB/MarginContainer" unique_id=1196589031]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="IdHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=1911653520]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/IdHB" unique_id=1991514101]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "Id:"
+
+[node name="IdLabel" type="Label" parent="VB/MarginContainer/FieldsVB/IdHB" unique_id=326387441]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "--"
+text_overrun_behavior = 4
+
+[node name="ProgramHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=602300649]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/ProgramHB" unique_id=1346495211]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "Program:"
+
+[node name="ProgramLabel" type="Label" parent="VB/MarginContainer/FieldsVB/ProgramHB" unique_id=1242671833]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "--"
+text_overrun_behavior = 6
+
+[node name="DurationHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=2092425280]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/DurationHB" unique_id=2070151676]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "Duration:"
+
+[node name="DurationLabel" type="Label" parent="VB/MarginContainer/FieldsVB/DurationHB" unique_id=273516799]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "--"
+
+[node name="BodyweightHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=713574112]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/BodyweightHB" unique_id=1207399886]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "Bodyweight:"
+
+[node name="BodyweightLabel" type="Label" parent="VB/MarginContainer/FieldsVB/BodyweightHB" unique_id=581676457]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "--"
+
+[node name="OptionInputButton" type="Button" parent="." unique_id=331612741]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_rjgsk")
+options = Array[String](["Export", "Delete"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"

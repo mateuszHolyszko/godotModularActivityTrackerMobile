@@ -248,6 +248,88 @@ func get_latest_sets_for_exercise(exercise_name: String) -> Array:
 	
 	return latest_entry.sets.duplicate()  # Return a copy to avoid modification
 
+func get_entries_in_range(start_timestamp: int = 0, end_timestamp: int = 0) -> Array:
+	"""Get all exercise entries within a timestamp range based on their session dates.
+	
+	Args:
+		start_timestamp: Unix timestamp for the start of the range (inclusive)
+		end_timestamp: Unix timestamp for the end of the range (inclusive)
+	
+	Returns:
+		Array of entry dictionaries: [{"entry": ExerciseEntry, "file_name": String}]
+	
+	Note:
+		If start_timestamp is 0, uses the earliest entry.
+		If end_timestamp is 0, uses the current time.
+	"""
+	var result: Array = []
+	
+	# If end_timestamp is 0, use current system time
+	var end_time := end_timestamp
+	if end_time == 0:
+		end_time = Time.get_unix_time_from_system()
+	
+	# If start_timestamp is 0, we'll include all entries up to end_time
+	var include_all_from_start := (start_timestamp == 0)
+	
+	for item in items:
+		var entry: ExerciseEntry = item.get("entry")
+		if not entry:
+			continue
+		
+		# Get the session for this entry
+		var session = DataManager.SessionManager.get_session_by_id(entry.session_id) if entry.session_id != "" else null
+		if not session:
+			# Entries without a valid session are excluded from range queries
+			continue
+		
+		# Convert session date string to timestamp
+		var session_timestamp := _date_to_timestamp(session.date)
+		if session_timestamp == -1:
+			# Invalid date format, skip this entry
+			continue
+		
+		# Check if entry's session is within range
+		var within_range := false
+		if include_all_from_start:
+			within_range = session_timestamp <= end_time
+		else:
+			within_range = session_timestamp >= start_timestamp and session_timestamp <= end_time
+		
+		if within_range:
+			result.append(item)
+	
+	return result
+
+func _date_to_timestamp(date_str: String) -> int:
+	"""Convert date string (YYYY-MM-DD) to Unix timestamp.
+	
+	Returns:
+		int: Unix timestamp or -1 if conversion fails
+	"""
+	if date_str == "":
+		return -1
+	
+	var date_parts = date_str.split("-")
+	if date_parts.size() != 3:
+		return -1
+	
+	var datetime_dict = {
+		"year": int(date_parts[0]),
+		"month": int(date_parts[1]),
+		"day": int(date_parts[2]),
+		"hour": 0,
+		"minute": 0,
+		"second": 0
+	}
+	
+	# Validate the date values
+	if datetime_dict.year == 0 or datetime_dict.month == 0 or datetime_dict.day == 0:
+		return -1
+	
+	return Time.get_unix_time_from_datetime_dict(datetime_dict)
+
+
 func create_entry(exercise: Exercise, session_id: String = "", sets_data: Array = []) -> ExerciseEntry:
 	"""Convenience method to create a new exercise entry"""
 	var entry := ExerciseEntry.new()

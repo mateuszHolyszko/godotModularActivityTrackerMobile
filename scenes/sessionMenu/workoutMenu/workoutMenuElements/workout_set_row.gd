@@ -148,7 +148,7 @@ func _on_weight_changed(new_weight: float) -> void:
 	
 	is_edited = true
 	_update_edit_visual()
-	_update_rep_range_indicators_visual()
+	#_update_rep_range_indicators_visual()
 		
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
 		return

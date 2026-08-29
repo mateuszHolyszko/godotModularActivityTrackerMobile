@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://dobxk4jagnrdl"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_0plcm"]
+[ext_resource type="Script" uid="uid://be1tvnimfrtq6" path="res://scenes/dataMenu/mesurment/mesurement_data_point_panel.gd" id="2_ga0lq"]
+[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="2_t07va"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eb8a"]
+bg_color = Color(1, 1, 1, 0)
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[node name="MesurementDataPointPanel" type="Panel" unique_id=572743956]
+custom_minimum_size = Vector2(500, 300)
+custom_maximum_size = Vector2(530, -1)
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme = ExtResource("1_0plcm")
+script = ExtResource("2_ga0lq")
+
+[node name="VB" type="VBoxContainer" parent="." unique_id=431653172]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="DateLabel" type="Label" parent="VB" unique_id=953547833]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_1eb8a")
+text = "Date: dd-mm-yyyy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VB" unique_id=1339353380]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="FieldsVB" type="VBoxContainer" parent="VB/MarginContainer" unique_id=1948610385]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TypeHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=1807954376]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/TypeHB" unique_id=2115133644]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Type:"
+
+[node name="TypeLabel" type="Label" parent="VB/MarginContainer/FieldsVB/TypeHB" unique_id=1369362621]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "--"
+
+[node name="ValueHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=1513751802]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/ValueHB" unique_id=1544023348]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Value:"
+
+[node name="ValueLabel" type="Label" parent="VB/MarginContainer/FieldsVB/ValueHB" unique_id=371528663]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "--"
+
+[node name="OptionInputButton" type="Button" parent="." unique_id=149146102]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_t07va")
+options = Array[String](["Export", "Delete"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"

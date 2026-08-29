@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dfeoxq4thp148" path="res://scenes/initMenu/inputMesurmentsMenu/plotter_container.gd" id="5_vyh2y"]
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="5_w0xk6"]
 [ext_resource type="Script" uid="uid://dov8hnc8vqfff" path="res://elements/plotter2D/Plotter2D.gd" id="6_84fym"]
+[ext_resource type="Script" uid="uid://bcrau8ia00vpx" path="res://elements/dateInput/date_input_button.gd" id="7_hse1n"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_rmtl0"]
 
 [sub_resource type="Theme" id="Theme_84fym"]
@@ -63,6 +64,87 @@ alignment = 1
 [node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB" unique_id=927176363]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="PlotterMesurmentsVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB" unique_id=618060729]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
+theme_override_constants/separation = 20
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB" unique_id=70188126]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB" unique_id=2009476013]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="PlotterContainer" type="MarginContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB" unique_id=817198908]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 50
+script = ExtResource("5_vyh2y")
+
+[node name="Plotter2D" type="Control" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB/PlotterContainer" unique_id=467129356]
+layout_mode = 2
+theme = ExtResource("1_euaek")
+script = ExtResource("6_84fym")
+y_padding_percent = 0.05
+font_size = 40
+metadata/_custom_type_script = "uid://dov8hnc8vqfff"
+
+[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB" unique_id=447594685]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="QueryButtonsHB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB" unique_id=2086852726]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.07
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="InputDate" type="Button" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/QueryButtonsHB" unique_id=1512403605]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 50
+text = "Weeks"
+script = ExtResource("7_hse1n")
+prompt_text = "Query Date"
+entry_menu_scene_path = "res://elements/dateInput/DateInputMenu.tscn"
+submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
+initial_date = Vector3i(0, 1, 0)
+metadata/_custom_type_script = "uid://bcrau8ia00vpx"
+
+[node name="InputMeasurement" type="Button" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/QueryButtonsHB" unique_id=128252817]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 60
+text = "Mesurment"
+script = ExtResource("5_w0xk6")
+prompt_text = "Mesurment"
+options = Array[String](["weight", "arms", "chest", "waist", "thigh"])
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
+metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="VS" type="HSeparator" parent="Background/MarginContainer/VB/VB" unique_id=654333545]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 
 [node name="BodyMesurmentsVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB" unique_id=1303635444]
 layout_mode = 2
@@ -135,12 +217,6 @@ max_value = 160.0
 entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
 submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
 metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
-
-[node name="VS" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=1283427253]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
-theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 
 [node name="ArmsInputVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=771322178]
 layout_mode = 2
@@ -441,84 +517,6 @@ text = "Save"
 [node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/CrudeHB" unique_id=1538162898]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="VS" type="HSeparator" parent="Background/MarginContainer/VB/VB" unique_id=654333545]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
-theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
-
-[node name="PlotterMesurmentsVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB" unique_id=618060729]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.6
-theme_override_constants/separation = 20
-
-[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB" unique_id=70188126]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.4
-
-[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB" unique_id=2009476013]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-
-[node name="PlotterContainer" type="MarginContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB" unique_id=817198908]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 50
-script = ExtResource("5_vyh2y")
-
-[node name="Plotter2D" type="Control" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB/PlotterContainer" unique_id=467129356]
-layout_mode = 2
-theme = ExtResource("1_euaek")
-script = ExtResource("6_84fym")
-y_padding_percent = 0.05
-font_size = 40
-metadata/_custom_type_script = "uid://dov8hnc8vqfff"
-
-[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/HB" unique_id=447594685]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-
-[node name="QueryButtonsHB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB" unique_id=2086852726]
-layout_mode = 2
-theme_override_constants/separation = 100
-alignment = 1
-
-[node name="InputWeeks" type="Button" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/QueryButtonsHB" unique_id=784545080]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(350, 80)
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Weeks"
-script = ExtResource("4_54fvo")
-prompt_text = "Weeks"
-suffix_text = " "
-is_int = true
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
-
-[node name="InputMeasurement" type="Button" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB/QueryButtonsHB" unique_id=128252817]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(350, 80)
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Mesurment"
-script = ExtResource("5_w0xk6")
-prompt_text = "Mesurment"
-options = Array[String](["weight", "arms", "chest", "waist", "thigh"])
-entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
-metadata/_custom_type_script = "uid://bfh1873cepx2g"
 
 [node name="SubMenuInputContainer" type="Container" parent="." unique_id=656047987]
 unique_name_in_owner = true

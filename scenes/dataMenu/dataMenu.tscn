@@ -1,9 +1,241 @@
 [gd_scene format=3 uid="uid://dtems5towbsj4"]
 
-[ext_resource type="Script" uid="uid://bpbhdp28aspra" path="res://scripts/classes/Menu.gd" id="1_1fi4d"]
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_y63my"]
+[ext_resource type="Script" uid="uid://c1q61rnghqotv" path="res://scenes/dataMenu/data_menu.gd" id="2_ufd3r"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_aix2r"]
+[ext_resource type="Texture2D" uid="uid://bi8cwmt7ofg5c" path="res://assets/images/logo.png" id="4_aix2r"]
+[ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="4_erlbs"]
+[ext_resource type="Script" uid="uid://bcrau8ia00vpx" path="res://elements/dateInput/date_input_button.gd" id="4_ufd3r"]
+
+[sub_resource type="Theme" id="Theme_7v82i"]
+Button/styles/normal = ExtResource("3_aix2r")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2am60"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erlbs"]
+bg_color = Color(0.11764706, 0.11764706, 0.11764706, 0.75686276)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aix2r"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_color = Color(1, 1, 1, 1)
 
 [node name="DataMenu" type="Control" unique_id=757229797]
 layout_mode = 3
-anchors_preset = 0
-script = ExtResource("1_1fi4d")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_y63my")
+script = ExtResource("2_ufd3r")
 metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=84021216]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_7v82i")
+theme_override_styles/panel = SubResource("StyleBoxFlat_2am60")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=282156369]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=264328864]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="ImportDataButton" type="Button" parent="Background/MarginContainer/VB" unique_id=1402656783]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+text = "Import data"
+
+[node name="VB_Data" type="VBoxContainer" parent="Background/MarginContainer/VB" unique_id=168755559]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="ChooseDataType" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_Data" unique_id=693239025]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="MesurmentButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=212345240]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 4)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_erlbs")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_aix2r")
+text = "mesurments"
+
+[node name="ExerciseEntryButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=659354643]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 4)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_erlbs")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_aix2r")
+text = "exercise entry"
+
+[node name="SessionButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=1201096995]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 4)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_erlbs")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_aix2r")
+text = "session"
+
+[node name="DataPanel" type="Panel" parent="Background/MarginContainer/VB/VB_Data" unique_id=994835412]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlaceHolder" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_Data/DataPanel" unique_id=1563600396]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/VB_Data/DataPanel/PlaceHolder" unique_id=1840501926]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+text = "== Choose data type =="
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/VB/VB_Data/DataPanel/PlaceHolder" unique_id=1194856866]
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
+custom_minimum_size = Vector2(600, 600)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("4_aix2r")
+expand_mode = 3
+
+[node name="DateRangeHB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=872459519]
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="DateFromInputButton" type="Button" parent="Background/MarginContainer/VB/DateRangeHB" unique_id=239944777]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+script = ExtResource("4_ufd3r")
+prompt_text = "From"
+entry_menu_scene_path = "res://elements/dateInput/DateInputMenu.tscn"
+submenu_container_path = NodePath("../../../../../SubMenuContainer")
+initial_date = Vector3i(0, 1, 0)
+metadata/_custom_type_script = "uid://bcrau8ia00vpx"
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/DateRangeHB" unique_id=1901120166]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "-"
+
+[node name="DateToInputButton" type="Button" parent="Background/MarginContainer/VB/DateRangeHB" unique_id=900982731]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+script = ExtResource("4_ufd3r")
+prompt_text = "To"
+entry_menu_scene_path = "res://elements/dateInput/DateInputMenu.tscn"
+submenu_container_path = NodePath("../../../../../SubMenuContainer")
+metadata/_custom_type_script = "uid://bcrau8ia00vpx"
+
+[node name="BatchOpsHB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1813035857]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/BatchOpsHB" unique_id=1090375460]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Button" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=858764708]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 55
+text = "Batch export"
+
+[node name="Button2" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=633107149]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 55
+text = "Batch delete"
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/BatchOpsHB" unique_id=1838427685]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.48570347, 0.48570353, 0.48570347, 1)
+text = "Batch size:
+--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubMenuContainer" type="Container" parent="." unique_id=1567775943]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmationEntryMenu" parent="." unique_id=1119870501 instance=ExtResource("4_erlbs")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 48.0
+offset_top = -367.0
+offset_right = -77.0
+offset_bottom = 404.0

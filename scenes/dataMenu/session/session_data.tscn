@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://q2u1r4gjf3ei"]
+
+[ext_resource type="Script" uid="uid://d0830dahmefj6" path="res://scenes/dataMenu/session/session_data.gd" id="1_b4oau"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="1_ru5e1"]
+[ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="2_b4oau"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="3_eclsv"]
+
+[node name="SessionData" type="VBoxContainer" unique_id=1930003733]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b4oau")
+
+[node name="FilterPanel" type="Panel" parent="." unique_id=867944423]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.35
+
+[node name="ScrollButtonTop" type="Button" parent="." unique_id=115693868]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("1_ru5e1")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1426259939 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("2_b4oau")
+scroll_top_button = NodePath("../ScrollButtonTop")
+scroll_bottom_button = NodePath("../ScrollButtonBot")
+scroll_container = NodePath("DataContainer")
+
+[node name="DataContainer" type="HFlowContainer" parent="ScrollContainer" unique_id=1467309003]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ScrollButtonBot" type="Button" parent="." unique_id=689050772]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("3_eclsv")
+icon_alignment = 1
+expand_icon = true

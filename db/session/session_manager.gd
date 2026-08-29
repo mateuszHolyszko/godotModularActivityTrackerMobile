@@ -278,6 +278,82 @@ func _get_cutoff_timestamp(days: int) -> int:
 	
 	return Time.get_unix_time_from_datetime_dict(cutoff_datetime)
 
+func get_sessions_in_range(start_timestamp: int = 0, end_timestamp: int = 0) -> Array:
+	"""Get all sessions within a timestamp range.
+	
+	Args:
+		start_timestamp: Unix timestamp for the start of the range (inclusive)
+		end_timestamp: Unix timestamp for the end of the range (inclusive)
+	
+	Returns:
+		Array of session dictionaries: [{"session": Session, "file_name": String}]
+	
+	Note:
+		If start_timestamp is 0, uses the earliest session.
+		If end_timestamp is 0, uses the current time.
+	"""
+	var result: Array = []
+	
+	# If end_timestamp is 0, use current system time
+	var end_time := end_timestamp
+	if end_time == 0:
+		end_time = Time.get_unix_time_from_system()
+	
+	# If start_timestamp is 0, we'll include all sessions up to end_time
+	var include_all_from_start := (start_timestamp == 0)
+	
+	for item in items:
+		var session: Session = item.get("session")
+		if not session:
+			continue
+		
+		# Convert session date string to timestamp
+		var session_timestamp := _date_to_timestamp(session.date)
+		if session_timestamp == -1:
+			# Invalid date format, skip this session
+			continue
+		
+		# Check if session is within range
+		var within_range := false
+		if include_all_from_start:
+			within_range = session_timestamp <= end_time
+		else:
+			within_range = session_timestamp >= start_timestamp and session_timestamp <= end_time
+		
+		if within_range:
+			result.append(item)
+	
+	return result
+
+func _date_to_timestamp(date_str: String) -> int:
+	"""Convert date string (YYYY-MM-DD) to Unix timestamp.
+	
+	Returns:
+		int: Unix timestamp or -1 if conversion fails
+	"""
+	if date_str == "":
+		return -1
+	
+	var date_parts = date_str.split("-")
+	if date_parts.size() != 3:
+		return -1
+	
+	var datetime_dict = {
+		"year": int(date_parts[0]),
+		"month": int(date_parts[1]),
+		"day": int(date_parts[2]),
+		"hour": 0,
+		"minute": 0,
+		"second": 0
+	}
+	
+	# Validate the date values
+	if datetime_dict.year == 0 or datetime_dict.month == 0 or datetime_dict.day == 0:
+		return -1
+	
+	return Time.get_unix_time_from_datetime_dict(datetime_dict)
+
+
 func _is_session_within_range(session: Session, cutoff_timestamp: int) -> bool:
 	var date_parts = session.date.split("-")
 	if date_parts.size() != 3:

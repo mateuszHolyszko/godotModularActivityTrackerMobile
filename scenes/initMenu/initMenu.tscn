@@ -165,6 +165,7 @@ icon = ExtResource("8_0ucgm")
 expand_icon = true
 
 [node name="VS" type="VSeparator" parent="Background/VB" unique_id=1882031107]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1

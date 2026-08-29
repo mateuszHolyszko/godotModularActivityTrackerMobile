@@ -10,8 +10,8 @@ extends Control
 @export var session_menu_scene_path: String = "res://scenes/sessionMenu/sessionMenu.tscn"
 @export var program_menu_scene_path: String = "res://scenes/programMenu/chooseProgramMenu.tscn"
 @export var exercises_menu_scene_path: String = "res://scenes/exercisesMenu/exercisesMenu.tscn"
-@export var stats_menu_scene_path: String = "res://scenes/dataMenu/dataMenu.tscn"
-@export var data_menu_scene_path: String = "res://scenes/statsMenu/statsMenu.tscn"
+@export var stats_menu_scene_path: String = "res://scenes/statsMenu/statsMenu.tscn"
+@export var data_menu_scene_path: String = "res://scenes/dataMenu/dataMenu.tscn"
 @export var settings_menu_scene_path: String = "res://scenes/settingsMenu/SettingsMenu.tscn"
 
 

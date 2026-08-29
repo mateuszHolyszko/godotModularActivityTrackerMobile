@@ -1,0 +1,253 @@
+[gd_scene format=3 uid="uid://cwavflxanarus"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_lepwf"]
+[ext_resource type="Script" uid="uid://blyjh57748qga" path="res://elements/dateInput/date_input_menu.gd" id="2_itbq5"]
+[ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="3_d5yqi"]
+[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="4_bya8f"]
+
+[sub_resource type="Theme" id="Theme_15l4k"]
+Button/styles/normal = ExtResource("3_d5yqi")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cl1m0"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lepwf"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t60sd"]
+bg_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_me0f6"]
+
+[node name="DateInputMenu" type="Control" unique_id=736961942]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_lepwf")
+script = ExtResource("2_itbq5")
+metadata/_custom_type_script = "uid://bpbhdp28aspra"
+
+[node name="Background" type="Panel" parent="." unique_id=1650791504]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_15l4k")
+theme_override_styles/panel = SubResource("StyleBoxFlat_cl1m0")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1594259923]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=1062609393]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="VS2" type="VSeparator" parent="Background/MarginContainer/VB" unique_id=673910055]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TodayDateLabel" type="Label" parent="Background/MarginContainer/VB" unique_id=497421953]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49354547, 0.49354553, 0.49354553, 1)
+text = "Today
+dd-mm-yyyy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VS5" type="VSeparator" parent="Background/MarginContainer/VB" unique_id=896815552]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1899151468]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 40
+
+[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/HB" unique_id=2047939593]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="YearVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=1318968111]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/YearVB" unique_id=2144572066]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 90
+theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
+text = "Year"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerYear" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/YearVB" unique_id=1003260613 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_t60sd")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("4_bya8f")
+scroll_container = NodePath("ScrollContentYear")
+
+[node name="ScrollContentYear" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/YearVB/ScrollContainerYear" unique_id=1006610087]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MonthVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=842835668]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/MonthVB" unique_id=1080332279]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 90
+theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
+text = "Month"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerMonth" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/MonthVB" unique_id=1802673398 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_t60sd")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("4_bya8f")
+scroll_container = NodePath("ScrollContentMonth")
+
+[node name="ScrollContentMonth" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/MonthVB/ScrollContainerMonth" unique_id=1440225594]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="DayVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=208117625]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/DayVB" unique_id=2029922660]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 90
+theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
+text = "Day"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerDay" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/DayVB" unique_id=1925138838 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_t60sd")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("4_bya8f")
+scroll_container = NodePath("ScrollContentDay")
+
+[node name="ScrollContentDay" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/DayVB/ScrollContainerDay" unique_id=1981570539]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/HB" unique_id=1689434017]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="VS4" type="VSeparator" parent="Background/MarginContainer/VB" unique_id=1242327195]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="QueryEndDateLabel" type="Label" parent="Background/MarginContainer/VB" unique_id=1925892138]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49354547, 0.49354553, 0.49354553, 1)
+text = "Query date
+dd-mm-yyyy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VS" type="VSeparator" parent="Background/MarginContainer/VB" unique_id=221109997]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB" unique_id=643793611]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="Background/MarginContainer/VB/VB" unique_id=1627822702]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_me0f6")
+
+[node name="ConfirmButton" type="Button" parent="Background/MarginContainer/VB/VB" unique_id=206245678]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+text = "Confirm"
+
+[node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VB/VB" unique_id=1377410580]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_me0f6")
+
+[node name="BackButton" type="Button" parent="Background/MarginContainer/VB/VB" unique_id=33789799]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+text = "Back"
+
+[node name="HSeparator2" type="HSeparator" parent="Background/MarginContainer/VB/VB" unique_id=917153695]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_me0f6")

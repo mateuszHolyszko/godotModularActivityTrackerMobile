@@ -13,13 +13,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
+stretch_shrink = 4
 script = ExtResource("1_vjml7")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=904491226]
 transparent_bg = true
 handle_input_locally = false
 anisotropic_filtering_level = 0
-size = Vector2i(1080, 2400)
+size = Vector2i(270, 600)
+size_2d_override = Vector2i(1080, 2400)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=262184181]
