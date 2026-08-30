@@ -4,10 +4,12 @@
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="2_cbrli"]
 [ext_resource type="Script" uid="uid://casewtjslysae" path="res://scenes/dataMenu/exerciseEntry/exercise_entry_data_point_panel.gd" id="2_chm16"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1ibf"]
-bg_color = Color(1, 1, 1, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aix2r"]
+bg_color = Color(0.11764706, 0.11764706, 0.11764706, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
 border_width_bottom = 4
-border_color = Color(1, 1, 1, 1)
 
 [node name="ExerciseEntryDataPointPanel" type="Panel" unique_id=1307093268]
 custom_minimum_size = Vector2(500, 300)
@@ -28,8 +30,9 @@ theme_override_constants/separation = 0
 
 [node name="DateLabel" type="Label" parent="VB" unique_id=1740457073]
 unique_name_in_owner = true
+modulate = Color(0.8117647, 0.8117647, 0.8117647, 0.81960785)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_m1ibf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_aix2r")
 text = "Date: dd-mm-yyyy"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -44,15 +47,20 @@ theme_override_constants/margin_right = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+alignment = 1
 
 [node name="SessionIDHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=240601031]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/SessionIDHB" unique_id=1599945618]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
 theme_override_font_sizes/font_size = 50
-text = "Session ID:"
+text = "SessionID"
+horizontal_alignment = 1
 
 [node name="SessionIdLabel" type="Label" parent="VB/MarginContainer/FieldsVB/SessionIDHB" unique_id=2037809494]
 unique_name_in_owner = true
@@ -60,6 +68,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 50
 text = "--"
+horizontal_alignment = 1
 
 [node name="ExerciseHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=1590305716]
 layout_mode = 2
@@ -67,8 +76,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/ExerciseHB" unique_id=210271150]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
 theme_override_font_sizes/font_size = 50
-text = "Exercise:"
+text = "Exercise"
 
 [node name="ExerciseLabel" type="Label" parent="VB/MarginContainer/FieldsVB/ExerciseHB" unique_id=1264649783]
 unique_name_in_owner = true
@@ -76,15 +87,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 50
 text = "--"
+horizontal_alignment = 1
+text_overrun_behavior = 6
 
 [node name="SetsHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=1715920648]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/SetsHB" unique_id=442944321]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 45
-text = "Num of sets:"
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
+theme_override_font_sizes/font_size = 50
+text = "Set num"
+horizontal_alignment = 1
 
 [node name="NumberOfSetsLabel" type="Label" parent="VB/MarginContainer/FieldsVB/SetsHB" unique_id=849628570]
 unique_name_in_owner = true
@@ -92,6 +109,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 50
 text = "--"
+horizontal_alignment = 1
 
 [node name="OptionInputButton" type="Button" parent="." unique_id=382113519]
 self_modulate = Color(1, 1, 1, 0)

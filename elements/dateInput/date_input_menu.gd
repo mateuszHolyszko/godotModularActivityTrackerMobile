@@ -10,6 +10,7 @@ signal value_confirmed(duration: Dictionary)
 @onready var query_end_date_label: Label = %QueryEndDateLabel  # format "Query date:\ndd-mm-yyyy", take time inputed, and add it to today, convert back to date
 @onready var confirm_button: Button = %ConfirmButton
 @onready var back_button: Button = %BackButton
+@onready var prompt_label: Label = %PromptLabel
 
 ## Visual tuning for the generated entry buttons.
 @export var entry_button_min_height: float = 150.0
@@ -43,6 +44,11 @@ func set_initial_value(initial_duration: Dictionary, prompt: String) -> void:
 func _ready() -> void:
 	confirm_button.pressed.connect(_on_confirm_pressed)
 	back_button.pressed.connect(_on_back_pressed)
+	
+	if subtract_from_today:
+		prompt_label.text = "Provide numbers from today"
+	else:
+		prompt_label.text = "Provide numbers since today"
 
 
 func _on_open() -> void:
@@ -128,7 +134,7 @@ func _update_labels() -> void:
 	var target_unix: int = today_unix + offset_days * 86400
 	var target_date: Dictionary = Time.get_date_dict_from_unix_time(target_unix)
 
-	query_end_date_label.text = "Query date:\n%s" % _format_date(target_date)
+	query_end_date_label.text = "Query result date:\n%s" % _format_date(target_date)
 
 
 func _format_date(date: Dictionary) -> String:

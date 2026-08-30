@@ -256,6 +256,13 @@ func get_all_program_objects() -> Array[Program]:
 			programs.append(program)
 	return programs
 
+func get_all_program_names() -> Array[String]:
+	var names: Array[String] = []
+	for item in items:
+		var program: Program = item.get("program")
+		if program and not program.program_name.strip_edges().is_empty():
+			names.append(program.program_name)
+	return names
 
 func get_program_target_breakdown(program: Program) -> Dictionary:
 	"""

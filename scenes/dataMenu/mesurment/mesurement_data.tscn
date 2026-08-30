@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="1_ocd0j"]
 [ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="2_2ptko"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="3_3xjdx"]
+[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="4_3xjdx"]
 
 [node name="MesurementData" type="VBoxContainer" unique_id=819504248]
 anchors_preset = 15
@@ -44,7 +45,37 @@ icon = ExtResource("3_3xjdx")
 icon_alignment = 1
 expand_icon = true
 
-[node name="FilterPanel" type="Panel" parent="." unique_id=413221793]
+[node name="FilterPanel" type="VBoxContainer" parent="." unique_id=1233786147]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.35
+
+[node name="FilterOrphans" type="HBoxContainer" parent="FilterPanel" unique_id=620750727]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="FilterPanel/FilterOrphans" unique_id=1439284936]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+theme_override_font_sizes/font_size = 50
+text = "Filter by
+type"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="FilterPanel/FilterOrphans" unique_id=538871488]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TypeInputButton" type="Button" parent="FilterPanel/FilterOrphans/CenterContainer" unique_id=2134547150]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("4_3xjdx")
+prompt_text = "Select type"
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://bfh1873cepx2g"

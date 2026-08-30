@@ -15,10 +15,26 @@ signal data_loaded(count: int)
 @onready var data_container: HFlowContainer = %DataContainer
 var exercise_entry_data_point_scene: PackedScene = null
 
+var sub_menu_container: Container = null 
+@onready var filter_exercise_pick_button: PickExerciseButton = %FilterExercisePickButton
+@onready var filter_orphans_button: Button = %FilterOrphansButton
+
 var data_points: Array = []
+var _current_filter_exercise: String = ""  # Track current exercise filter
+var _current_filter_mode: String = "none"  # "none", "exercise", "orphans"
 
 func _ready():
 	exercise_entry_data_point_scene = load("res://scenes/dataMenu/exerciseEntry/exercise_entry_data_point_panel.tscn")
+	
+	filter_exercise_pick_button.submenu_container_path = sub_menu_container.get_path()
+	
+	# Connect filter signals
+	filter_exercise_pick_button.value_changed.connect(_on_exercise_filter_changed)
+	filter_orphans_button.pressed.connect(_on_orphans_filter_toggled)
+	
+	# Set initial state for orphans button
+	filter_orphans_button.toggle_mode = true
+	filter_orphans_button.button_pressed = false
 	
 	# set init from time and to time
 	if from_time == 0:
@@ -43,7 +59,11 @@ func _load_data() -> void:
 	
 	# Query data from DataManager
 	if from_time > 0 and to_time > 0:
-		data_points = DataManager.ExerciseEntryManager.get_entries_in_range(from_time, to_time)
+		var raw_data = DataManager.ExerciseEntryManager.get_entries_in_range(from_time, to_time)
+		
+		# Apply filters based on current mode
+		var filtered_data = _apply_filters(raw_data)
+		data_points = filtered_data
 		
 		# Create UI elements for each data point
 		for data_point in data_points:
@@ -51,6 +71,35 @@ func _load_data() -> void:
 			
 		# Emit signal with the count of loaded data points
 		emit_signal("data_loaded", data_points.size())
+
+# Apply filters to the raw data
+func _apply_filters(raw_data: Array) -> Array:
+	var filtered = []
+	
+	for data_item in raw_data:
+		var entry = data_item["entry"]
+		var should_include = true
+		
+		match _current_filter_mode:
+			"exercise":
+				# Filter by exercise name
+				if _current_filter_exercise != "" and entry.exercise:
+					should_include = entry.exercise.name == _current_filter_exercise
+				else:
+					should_include = false
+					
+			"orphans":
+				# Filter orphans (entries with null exercise)
+				should_include = entry.exercise == null
+				
+			"none":
+				# No filter applied
+				should_include = true
+		
+		if should_include:
+			filtered.append(data_item)
+	
+	return filtered
 
 # Clear all existing data point children
 func _clear_data_points() -> void:
@@ -73,3 +122,49 @@ func refresh_data() -> void:
 # Get current data points
 func get_data_points() -> Array:
 	return data_points
+
+# Filter handlers
+func _on_exercise_filter_changed(exercise_name: String) -> void:
+	# Clear orphans filter if active
+	if _current_filter_mode == "orphans":
+		filter_orphans_button.button_pressed = false
+	
+	# Set exercise filter
+	if exercise_name != "" and exercise_name != "--":
+		_current_filter_exercise = exercise_name
+		_current_filter_mode = "exercise"
+	else:
+		# Clear exercise filter if "clear" was selected
+		_current_filter_exercise = ""
+		_current_filter_mode = "none"
+	
+	# Reload data with new filters
+	_load_data()
+
+func _on_orphans_filter_toggled() -> void:
+	if filter_orphans_button.button_pressed:
+		# Enable orphans filter
+		_current_filter_mode = "orphans"
+		
+		# Clear exercise filter if active
+		if _current_filter_exercise != "":
+			_current_filter_exercise = ""
+			filter_exercise_pick_button.current_value = null  # Reset exercise picker
+	else:
+		# Disable orphans filter
+		_current_filter_mode = "none"
+	
+	# Reload data with new filters
+	_load_data()
+
+# Optional: Add a method to clear all filters
+func clear_filters() -> void:
+	_current_filter_mode = "none"
+	_current_filter_exercise = ""
+	filter_exercise_pick_button.current_value = null
+	filter_orphans_button.button_pressed = false
+	_load_data()
+
+# Optional: Check if any filter is active
+func has_active_filter() -> bool:
+	return _current_filter_mode != "none"

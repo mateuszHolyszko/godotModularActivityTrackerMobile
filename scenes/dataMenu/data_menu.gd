@@ -1,6 +1,6 @@
 extends Menu
 
-@onready var sub_menu_container: Container = %SubMenuContainer
+@onready var _sub_menu_container: Container = %SubMenuContainer
 @onready var confirm_menu: ConfirmationEntryMenu = %ConfirmationEntryMenu
 
 @onready var mesurment_button: Button = %MesurmentButton
@@ -113,6 +113,9 @@ func _add_scene_to_panel(scene: PackedScene) -> void:
 	
 	# Instantiate the scene
 	var instance = scene.instantiate()
+	
+	# Pass sub menu to it
+	instance.sub_menu_container = _sub_menu_container
 	
 	# Add it as a child of data_panel
 	data_panel.add_child(instance)

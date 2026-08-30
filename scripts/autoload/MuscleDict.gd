@@ -29,3 +29,6 @@ func get_color(muscle: String) -> Color:
 
 func get_all_muscles() -> Array:
 	return MUSCLE_COLORS.keys()
+
+func get_all_measurements() -> Array:
+	return MEASUREMENTS_COLORS.keys()

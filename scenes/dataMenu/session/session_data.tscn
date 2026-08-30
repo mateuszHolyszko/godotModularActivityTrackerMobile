@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="1_ru5e1"]
 [ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="2_b4oau"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="3_eclsv"]
+[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="5_eclsv"]
 
 [node name="SessionData" type="VBoxContainer" unique_id=1930003733]
 anchors_preset = 15
@@ -44,7 +45,64 @@ icon = ExtResource("3_eclsv")
 icon_alignment = 1
 expand_icon = true
 
-[node name="FilterPanel" type="Panel" parent="." unique_id=867944423]
+[node name="FilterPanel" type="VBoxContainer" parent="." unique_id=843042488]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.35
+
+[node name="FilterByProgram" type="HBoxContainer" parent="FilterPanel" unique_id=1039681009]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="FilterPanel/FilterByProgram" unique_id=815197847]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+theme_override_font_sizes/font_size = 50
+text = "Filter by
+program"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="FilterPanel/FilterByProgram" unique_id=91613295]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilterProgramButton" type="Button" parent="FilterPanel/FilterByProgram/CenterContainer" unique_id=2113982854]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("5_eclsv")
+prompt_text = "Select program to filter by"
+entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
+metadata/_custom_type_script = "uid://djubjhnt54hfn"
+
+[node name="FilterOrphans" type="HBoxContainer" parent="FilterPanel" unique_id=1325858483]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="FilterPanel/FilterOrphans" unique_id=1483977742]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+theme_override_font_sizes/font_size = 50
+text = "Find
+orphans"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="FilterPanel/FilterOrphans" unique_id=156057329]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilterOrphansButton" type="Button" parent="FilterPanel/FilterOrphans/CenterContainer" unique_id=1994322549]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_custom_type_script = "uid://djubjhnt54hfn"

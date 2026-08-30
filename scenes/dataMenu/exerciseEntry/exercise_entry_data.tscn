@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dchlk0vyy7g4e" path="res://scenes/dataMenu/exerciseEntry/exercise_entry_data.gd" id="1_tacwi"]
 [ext_resource type="Script" uid="uid://cukp4kpxwxmfb" path="res://scripts/scroll/scroll_container_with_scroll_buttons.gd" id="2_tacwi"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="3_vqpma"]
+[ext_resource type="Script" uid="uid://djubjhnt54hfn" path="res://elements/pickExercise/pick_exercise_button.gd" id="5_vqpma"]
 
 [node name="ExerciseEntryData" type="VBoxContainer" unique_id=1235241971]
 anchors_preset = 15
@@ -44,7 +45,62 @@ icon = ExtResource("3_vqpma")
 icon_alignment = 1
 expand_icon = true
 
-[node name="FilterPanel" type="Panel" parent="." unique_id=2077965280]
+[node name="FilterPanel" type="VBoxContainer" parent="." unique_id=441982112]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.35
+
+[node name="FilterByExercise" type="HBoxContainer" parent="FilterPanel" unique_id=1739303226]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="FilterPanel/FilterByExercise" unique_id=1816398202]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+theme_override_font_sizes/font_size = 50
+text = "Filter by
+exercise"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="FilterPanel/FilterByExercise" unique_id=1203073603]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilterExercisePickButton" type="Button" parent="FilterPanel/FilterByExercise/CenterContainer" unique_id=1568542295]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("5_vqpma")
+metadata/_custom_type_script = "uid://djubjhnt54hfn"
+
+[node name="FilterOrphans" type="HBoxContainer" parent="FilterPanel" unique_id=1603200731]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="FilterPanel/FilterOrphans" unique_id=1269855984]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+theme_override_font_sizes/font_size = 50
+text = "Find
+orphans"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="FilterPanel/FilterOrphans" unique_id=1492330421]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilterOrphansButton" type="Button" parent="FilterPanel/FilterOrphans/CenterContainer" unique_id=1459486580]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_custom_type_script = "uid://djubjhnt54hfn"

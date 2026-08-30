@@ -4,10 +4,12 @@
 [ext_resource type="Script" uid="uid://be1tvnimfrtq6" path="res://scenes/dataMenu/mesurment/mesurement_data_point_panel.gd" id="2_ga0lq"]
 [ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="2_t07va"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eb8a"]
-bg_color = Color(1, 1, 1, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aix2r"]
+bg_color = Color(0.11764706, 0.11764706, 0.11764706, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
 border_width_bottom = 4
-border_color = Color(1, 1, 1, 1)
 
 [node name="MesurementDataPointPanel" type="Panel" unique_id=572743956]
 custom_minimum_size = Vector2(500, 300)
@@ -28,8 +30,9 @@ theme_override_constants/separation = 0
 
 [node name="DateLabel" type="Label" parent="VB" unique_id=953547833]
 unique_name_in_owner = true
+modulate = Color(0.8117647, 0.8117647, 0.8117647, 0.81960785)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_1eb8a")
+theme_override_styles/normal = SubResource("StyleBoxFlat_aix2r")
 text = "Date: dd-mm-yyyy"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -47,31 +50,41 @@ size_flags_vertical = 3
 
 [node name="TypeHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=1807954376]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/TypeHB" unique_id=2115133644]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.50534403, 0.5053441, 0.50534403, 1)
 text = "Type:"
+horizontal_alignment = 1
 
 [node name="TypeLabel" type="Label" parent="VB/MarginContainer/FieldsVB/TypeHB" unique_id=1369362621]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "--"
+horizontal_alignment = 1
 
 [node name="ValueHB" type="HBoxContainer" parent="VB/MarginContainer/FieldsVB" unique_id=1513751802]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VB/MarginContainer/FieldsVB/ValueHB" unique_id=1544023348]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_colors/font_color = Color(0.50534403, 0.5053441, 0.50534403, 1)
 text = "Value:"
+horizontal_alignment = 1
 
 [node name="ValueLabel" type="Label" parent="VB/MarginContainer/FieldsVB/ValueHB" unique_id=371528663]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "--"
+horizontal_alignment = 1
 
 [node name="OptionInputButton" type="Button" parent="." unique_id=149146102]
 self_modulate = Color(1, 1, 1, 0)

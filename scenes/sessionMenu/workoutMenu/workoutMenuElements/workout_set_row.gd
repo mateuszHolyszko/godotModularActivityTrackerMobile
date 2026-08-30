@@ -95,7 +95,10 @@ func _finish_setup() -> void:
 		# Check if we got a valid entry
 		if latest_entry != null:
 			var session = DataManager.SessionManager.get_session_by_id(latest_entry.session_id)
+
 			if session != null:
+				historic_bw = session.body_weight
+			else:
 				historic_bw = GlobalElements.CurrentWorkout.get_body_weight()
 		else:
 			historic_bw = GlobalElements.CurrentWorkout.get_body_weight()

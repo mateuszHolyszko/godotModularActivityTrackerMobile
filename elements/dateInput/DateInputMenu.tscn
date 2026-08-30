@@ -83,6 +83,14 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
+[node name="PromptLabel" type="Label" parent="Background/MarginContainer/VB" unique_id=1941193542]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 90
+text = "Provide numbers from today"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1899151468]
 layout_mode = 2
 size_flags_vertical = 3
@@ -93,72 +101,6 @@ theme_override_constants/separation = 40
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
-
-[node name="YearVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=1318968111]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/YearVB" unique_id=2144572066]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 90
-theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
-text = "Year"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ScrollContainerYear" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/YearVB" unique_id=1003260613 node_paths=PackedStringArray("scroll_container")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_t60sd")
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-script = ExtResource("4_bya8f")
-scroll_container = NodePath("ScrollContentYear")
-
-[node name="ScrollContentYear" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/YearVB/ScrollContainerYear" unique_id=1006610087]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
-
-[node name="MonthVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=842835668]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/MonthVB" unique_id=1080332279]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 90
-theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
-text = "Month"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ScrollContainerMonth" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/MonthVB" unique_id=1802673398 node_paths=PackedStringArray("scroll_container")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_t60sd")
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-script = ExtResource("4_bya8f")
-scroll_container = NodePath("ScrollContentMonth")
-
-[node name="ScrollContentMonth" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/MonthVB/ScrollContainerMonth" unique_id=1440225594]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
 
 [node name="DayVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=208117625]
 layout_mode = 2
@@ -171,7 +113,7 @@ size_flags_stretch_ratio = 0.3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 90
 theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
-text = "Day"
+text = "Days"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -193,6 +135,72 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
+[node name="MonthVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=842835668]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/MonthVB" unique_id=1080332279]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 90
+theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
+text = "Months"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerMonth" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/MonthVB" unique_id=1802673398 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_t60sd")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("4_bya8f")
+scroll_container = NodePath("ScrollContentMonth")
+
+[node name="ScrollContentMonth" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/MonthVB/ScrollContainerMonth" unique_id=1440225594]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="YearVB" type="VBoxContainer" parent="Background/MarginContainer/VB/HB" unique_id=1318968111]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VB/HB/YearVB" unique_id=2144572066]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 90
+theme_override_styles/normal = SubResource("StyleBoxFlat_lepwf")
+text = "Years"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerYear" type="ScrollContainer" parent="Background/MarginContainer/VB/HB/YearVB" unique_id=1003260613 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_t60sd")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("4_bya8f")
+scroll_container = NodePath("ScrollContentYear")
+
+[node name="ScrollContentYear" type="VBoxContainer" parent="Background/MarginContainer/VB/HB/YearVB/ScrollContainerYear" unique_id=1006610087]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
 [node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/HB" unique_id=1689434017]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -206,8 +214,8 @@ size_flags_stretch_ratio = 0.5
 [node name="QueryEndDateLabel" type="Label" parent="Background/MarginContainer/VB" unique_id=1925892138]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.49354547, 0.49354553, 0.49354553, 1)
-text = "Query date
+theme_override_font_sizes/font_size = 90
+text = "Query result date
 dd-mm-yyyy"
 horizontal_alignment = 1
 vertical_alignment = 1
