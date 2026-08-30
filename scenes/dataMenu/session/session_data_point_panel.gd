@@ -22,7 +22,7 @@ func update_labels():
 	if mesurement_entry_resource == null:
 		return
 	
-	id_label.text = mesurement_entry_resource.session_id.right(-12)
+	id_label.text = mesurement_entry_resource.session_id.right(9)
 	
 	# Program label with ORPHAN fallback
 	if mesurement_entry_resource.program and mesurement_entry_resource.program.program_name != "":

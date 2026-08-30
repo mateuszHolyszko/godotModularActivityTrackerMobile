@@ -1,6 +1,6 @@
 extends Panel
 
-var mesurement_entry_resource: ExerciseEntry
+var exercise_entry_resource: ExerciseEntry
 var _initialized: bool = false
 
 @onready var date_label: Label = %DateLabel
@@ -9,7 +9,7 @@ var _initialized: bool = false
 @onready var number_of_sets_label: Label = %NumberOfSetsLabel
 
 func set_data(entry: ExerciseEntry):
-	mesurement_entry_resource = entry
+	exercise_entry_resource = entry
 	if _initialized:
 		update_labels()
 
@@ -18,12 +18,26 @@ func _ready():
 	update_labels()
 
 func update_labels():
-	if mesurement_entry_resource == null:
+	if exercise_entry_resource == null:
 		return
 	
-	session_id_label.text = mesurement_entry_resource.session_id.right(12)
-	exercise_label.text = mesurement_entry_resource.exercise.name if mesurement_entry_resource.exercise else ""
-	number_of_sets_label.text = str(mesurement_entry_resource.sets.size())
+	session_id_label.text = exercise_entry_resource.session_id.right(9)
+	
+	# Exercise label with ORPHAN fallback
+	if exercise_entry_resource.exercise and exercise_entry_resource.exercise.name != "":
+		exercise_label.text = exercise_entry_resource.exercise.name
+		exercise_label.modulate = Color.WHITE  # Reset to default color
+	else:
+		exercise_label.text = "ORPHAN"
+		exercise_label.modulate = Color.RED
+	
+	number_of_sets_label.text = str(exercise_entry_resource.sets.size())
 	
 	# ExerciseEntry has no date/timestamp get it via session
-	date_label.text = ""
+	var date_str := DataManager.SessionManager.get_session_by_id( exercise_entry_resource.session_id ).date
+	# Format date from YYYY-MM-DD to DD-MM-YYYY
+	var parts = date_str.split("-")
+	if parts.size() == 3:
+		date_label.text = "%s-%s-%s" % [parts[2], parts[1], parts[0]]
+	else:
+		date_label.text = date_str  # fallback

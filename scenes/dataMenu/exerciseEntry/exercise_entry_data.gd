@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+signal data_loaded(count: int)
+
 @export var from_time: int:
 	set(value):
 		from_time = value
@@ -46,6 +48,9 @@ func _load_data() -> void:
 		# Create UI elements for each data point
 		for data_point in data_points:
 			_add_data_point(data_point["entry"])
+			
+		# Emit signal with the count of loaded data points
+		emit_signal("data_loaded", data_points.size())
 
 # Clear all existing data point children
 func _clear_data_points() -> void:

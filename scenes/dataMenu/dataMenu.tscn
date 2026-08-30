@@ -15,7 +15,7 @@ bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erlbs"]
-bg_color = Color(0.11764706, 0.11764706, 0.11764706, 0.75686276)
+bg_color = Color(0.15294118, 0.15294118, 0.15294118, 0.60784316)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -84,7 +84,6 @@ alignment = 1
 
 [node name="MesurmentButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=212345240]
 unique_name_in_owner = true
-z_index = 1
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 offset_transform_enabled = true
@@ -97,7 +96,6 @@ text = "mesurments"
 
 [node name="ExerciseEntryButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=659354643]
 unique_name_in_owner = true
-z_index = 1
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 offset_transform_enabled = true
@@ -110,7 +108,6 @@ text = "exercise entry"
 
 [node name="SessionButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=1201096995]
 unique_name_in_owner = true
-z_index = 1
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 offset_transform_enabled = true
@@ -209,11 +206,12 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 55
 text = "Batch delete"
 
-[node name="Label" type="Label" parent="Background/MarginContainer/VB/BatchOpsHB" unique_id=1838427685]
+[node name="BatchSizeLabel" type="Label" parent="Background/MarginContainer/VB/BatchOpsHB" unique_id=1838427685]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.48570347, 0.48570353, 0.48570347, 1)
-text = "Batch size:
+text = "Batch size
 --"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -13,11 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tacwi")
 
-[node name="FilterPanel" type="Panel" parent="." unique_id=2077965280]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.35
-
 [node name="ScrollButtonTop" type="Button" parent="." unique_id=1423608696]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -48,3 +43,8 @@ layout_mode = 2
 icon = ExtResource("3_vqpma")
 icon_alignment = 1
 expand_icon = true
+
+[node name="FilterPanel" type="Panel" parent="." unique_id=2077965280]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.35

@@ -15,6 +15,8 @@ var mesurement_data: PackedScene = null
 var exercise_entry_data: PackedScene = null
 var session_data: PackedScene = null
 
+@onready var batch_size_label: Label = %BatchSizeLabel # displays number of data points in current_data_instance, format: "Batch size:\n{value}"
+
 # Keep reference to the current instance so we can manage it
 var current_data_instance: Node = null
 
@@ -27,6 +29,8 @@ func _ready():
 	mesurment_button.pressed.connect(_on_mesurment_pressed)
 	exercise_entry_button.pressed.connect(_on_exercise_entry_pressed)
 	session_button.pressed.connect(_on_session_button_pressed)
+	
+	
 	
 	# Connect date buttons
 	input_date_from.date_confirmed.connect(_on_date_from_confirmed)
@@ -94,6 +98,9 @@ func _update_current_panel_dates() -> void:
 	current_data_instance.from_time = from_timestamp
 	current_data_instance.to_time = to_timestamp
 
+func _on_data_loaded(count: int) -> void:
+	batch_size_label.text = "Batch size\n" + str(count)
+
 func _clear_data_panel() -> void:
 	# Remove all children from data_panel
 	for child in data_panel.get_children():
@@ -112,3 +119,7 @@ func _add_scene_to_panel(scene: PackedScene) -> void:
 	
 	# Store reference
 	current_data_instance = instance
+	
+	# Connect the data_loaded signal if the instance has it
+	if instance.has_signal("data_loaded"):
+		instance.data_loaded.connect(_on_data_loaded)
