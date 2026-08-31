@@ -4,7 +4,6 @@ var mesurement_entry_resource: Session
 var _initialized: bool = false
 
 @onready var date_label: Label = %DateLabel
-@onready var id_label: Label = %IdLabel
 @onready var program_label: Label = %ProgramLabel
 @onready var duration_label: Label = %DurationLabel
 @onready var bodyweight_label: Label = %BodyweightLabel
@@ -21,8 +20,6 @@ func _ready():
 func update_labels():
 	if mesurement_entry_resource == null:
 		return
-	
-	id_label.text = mesurement_entry_resource.session_id.right(9)
 	
 	# Program label with ORPHAN fallback
 	if mesurement_entry_resource.program and mesurement_entry_resource.program.program_name != "":

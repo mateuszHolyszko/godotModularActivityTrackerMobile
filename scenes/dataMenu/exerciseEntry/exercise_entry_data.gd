@@ -17,20 +17,28 @@ var exercise_entry_data_point_scene: PackedScene = null
 
 var sub_menu_container: Container = null 
 @onready var filter_exercise_pick_button: PickExerciseButton = %FilterExercisePickButton
+@onready var program_input_button: OptionInputButton = %ProgramInputButton
 @onready var filter_orphans_button: Button = %FilterOrphansButton
 
 var data_points: Array = []
 var _current_filter_exercise: String = ""  # Track current exercise filter
-var _current_filter_mode: String = "none"  # "none", "exercise", "orphans"
+var _current_filter_program: String = ""   # Track current program filter
+var _filter_orphans: bool = false          # Track orphans filter state
 
 func _ready():
 	exercise_entry_data_point_scene = load("res://scenes/dataMenu/exerciseEntry/exercise_entry_data_point_panel.tscn")
 	
 	filter_exercise_pick_button.submenu_container_path = sub_menu_container.get_path()
+	program_input_button.submenu_container_path = sub_menu_container.get_path()
 	
 	# Connect filter signals
 	filter_exercise_pick_button.value_changed.connect(_on_exercise_filter_changed)
+	program_input_button.value_changed.connect(_on_program_filter_changed)
 	filter_orphans_button.pressed.connect(_on_orphans_filter_toggled)
+	
+	# Get programs
+	var program_names = DataManager.ProgramManager.get_all_program_names()
+	program_input_button.set_options_data(program_names)
 	
 	# Set initial state for orphans button
 	filter_orphans_button.toggle_mode = true
@@ -51,6 +59,17 @@ func _get_current_timestamp() -> int:
 
 func _get_week_ago_timestamp() -> int:
 	return _get_current_timestamp() - (7 * 24 * 60 * 60)  # 7 days in seconds
+
+# Helper function to get program from session
+func _get_program_from_entry(entry: ExerciseEntry) -> String:
+	if entry.session_id == "":
+		return ""
+	
+	var session = DataManager.SessionManager.get_session_by_id(entry.session_id)
+	if session and session.program:
+		return session.program.program_name
+	
+	return ""
 
 # Load data from DataManager
 func _load_data() -> void:
@@ -80,21 +99,25 @@ func _apply_filters(raw_data: Array) -> Array:
 		var entry = data_item["entry"]
 		var should_include = true
 		
-		match _current_filter_mode:
-			"exercise":
-				# Filter by exercise name
-				if _current_filter_exercise != "" and entry.exercise:
-					should_include = entry.exercise.name == _current_filter_exercise
-				else:
-					should_include = false
-					
-			"orphans":
-				# Filter orphans (entries with null exercise)
-				should_include = entry.exercise == null
-				
-			"none":
-				# No filter applied
-				should_include = true
+		# Check if orphans filter is active
+		if _filter_orphans:
+			# Filter orphans (entries with null exercise OR no program)
+			var has_exercise = entry.exercise != null
+			var program_name = _get_program_from_entry(entry)
+			var has_program = program_name != ""
+			should_include = not has_exercise or not has_program
+		
+		# Apply exercise filter if active
+		if should_include and _current_filter_exercise != "":
+			if entry.exercise:
+				should_include = entry.exercise.name == _current_filter_exercise
+			else:
+				should_include = false
+		
+		# Apply program filter if active
+		if should_include and _current_filter_program != "":
+			var program_name = _get_program_from_entry(entry)
+			should_include = program_name == _current_filter_program
 		
 		if should_include:
 			filtered.append(data_item)
@@ -125,18 +148,31 @@ func get_data_points() -> Array:
 
 # Filter handlers
 func _on_exercise_filter_changed(exercise_name: String) -> void:
-	# Clear orphans filter if active
-	if _current_filter_mode == "orphans":
-		filter_orphans_button.button_pressed = false
-	
-	# Set exercise filter
+	# Clear exercise filter
 	if exercise_name != "" and exercise_name != "--":
 		_current_filter_exercise = exercise_name
-		_current_filter_mode = "exercise"
 	else:
-		# Clear exercise filter if "clear" was selected
 		_current_filter_exercise = ""
-		_current_filter_mode = "none"
+	
+	# If orphans is active, clear it since we're applying a regular filter
+	if _filter_orphans and _current_filter_exercise != "":
+		filter_orphans_button.button_pressed = false
+		_filter_orphans = false
+	
+	# Reload data with new filters
+	_load_data()
+
+func _on_program_filter_changed(program_name: String) -> void:
+	# Clear program filter
+	if program_name != "" and program_name != "--":
+		_current_filter_program = program_name
+	else:
+		_current_filter_program = ""
+	
+	# If orphans is active, clear it since we're applying a regular filter
+	if _filter_orphans and _current_filter_program != "":
+		filter_orphans_button.button_pressed = false
+		_filter_orphans = false
 	
 	# Reload data with new filters
 	_load_data()
@@ -144,27 +180,45 @@ func _on_exercise_filter_changed(exercise_name: String) -> void:
 func _on_orphans_filter_toggled() -> void:
 	if filter_orphans_button.button_pressed:
 		# Enable orphans filter
-		_current_filter_mode = "orphans"
+		_filter_orphans = true
 		
-		# Clear exercise filter if active
-		if _current_filter_exercise != "":
-			_current_filter_exercise = ""
-			filter_exercise_pick_button.current_value = null  # Reset exercise picker
+		# Clear exercise and program filters when orphans is enabled
+		_current_filter_exercise = ""
+		_current_filter_program = ""
+		filter_exercise_pick_button.current_value = null
+		program_input_button.current_value = null
 	else:
 		# Disable orphans filter
-		_current_filter_mode = "none"
+		_filter_orphans = false
 	
 	# Reload data with new filters
 	_load_data()
 
 # Optional: Add a method to clear all filters
 func clear_filters() -> void:
-	_current_filter_mode = "none"
+	_filter_orphans = false
 	_current_filter_exercise = ""
+	_current_filter_program = ""
 	filter_exercise_pick_button.current_value = null
+	program_input_button.current_value = null
 	filter_orphans_button.button_pressed = false
 	_load_data()
 
 # Optional: Check if any filter is active
 func has_active_filter() -> bool:
-	return _current_filter_mode != "none"
+	return _filter_orphans or _current_filter_exercise != "" or _current_filter_program != ""
+
+# Optional: Get filter description
+func get_filter_description() -> String:
+	var filters = []
+	if _current_filter_exercise != "":
+		filters.append("Exercise: %s" % _current_filter_exercise)
+	if _current_filter_program != "":
+		filters.append("Program: %s" % _current_filter_program)
+	if _filter_orphans:
+		filters.append("Orphans (no exercise or program)")
+	
+	if filters.is_empty():
+		return "No filters applied"
+	
+	return "Filters: " + ", ".join(filters)

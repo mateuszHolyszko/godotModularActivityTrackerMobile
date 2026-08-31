@@ -199,14 +199,16 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Button" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=858764708]
+[node name="BatchExportButton" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=858764708]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 55
 text = "Batch export"
 
-[node name="Button2" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=633107149]
+[node name="BatchDeleteButton" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=633107149]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
 size_flags_horizontal = 4

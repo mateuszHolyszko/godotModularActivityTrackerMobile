@@ -147,6 +147,13 @@ func remove_exercise(exercise_name: String) -> bool:
 	
 	var search_name := exercise_name.strip_edges().to_lower()
 	
+	# Orphan any in-memory exercise entries still referencing this exercise.
+	# This prevents stale references in the live UI until the app is restarted.
+	for item in DataManager.ExerciseEntryManager.items:
+		var entry: ExerciseEntry = item.get("entry")
+		if entry and entry.exercise and entry.exercise.name.to_lower() == search_name:
+			entry.exercise = null
+	
 	# Find the exercise by name
 	for i in range(items.size()):
 		var item = items[i]

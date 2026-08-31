@@ -4,7 +4,7 @@ var exercise_entry_resource: ExerciseEntry
 var _initialized: bool = false
 
 @onready var date_label: Label = %DateLabel
-@onready var session_id_label: Label = %SessionIdLabel
+@onready var session_program_label: Label = %SessionIdLabel
 @onready var exercise_label: Label = %ExerciseLabel
 @onready var number_of_sets_label: Label = %NumberOfSetsLabel
 
@@ -21,7 +21,12 @@ func update_labels():
 	if exercise_entry_resource == null:
 		return
 	
-	session_id_label.text = exercise_entry_resource.session_id.right(9)
+	var program = DataManager.SessionManager.get_session_by_id(exercise_entry_resource.session_id).program
+	if program:
+		session_program_label.text =  program.program_name
+	else:
+		session_program_label.text = "ORPHAN"
+		session_program_label.modulate = Color.RED
 	
 	# Exercise label with ORPHAN fallback
 	if exercise_entry_resource.exercise and exercise_entry_resource.exercise.name != "":
