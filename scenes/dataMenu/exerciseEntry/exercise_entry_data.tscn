@@ -15,41 +15,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tacwi")
 
-[node name="ScrollButtonTop" type="Button" parent="." unique_id=1423608696]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-icon = ExtResource("1_ksrc2")
-icon_alignment = 1
-expand_icon = true
-
-[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=310819567 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-script = ExtResource("2_tacwi")
-scroll_top_button = NodePath("../ScrollButtonTop")
-scroll_bottom_button = NodePath("../ScrollButtonBot")
-scroll_container = NodePath("DataContainer")
-
-[node name="DataContainer" type="HFlowContainer" parent="ScrollContainer" unique_id=1414276725]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
-
-[node name="ScrollButtonBot" type="Button" parent="." unique_id=205161634]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-icon = ExtResource("3_vqpma")
-icon_alignment = 1
-expand_icon = true
-
 [node name="FilterPanel" type="VBoxContainer" parent="." unique_id=441982112]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.35
+size_flags_stretch_ratio = 0.4
+theme_override_constants/separation = 0
 
 [node name="FilterByExercise" type="HBoxContainer" parent="FilterPanel" unique_id=1739303226]
 layout_mode = 2
@@ -72,7 +42,7 @@ size_flags_horizontal = 3
 
 [node name="FilterExercisePickButton" type="Button" parent="FilterPanel/FilterByExercise/CenterContainer" unique_id=1568542295]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 80)
+custom_minimum_size = Vector2(400, 75)
 custom_maximum_size = Vector2(-1, 80)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -101,7 +71,7 @@ size_flags_horizontal = 3
 
 [node name="ProgramInputButton" type="Button" parent="FilterPanel/FilterByProgram/CenterContainer" unique_id=505842863]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 80)
+custom_minimum_size = Vector2(400, 75)
 custom_maximum_size = Vector2(-1, 80)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -133,9 +103,40 @@ size_flags_horizontal = 3
 
 [node name="FilterOrphansButton" type="Button" parent="FilterPanel/FilterOrphans/CenterContainer" unique_id=1459486580]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 80)
+custom_minimum_size = Vector2(400, 75)
 custom_maximum_size = Vector2(-1, 80)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 metadata/_custom_type_script = "uid://djubjhnt54hfn"
+
+[node name="ScrollButtonTop" type="Button" parent="." unique_id=1423608696]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("1_ksrc2")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=310819567 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("2_tacwi")
+scroll_top_button = NodePath("../ScrollButtonTop")
+scroll_bottom_button = NodePath("../ScrollButtonBot")
+scroll_container = NodePath("DataContainer")
+
+[node name="DataContainer" type="HFlowContainer" parent="ScrollContainer" unique_id=1414276725]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ScrollButtonBot" type="Button" parent="." unique_id=205161634]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("3_vqpma")
+icon_alignment = 1
+expand_icon = true

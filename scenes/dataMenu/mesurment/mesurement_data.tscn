@@ -14,37 +14,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2ptko")
 
-[node name="ScrollButtonTop" type="Button" parent="." unique_id=149198712]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-icon = ExtResource("1_ocd0j")
-icon_alignment = 1
-expand_icon = true
-
-[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1628104355 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-script = ExtResource("2_2ptko")
-scroll_top_button = NodePath("../ScrollButtonTop")
-scroll_bottom_button = NodePath("../ScrollButtonBot")
-scroll_container = NodePath("DataContainer")
-
-[node name="DataContainer" type="HFlowContainer" parent="ScrollContainer" unique_id=672885552]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
-
-[node name="ScrollButtonBot" type="Button" parent="." unique_id=663682732]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-icon = ExtResource("3_3xjdx")
-icon_alignment = 1
-expand_icon = true
-
 [node name="FilterPanel" type="VBoxContainer" parent="." unique_id=1233786147]
 layout_mode = 2
 size_flags_vertical = 3
@@ -79,3 +48,34 @@ script = ExtResource("4_3xjdx")
 prompt_text = "Select type"
 entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
 metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="ScrollButtonTop" type="Button" parent="." unique_id=149198712]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("1_ocd0j")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1628104355 node_paths=PackedStringArray("scroll_top_button", "scroll_bottom_button", "scroll_container")]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("2_2ptko")
+scroll_top_button = NodePath("../ScrollButtonTop")
+scroll_bottom_button = NodePath("../ScrollButtonBot")
+scroll_container = NodePath("DataContainer")
+
+[node name="DataContainer" type="HFlowContainer" parent="ScrollContainer" unique_id=672885552]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ScrollButtonBot" type="Button" parent="." unique_id=663682732]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+icon = ExtResource("3_3xjdx")
+icon_alignment = 1
+expand_icon = true

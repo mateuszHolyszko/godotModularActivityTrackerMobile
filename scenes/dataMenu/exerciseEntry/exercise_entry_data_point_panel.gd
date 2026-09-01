@@ -8,12 +8,17 @@ var _initialized: bool = false
 @onready var exercise_label: Label = %ExerciseLabel
 @onready var number_of_sets_label: Label = %NumberOfSetsLabel
 
+@onready var open_popup_button: Button = %OpenPopupButton
+@onready var popup_panel: Popup_panel = %PopUpPanel
+
 func set_data(entry: ExerciseEntry):
 	exercise_entry_resource = entry
 	if _initialized:
 		update_labels()
 
 func _ready():
+	open_popup_button.pressed.connect( on_open_popup_button_pressed )
+	
 	_initialized = true
 	update_labels()
 
@@ -46,3 +51,6 @@ func update_labels():
 		date_label.text = "%s-%s-%s" % [parts[2], parts[1], parts[0]]
 	else:
 		date_label.text = date_str  # fallback
+
+func on_open_popup_button_pressed():
+	popup_panel.open()

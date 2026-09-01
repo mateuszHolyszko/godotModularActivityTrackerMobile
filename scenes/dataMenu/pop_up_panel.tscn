@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bdej3plbsw55g"]
+
+[ext_resource type="Script" uid="uid://duwim7xfbrprn" path="res://scenes/dataMenu/pop_up_panel.gd" id="1_4wk6w"]
+[ext_resource type="Texture2D" uid="uid://cex2rt4af0q8" path="res://assets/icons/Cancel.svg" id="2_rdy4h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvp7p"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 0, 1)
+
+[node name="PopUpPanel" type="Panel" unique_id=1993487778]
+modulate = Color(1, 1, 1, 0.84313726)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wvp7p")
+script = ExtResource("1_4wk6w")
+
+[node name="MC" type="MarginContainer" parent="." unique_id=504676331]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HB" type="HBoxContainer" parent="MC" unique_id=2032156258]
+layout_mode = 2
+
+[node name="VB" type="VBoxContainer" parent="MC/HB" unique_id=1301232806]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ExportButton" type="Button" parent="MC/HB/VB" unique_id=1332711072]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "Export"
+
+[node name="DeleteButton" type="Button" parent="MC/HB/VB" unique_id=19992828]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "Delete"
+
+[node name="ClosePopUp" type="Button" parent="MC/HB" unique_id=1875648098]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+icon = ExtResource("2_rdy4h")
+expand_icon = true

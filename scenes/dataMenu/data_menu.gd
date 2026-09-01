@@ -31,8 +31,6 @@ func _ready():
 	exercise_entry_button.pressed.connect(_on_exercise_entry_pressed)
 	session_button.pressed.connect(_on_session_button_pressed)
 	
-	
-	
 	# Connect date buttons
 	input_date_from.date_confirmed.connect(_on_date_from_confirmed)
 	input_date_to.date_confirmed.connect(_on_date_to_confirmed)

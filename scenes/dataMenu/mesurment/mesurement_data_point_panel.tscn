@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_0plcm"]
 [ext_resource type="Script" uid="uid://be1tvnimfrtq6" path="res://scenes/dataMenu/mesurment/mesurement_data_point_panel.gd" id="2_ga0lq"]
-[ext_resource type="Script" uid="uid://bfh1873cepx2g" path="res://elements/optionInput/option_input_button.gd" id="2_t07va"]
+[ext_resource type="PackedScene" uid="uid://bdej3plbsw55g" path="res://scenes/dataMenu/pop_up_panel.tscn" id="3_t07va"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aix2r"]
 bg_color = Color(0.11764706, 0.11764706, 0.11764706, 1)
@@ -86,7 +86,8 @@ size_flags_horizontal = 3
 text = "--"
 horizontal_alignment = 1
 
-[node name="OptionInputButton" type="Button" parent="." unique_id=149146102]
+[node name="OpenPopupButton" type="Button" parent="." unique_id=1664770574]
+unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -94,7 +95,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_t07va")
-options = Array[String](["Export", "Delete"])
-entry_menu_scene_path = "res://elements/optionInput/OptionEntryMenu.tscn"
-metadata/_custom_type_script = "uid://bfh1873cepx2g"
+
+[node name="PopUpPanel" parent="." unique_id=1993487778 instance=ExtResource("3_t07va")]
+unique_name_in_owner = true
+layout_mode = 1

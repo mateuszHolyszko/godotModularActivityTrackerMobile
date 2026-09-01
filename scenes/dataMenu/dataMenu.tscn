@@ -75,6 +75,7 @@ text = "Import data"
 [node name="VB_Data" type="VBoxContainer" parent="Background/MarginContainer/VB" unique_id=168755559]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 1.2
 theme_override_constants/separation = 0
 
 [node name="ChooseDataType" type="HBoxContainer" parent="Background/MarginContainer/VB/VB_Data" unique_id=693239025]
@@ -82,6 +83,8 @@ layout_mode = 2
 
 [node name="MesurmentButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=212345240]
 unique_name_in_owner = true
+z_index = 1
+y_sort_enabled = true
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 offset_transform_enabled = true
@@ -98,6 +101,8 @@ size_flags_horizontal = 3
 
 [node name="ExerciseEntryButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=659354643]
 unique_name_in_owner = true
+z_index = 1
+y_sort_enabled = true
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 offset_transform_enabled = true
@@ -115,6 +120,8 @@ size_flags_horizontal = 3
 
 [node name="SessionButton" type="Button" parent="Background/MarginContainer/VB/VB_Data/ChooseDataType" unique_id=1201096995]
 unique_name_in_owner = true
+z_index = 1
+y_sort_enabled = true
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 offset_transform_enabled = true
@@ -127,10 +134,12 @@ text = "session"
 
 [node name="DataPanel" type="Panel" parent="Background/MarginContainer/VB/VB_Data" unique_id=994835412]
 unique_name_in_owner = true
+y_sort_enabled = true
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="PlaceHolder" type="VBoxContainer" parent="Background/MarginContainer/VB/VB_Data/DataPanel" unique_id=1563600396]
+modulate = Color(1, 1, 1, 0.2901961)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,7 +157,7 @@ vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/VB/VB_Data/DataPanel/PlaceHolder" unique_id=1194856866]
 modulate = Color(18.892157, 18.892157, 18.892157, 1)
-custom_minimum_size = Vector2(600, 600)
+custom_minimum_size = Vector2(700, 700)
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("4_aix2r")
@@ -229,6 +238,7 @@ vertical_alignment = 1
 [node name="SubMenuContainer" type="Container" parent="." unique_id=1567775943]
 unique_name_in_owner = true
 visible = false
+z_index = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -239,6 +249,7 @@ grow_vertical = 2
 [node name="ConfirmationEntryMenu" parent="." unique_id=1119870501 instance=ExtResource("4_erlbs")]
 unique_name_in_owner = true
 visible = false
+z_index = 2
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5

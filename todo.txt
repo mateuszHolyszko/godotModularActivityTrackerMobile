@@ -2,6 +2,8 @@ SEE TODO IN elements
 
 similar to program changed signal in program mnaager add session changed to session manager and hook it up to session menu
 
+on singular datapoint deletion, refresh batch sizes
+
 to exercise tie video (in workout exercise row give camera button that lets you record exrcise)
 
 to exercise add half targets, like dip can hit triceps 0,5 times per set
