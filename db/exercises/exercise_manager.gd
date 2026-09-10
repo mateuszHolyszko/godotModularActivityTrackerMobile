@@ -314,7 +314,6 @@ func get_exercises_for_target(target_muscle: String) -> Array:
 		var exercise: Exercise = item.get("exercise")
 		if exercise and exercise.target_muscle == search_muscle:
 			filtered_items.append(item)
-	
 	return filtered_items
 
 func get_exercise_target_muscle(exercise_name: String) -> String:

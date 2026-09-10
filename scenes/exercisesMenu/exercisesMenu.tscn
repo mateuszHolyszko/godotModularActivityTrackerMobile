@@ -230,7 +230,6 @@ vertical_scroll_mode = 3
 script = ExtResource("6_7v82i")
 scroll_top_button = NodePath("../ScrollButtonTop")
 scroll_bottom_button = NodePath("../ScrollButtonBot")
-update_interval = 0.25
 scroll_container = NodePath("ScrollContent")
 
 [node name="ScrollContent" type="VBoxContainer" parent="Background/MarginContainer/VB/ScrollContainer" unique_id=943204394]
