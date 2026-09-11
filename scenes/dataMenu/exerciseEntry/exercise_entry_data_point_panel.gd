@@ -19,6 +19,8 @@ func set_data(entry: ExerciseEntry):
 func _ready():
 	open_popup_button.pressed.connect( on_open_popup_button_pressed )
 	
+	UIEffects.fade_in(self,1,0.3)
+	
 	_initialized = true
 	update_labels()
 

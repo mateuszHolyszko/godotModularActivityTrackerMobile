@@ -49,23 +49,45 @@ func _get_current_timestamp() -> int:
 func _get_week_ago_timestamp() -> int:
 	return _get_current_timestamp() - (7 * 24 * 60 * 60)  # 7 days in seconds
 
+# Guards against overlapping _load_data() calls (e.g. rapid filter changes).
+var _load_request_id: int = 0
+const DATA_POINTS_PER_FRAME := 1
+
 # Load data from DataManager
 func _load_data() -> void:
+	# Bump the request id so any in-flight _load_data() aborts.
+	_load_request_id += 1
+	var this_request_id := _load_request_id
+
 	# Clear existing data points
 	_clear_data_points()
-	
+
 	# Query data from DataManager
 	if from_time > 0 and to_time > 0:
 		var raw_data = DataManager.MeasurementManager.query_measurements(from_time, to_time)
-		
+
 		# Apply filter based on current selection
 		var filtered_data = _apply_filters(raw_data)
 		data_points = filtered_data
-		
-		# Create UI elements for each data point
+
+		# Create UI elements for each data point, yielding every N rows
+		# so the main thread can render between batches.
+		var made := 0
 		for data_point in data_points:
+			# A newer _load_data() superseded us - stop building.
+			if this_request_id != _load_request_id:
+				return
+
 			_add_data_point(data_point)
-			
+			made += 1
+
+			if made % DATA_POINTS_PER_FRAME == 0:
+				await get_tree().process_frame
+
+		# A newer request may have started during the final await.
+		if this_request_id != _load_request_id:
+			return
+
 		# Emit signal with the count of loaded data points
 		emit_signal("data_loaded", data_points.size())
 

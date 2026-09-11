@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bi8cwmt7ofg5c" path="res://assets/images/logo.png" id="4_aix2r"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="4_erlbs"]
 [ext_resource type="Script" uid="uid://bcrau8ia00vpx" path="res://elements/dateInput/date_input_button.gd" id="4_ufd3r"]
+[ext_resource type="PackedScene" uid="uid://cadbw6mkco325" path="res://elements/loadingPanel/LoadingPanel.tscn" id="5_erlbs"]
 
 [sub_resource type="Theme" id="Theme_7v82i"]
 Button/styles/normal = ExtResource("3_aix2r")
@@ -159,6 +160,12 @@ layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("4_aix2r")
 expand_mode = 3
+
+[node name="LoadingPanel" parent="Background/MarginContainer/VB/VB_Data/DataPanel" unique_id=1928935499 instance=ExtResource("5_erlbs")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchors_preset = 0
 
 [node name="DateRangeHB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=872459519]
 layout_mode = 2

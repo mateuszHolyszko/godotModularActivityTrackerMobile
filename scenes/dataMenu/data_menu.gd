@@ -11,6 +11,8 @@ extends Menu
 @onready var input_date_to: DateInputButton = %DateToInputButton
 
 @onready var data_panel: Panel = %DataPanel # holds one of following scenes
+@onready var _loading_panel: LoadingPanel = %LoadingPanel 
+
 var mesurement_data: PackedScene = null
 var exercise_entry_data: PackedScene = null
 var session_data: PackedScene = null
@@ -233,8 +235,10 @@ func _on_file_picker_result(status: bool, selected_paths: PackedStringArray, _fi
 		file.store_string(json_data)
 		file.close()
 		print("Export successful")
+		NotificationManager.success("Export successful")
 	else:
 		print("Failed to open: ", uri, " Error: ", FileAccess.get_open_error())
+		NotificationManager.error("Failed to open")
 
 func _on_import_pressed() -> void:
 	confirm_menu.request_confirmation("Are you want to import data?\nTHIS WILL RESULT IN\nDELITION OF EXISTING\nDATA", _on_import_confirmed)
