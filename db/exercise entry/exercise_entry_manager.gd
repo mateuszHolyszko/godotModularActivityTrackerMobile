@@ -200,6 +200,14 @@ func get_entry_objects() -> Array[ExerciseEntry]:
 			entries.append(entry)
 	return entries
 
+func get_all_serialized() -> Array[Dictionary]:
+	var serialized: Array[Dictionary] = []
+	for item in items:
+		var entry: ExerciseEntry = item.get("entry")
+		if entry:
+			serialized.append(entry.to_dict())
+	return serialized
+
 func get_latest_entry_for_exercise(exercise_name: String) -> ExerciseEntry:
 	"""Get the most recent entry for a specific exercise based on session date.
 	Only returns entries that have at least one set."""

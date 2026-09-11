@@ -484,6 +484,14 @@ func get_session_objects() -> Array[Session]:
 			sessions.append(session)
 	return sessions
 
+func get_all_serialized() -> Array[Dictionary]:
+	var serialized: Array[Dictionary] = []
+	for item in items:
+		var session: Session = item.get("session")
+		if session:
+			serialized.append(session.to_dict())
+	return serialized
+
 func print_sessions(entry_manager) -> void:
 	if items.is_empty():
 		print("SessionManager: no sessions stored.")

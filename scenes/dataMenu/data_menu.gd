@@ -18,6 +18,9 @@ var session_data: PackedScene = null
 @onready var batch_size_label: Label = %BatchSizeLabel # displays number of data points in current_data_instance, format: "Batch size:\n{value}"
 @onready var batch_delete_button: Button = %BatchDeleteButton
 
+@onready var import_button: Button = %ImportDataButton
+@onready var export_button: Button = %ExportDataButton
+
 # Keep reference to the current instance so we can manage it
 var current_data_instance: Node = null
 
@@ -36,6 +39,8 @@ func _ready():
 	input_date_to.date_confirmed.connect(_on_date_to_confirmed)
 	batch_delete_button.pressed.connect(_on_batch_delete_pressed)
 	
+	export_button.pressed.connect(_on_export_pressed)
+	import_button.pressed.connect(_on_import_pressed)
 
 func _on_mesurment_pressed() -> void:
 	exercise_entry_button.disabled = false
@@ -192,3 +197,95 @@ func _add_scene_to_panel(scene: PackedScene) -> void:
 	# Connect the data_loaded signal if the instance has it
 	if instance.has_signal("data_loaded"):
 		instance.data_loaded.connect(_on_data_loaded)
+
+func _on_export_pressed() -> void:
+	confirm_menu.request_confirmation("Are you sure?", _on_export_confirmed)
+
+func _on_export_confirmed() -> void:
+	var filters = PackedStringArray(["*/*"])
+	var current_directory = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+	
+	# Build the filename with the current date
+	var now = Time.get_datetime_dict_from_system()
+	var date_string = "%02d_%02d_%04d" % [now.day, now.month, now.year]
+	var file_name = "MAT_export_%s.json" % date_string
+	
+	DisplayServer.file_dialog_show(
+		"Export Data",
+		current_directory,
+		file_name,       # Default filename: MAT_export_dd_mm_yyyy.json
+		false,           # show_hidden
+		DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
+		filters,
+		_on_file_picker_result
+	)
+
+func _on_file_picker_result(status: bool, selected_paths: PackedStringArray, _filter_index: int) -> void:
+	if not status or selected_paths.is_empty():
+		return
+	
+	var uri = selected_paths[0]
+	
+	# Write directly to the content:// URI
+	var file = FileAccess.open(uri, FileAccess.WRITE)
+	if file:
+		var json_data = JSON.stringify(DataManager.export_all_data(), "\t")
+		file.store_string(json_data)
+		file.close()
+		print("Export successful")
+	else:
+		print("Failed to open: ", uri, " Error: ", FileAccess.get_open_error())
+
+func _on_import_pressed() -> void:
+	confirm_menu.request_confirmation("Are you want to import data?\nTHIS WILL RESULT IN\nDELITION OF EXISTING\nDATA", _on_import_confirmed)
+
+func _on_import_confirmed() -> void:
+	var filters = PackedStringArray(["*.json"])
+	var current_directory = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+	
+	DisplayServer.file_dialog_show(
+		"Import Data",
+		current_directory,
+		"",              # No default filename for loading
+		false,           # show_hidden
+		DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,   # <-- OPEN, not SAVE
+		filters,
+		_on_import_file_picker_result
+	)
+
+func _on_import_file_picker_result(status: bool, selected_paths: PackedStringArray, _filter_index: int) -> void:
+	if not status or selected_paths.is_empty():
+		return
+	
+	var uri = selected_paths[0]
+	
+	# 1. Read the file
+	var file = FileAccess.open(uri, FileAccess.READ)
+	if file == null:
+		push_error("Failed to open import file: %s (error %d)" % [uri, FileAccess.get_open_error()])
+		return
+	var text = file.get_as_text()
+	file.close()
+	
+	# 2. Parse JSON
+	var parsed = JSON.parse_string(text)
+	if parsed == null or not (parsed is Dictionary):
+		push_error("Import file is not a valid JSON object.")
+		return
+	
+	# 3. Wipe existing data and load the new one
+	var isSuccess := DataManager.import_all_data(parsed)
+	if isSuccess: 
+		NotificationManager.success("Data imported successfully")
+		# Refresh datapoints in current panel
+		current_data_instance.refresh_data()
+	else: NotificationManager.error("Import failed")
+
+
+func recalculate_batch_size() -> void:
+	if current_data_instance == null:
+		return
+	if not current_data_instance.has_method("get_data_points"):
+		return
+	var datapoints: Array = current_data_instance.get_data_points()
+	_on_data_loaded(datapoints.size())

@@ -228,6 +228,12 @@ func get_last_measurements() -> Dictionary:
 	
 	return result
 
+func get_all_serialized() -> Array[Dictionary]:
+	var serialized: Array[Dictionary] = []
+	for entry in items:
+		serialized.append(entry.to_dict())
+	return serialized
+
 func query_measurement_by_weeks(measurement_type: String, weeks: int) -> Array:
 	"""
 	Query measurements of a specific type within the last N weeks.

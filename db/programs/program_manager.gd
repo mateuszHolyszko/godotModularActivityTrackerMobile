@@ -256,6 +256,14 @@ func get_all_program_objects() -> Array[Program]:
 			programs.append(program)
 	return programs
 
+func get_all_serialized() -> Array[Dictionary]:
+	var serialized: Array[Dictionary] = []
+	for item in items:
+		var program: Program = item.get("program")
+		if program:
+			serialized.append(program.to_dict())
+	return serialized
+
 func get_all_program_names() -> Array[String]:
 	var names: Array[String] = []
 	for item in items:

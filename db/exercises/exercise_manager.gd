@@ -409,6 +409,14 @@ func get_all_exercise_objects() -> Array[Exercise]:
 	
 	return exercises
 
+func get_all_serialized() -> Array[Dictionary]:
+	var serialized: Array[Dictionary] = []
+	for item in items:
+		var exercise: Exercise = item.get("exercise")
+		if exercise:
+			serialized.append(exercise.to_dict())
+	return serialized
+
 
 
 func print_exercises() -> void:

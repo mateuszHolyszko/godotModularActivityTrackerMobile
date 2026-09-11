@@ -36,20 +36,10 @@ theme_override_constants/margin_bottom = 10
 [node name="HB" type="HBoxContainer" parent="MC" unique_id=2032156258]
 layout_mode = 2
 
-[node name="VB" type="VBoxContainer" parent="MC/HB" unique_id=1301232806]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ExportButton" type="Button" parent="MC/HB/VB" unique_id=1332711072]
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 3
-text = "Export"
-
-[node name="DeleteButton" type="Button" parent="MC/HB/VB" unique_id=19992828]
+[node name="DeleteButton" type="Button" parent="MC/HB" unique_id=19992828]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 5
+size_flags_horizontal = 7
 size_flags_vertical = 3
 text = "Delete"
 

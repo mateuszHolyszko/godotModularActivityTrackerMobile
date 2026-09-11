@@ -64,13 +64,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VB" type="VBoxContainer" parent="Background/MarginContainer" unique_id=264328864]
 layout_mode = 2
-theme_override_constants/separation = 60
-
-[node name="ImportDataButton" type="Button" parent="Background/MarginContainer/VB" unique_id=1402656783]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_stretch_ratio = 0.2
-text = "Import data"
+theme_override_constants/separation = 40
 
 [node name="VB_Data" type="VBoxContainer" parent="Background/MarginContainer/VB" unique_id=168755559]
 layout_mode = 2
@@ -203,21 +197,13 @@ metadata/_custom_type_script = "uid://bcrau8ia00vpx"
 [node name="BatchOpsHB" type="HBoxContainer" parent="Background/MarginContainer/VB" unique_id=1813035857]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.12
 
 [node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/BatchOpsHB" unique_id=1090375460]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
-
-[node name="BatchExportButton" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=858764708]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(350, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 55
-text = "Batch export"
 
 [node name="BatchDeleteButton" type="Button" parent="Background/MarginContainer/VB/BatchOpsHB/VB" unique_id=633107149]
 unique_name_in_owner = true
@@ -237,6 +223,20 @@ text = "Batch size
 --"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ImportDataButton" type="Button" parent="Background/MarginContainer/VB" unique_id=1402656783]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+text = "Import data"
+
+[node name="ExportDataButton" type="Button" parent="Background/MarginContainer/VB" unique_id=1810015901]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+text = "Export data"
 
 [node name="SubMenuContainer" type="Container" parent="." unique_id=1567775943]
 unique_name_in_owner = true

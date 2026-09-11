@@ -44,13 +44,8 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="VS2" type="VSeparator" parent="Background/VB" unique_id=713475419]
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="PromptLabel" type="Label" parent="Background/VB" unique_id=929340821]
 unique_name_in_owner = true
-custom_maximum_size = Vector2(-1, 200)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Prompt"
@@ -59,18 +54,15 @@ vertical_alignment = 1
 autowrap_mode = 3
 text_overrun_behavior = 5
 
-[node name="VS3" type="VSeparator" parent="Background/VB" unique_id=924701114]
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="HB" type="HBoxContainer" parent="Background/VB" unique_id=43385463]
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
-size_flags_vertical = 3
 alignment = 1
 
 [node name="HSeparator3" type="HSeparator" parent="Background/VB/HB" unique_id=1192418040]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 0
 size_flags_stretch_ratio = 0.1
 
 [node name="ConfirmButton" type="Button" parent="Background/VB/HB" unique_id=1398270028]
@@ -83,6 +75,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dhypl")
 [node name="HSeparator2" type="HSeparator" parent="Background/VB/HB" unique_id=607568341]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 0
 size_flags_stretch_ratio = 0.1
 
 [node name="CancelButton" type="Button" parent="Background/VB/HB" unique_id=1499812285]
@@ -95,8 +88,10 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_mtiv7")
 [node name="HSeparator" type="HSeparator" parent="Background/VB/HB" unique_id=334009279]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 0
 size_flags_stretch_ratio = 0.1
 
-[node name="VS" type="VSeparator" parent="Background/VB" unique_id=145325539]
+[node name="VSeparator" type="VSeparator" parent="Background/VB" unique_id=2060853532]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25

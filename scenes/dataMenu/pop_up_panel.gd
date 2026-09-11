@@ -13,7 +13,6 @@ func _ready():
 	close_popup_button.pressed.connect(_on_close_pressed)
 	
 	parent_data_panel = get_parent()
-	
 	# Initially hide the popup
 	hide()
 
@@ -46,6 +45,9 @@ func _on_delete_pressed() -> void:
 	# This will automatically delete this popup as well
 	if parent_data_panel:
 		parent_data_panel.queue_free()
+	
+	# Refresh data points in data_panel
+	parent_data_panel.get_parent().get_parent().get_parent()._load_data() # Sloppy, but works, propably should assess batch size on the number of children
 	
 	# Clear references (though they won't be needed after parent deletion)
 	target_resource = null
