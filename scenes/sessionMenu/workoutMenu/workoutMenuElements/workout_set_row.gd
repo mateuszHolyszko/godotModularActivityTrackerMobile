@@ -15,6 +15,8 @@ extends Control
 @onready var too_few_reps_indicator_tex_rect: TextureRect = %TooLowIndicatorTR
 @onready var too_many_reps_indicator_tex_rect: TextureRect = %TooHighIndicatorTR
 
+var signal_bus = null
+
 # References to parent data
 var exercise_index: int = -1
 var set_index: int = -1
@@ -25,12 +27,21 @@ var _is_setup: bool = false
 var _is_initializing := false
 # Flag to track if _ready has run
 var _ready_called: bool = false
-var is_edited: bool = false
+
 var _edit_tween: Tween
 var _default_bg_color: Color
 var _preserve_edit_state: bool = false
 
+@onready var set_completion_indicator: Label = %SetCompletedIndicator
+var is_edited: bool = false
+# Flags to track if each input has been changed independently
+var _weight_changed: bool = false
+var _reps_changed: bool = false
+
 var is_bodyweight: bool
+
+# Signal emitted when the set transitions to the "edited" (completed) state
+signal set_edited
 
 func _ready():
 	_ready_called = true
@@ -50,11 +61,12 @@ func _ready():
 		_finish_setup()
 		
 
-func setup(p_set_data: Dictionary, p_exercise_index: int, p_set_index: int, preserve_edit_state: bool = false) -> void:
+func setup(p_set_data: Dictionary, p_exercise_index: int, p_set_index: int, p_signal_bus, preserve_edit_state: bool = false) -> void:
 	"""Setup the row with set data, exercise index, and set index"""
 	set_data = p_set_data
 	exercise_index = p_exercise_index
 	set_index = p_set_index
+	signal_bus = p_signal_bus
 	_preserve_edit_state = preserve_edit_state
 	# Mark as setup
 	_is_setup = true
@@ -71,6 +83,8 @@ func _finish_setup() -> void:
 	_is_initializing = true
 	if not _preserve_edit_state:
 		is_edited = false
+		_weight_changed = false
+		_reps_changed = false
 		_update_edit_visual()
 	# Update the set number label
 	set_number_label.text = str(set_index + 1)
@@ -120,6 +134,9 @@ func _finish_setup() -> void:
 
 func set_edit_state(edited: bool) -> void:
 	is_edited = edited
+	if not edited:
+		_weight_changed = false
+		_reps_changed = false
 	_update_edit_visual()
 
 func _update_edit_visual() -> void:
@@ -144,14 +161,46 @@ func _update_edit_visual() -> void:
 	_edit_tween.tween_property(bg_rect, "color:a", 0.4, 0.5)  # Semi-transparent white block
 	_edit_tween.tween_property(bg_rect, "color:a", 0.0, 0.5)
 
+func _update_edit_state() -> void:
+	"""Only mark as edited when BOTH weight and reps have been changed"""
+	if _weight_changed and _reps_changed:
+		var was_already_edited = is_edited
+		is_edited = true
+		_update_edit_visual()
+		# Only emit / flash if we just transitioned into the edited state
+		if not was_already_edited:
+			if signal_bus:
+				signal_bus.set_edited.emit(exercise_index, set_index)
+				#print("EDITED")
+			_flash_completion_indicator()
+
+func _flash_completion_indicator() -> void:
+	"""Flash the completion indicator: alpha 0 -> 1 -> 0, then hide it again"""
+	if not set_completion_indicator:
+		return
+	# Kill any existing flash tween so rapid triggers don't stack
+	if set_completion_indicator.has_meta("flash_tween"):
+		var existing = set_completion_indicator.get_meta("flash_tween")
+		if existing and existing is Tween and existing.is_valid():
+			existing.kill()
+	
+	set_completion_indicator.visible = true
+	set_completion_indicator.modulate.a = 0.0
+	
+	var tween = create_tween()
+	set_completion_indicator.set_meta("flash_tween", tween)
+	tween.tween_property(set_completion_indicator, "modulate:a", 1.0, 0.15)
+	tween.tween_interval(0.3)
+	tween.tween_property(set_completion_indicator, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(func(): set_completion_indicator.visible = false)
+
 func _on_weight_changed(new_weight: float) -> void:
 	"""Handle weight value change"""
 	if _is_initializing:
 		return
 	
-	is_edited = true
-	_update_edit_visual()
-	#_update_rep_range_indicators_visual()
+	_weight_changed = true
+	_update_edit_state()
 		
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
 		return
@@ -163,11 +212,14 @@ func _on_weight_changed(new_weight: float) -> void:
 		exercise_index,
 		set_index,
 		new_weight,
-		int(input_reps_button.current_value),
+		null,  # Don't touch reps
 		is_bodyweight
 	)
 	
-	# If its bodyweight, show label that indicates how much weight is added to bodyweight
+	# Update causes the value refresh so it needs to be reset to "--" if it hasnt been edited 
+	if not _reps_changed:
+		input_reps_button.text = "--"
+
 	if is_bodyweight:
 		calisthenic_added_weight_label.show() 
 		calisthenic_added_weight_label.text = str(new_weight)
@@ -180,8 +232,8 @@ func _on_reps_changed(new_reps: float) -> void:
 	if _is_initializing:
 		return
 
-	is_edited = true
-	_update_edit_visual()
+	_reps_changed = true
+	_update_edit_state()
 	_update_rep_range_indicators_visual()
 		
 	if not GlobalElements.CurrentWorkout or not GlobalElements.CurrentWorkout.is_active():
@@ -190,14 +242,18 @@ func _on_reps_changed(new_reps: float) -> void:
 	if exercise_index < 0 or set_index < 0:
 		return
 	
-	# Update the workout session data
 	var success = GlobalElements.CurrentWorkout.update_set(
 		exercise_index,
 		set_index,
-		input_weight_button.current_value,
-		int(new_reps)  # Convert to int for reps
+		null,  # Don't touch weight
+		int(new_reps),
+		is_bodyweight
 	)
 	
+	# Update causes the value refresh so it needs to be reset to "--" if it hasnt been edited 
+	if not _weight_changed:
+		input_weight_button.text = "--"
+
 	if not success:
 		push_error("Failed to update set reps")
 

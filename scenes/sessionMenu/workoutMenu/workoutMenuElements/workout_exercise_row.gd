@@ -14,6 +14,8 @@ extends Control
 @onready var set_container: VBoxContainer = %SetContainerVB
 var _exercise_set_row_scene: PackedScene = null
 
+var signal_bus = null
+
 # Reference to the exercise data this row represents
 var exercise_index: int = -1
 var exercise_data = null  # WorkoutSession.WorkoutExerciseData
@@ -60,10 +62,11 @@ func _on_expand_note_toggled():
 	"""Toggle the visibility of the expand note panel"""
 	expand_note_panel.visible = expand_note_button.button_pressed
 
-func setup(p_exercise_data, p_exercise_index: int) -> void:
+func setup(p_exercise_data, p_exercise_index: int, p_signal_bus) -> void:
 	"""Setup the row with exercise data and index"""
 	exercise_data = p_exercise_data
 	exercise_index = p_exercise_index
+	signal_bus = p_signal_bus
 	
 	# Mark as setup
 	_is_setup = true
@@ -145,11 +148,11 @@ func _populate_sets(reset_edit_state: bool = false, reuse_sets: bool = true) -> 
 		var row: Control
 		if reuse_sets and set_index < set_container.get_child_count():
 			row = set_container.get_child(set_index)
-			row.setup(set_data, exercise_index, set_index, not reset_edit_state)
+			row.setup(set_data, exercise_index, set_index, signal_bus, not reset_edit_state)
 		else:
 			row = _exercise_set_row_scene.instantiate()
 			row.sub_menu_container = sub_menu_container
-			row.setup(set_data, exercise_index, set_index, false)
+			row.setup(set_data, exercise_index, set_index, signal_bus,false)
 			set_container.add_child(row)
 
 	# Remove only rows that no longer have corresponding set data.
@@ -168,7 +171,7 @@ func _append_set_row(set_index: int) -> void:
 
 	var row = _exercise_set_row_scene.instantiate()
 	row.sub_menu_container = sub_menu_container
-	row.setup(exercise_data.sets[set_index], exercise_index, set_index, false)
+	row.setup(exercise_data.sets[set_index], exercise_index, set_index, signal_bus, false)
 	set_container.add_child(row)
 	custom_minimum_size.y = 270 + set_container.get_child_count() * 250
 

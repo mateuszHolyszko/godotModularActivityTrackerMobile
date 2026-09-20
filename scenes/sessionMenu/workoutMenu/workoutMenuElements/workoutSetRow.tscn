@@ -8,6 +8,9 @@
 [ext_resource type="Script" uid="uid://bwhe0gnehq2ca" path="res://elements/numericSpinerInput/numeric_input_spinner.gd" id="5_u1g22"]
 [ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="6_u1g22"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fktw"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="WorkoutSetRow" type="Control" unique_id=1121304851]
 custom_minimum_size = Vector2(0, 225)
 layout_mode = 3
@@ -191,3 +194,20 @@ offset_right = 0.47998047
 offset_bottom = -16.925003
 texture = ExtResource("6_u1g22")
 expand_mode = 4
+
+[node name="SetCompletedIndicator" type="Label" parent="." unique_id=1983279876]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 120
+theme_override_styles/normal = SubResource("StyleBoxFlat_6fktw")
+text = "SET COMPLETED"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -34,7 +34,7 @@ func _ready():
 	_assign_container_to_inputs()
 	_connect_signals()
 	
-	UIEffects.fade_in(self,2,0.5)
+	UIEffects.fade_in(self,1,0.5)
 
 	# Hide edit indicator initially.
 	edit_indicator_panel.visible = false

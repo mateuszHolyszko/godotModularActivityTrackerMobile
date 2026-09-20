@@ -1,8 +1,8 @@
 extends Menu
+@onready var signal_bus: WorkoutMenuSignalBus = %WorkoutMenuSignalBus
 
 @onready var sub_menu_container: Container = %SubMenuContainer # pass it to workoutExerciseRow export
 @onready var sub_menu_container_ex_picker: Container = %SubMenuContainerExercisePicker # for exercise picker, since it will be used alongside InsertPositionInput
-
 
 @onready var exercises_container: VBoxContainer = %ScrollContent 
 
@@ -68,7 +68,7 @@ func _populate_exercises() -> void:
 			row.sub_menu_container = sub_menu_container
 			
 			# Pass the exercise data and index to the row
-			row.setup(exercise_data, i)
+			row.setup(exercise_data, i, signal_bus)
 			
 			exercises_container.add_child(row)
 
@@ -110,7 +110,7 @@ func _on_exercise_added(index: int) -> void:
 
 	var row = _exercise_row_scene.instantiate()
 	row.sub_menu_container = sub_menu_container
-	row.setup(exercise_data, index)
+	row.setup(exercise_data, index, signal_bus)
 	exercises_container.add_child(row)
 	exercises_container.move_child(row, index)
 	_reindex_exercise_rows(index)

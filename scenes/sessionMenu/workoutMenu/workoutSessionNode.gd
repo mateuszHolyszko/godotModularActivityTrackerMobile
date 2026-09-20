@@ -49,11 +49,13 @@ class WorkoutExerciseData:
 			sets[i]["order"] = i
 		return true
 	
-	func update_set(index: int, weight: float, reps: int) -> bool:
+	func update_set(index: int, weight = null, reps = null) -> bool:
 		if index < 0 or index >= sets.size():
 			return false
-		sets[index]["weight"] = weight
-		sets[index]["reps"] = reps
+		if weight != null:
+			sets[index]["weight"] = weight
+		if reps != null:
+			sets[index]["reps"] = reps
 		return true
 	
 	func get_total_volume() -> float:
@@ -326,7 +328,7 @@ func remove_set_from_exercise(exercise_index: int, set_index: int) -> bool:
 		set_removed.emit(exercise_index, set_index)
 	return result
 
-func update_set(exercise_index: int, set_index: int, weight: float, reps: int, is_bodyweight: bool = false) -> bool:
+func update_set(exercise_index: int, set_index: int, weight = null, reps = null, is_bodyweight: bool = false) -> bool:
 	if not _is_active:
 		push_error("WorkoutSession: Cannot update set in inactive workout")
 		return false
@@ -335,9 +337,9 @@ func update_set(exercise_index: int, set_index: int, weight: float, reps: int, i
 	if not data:
 		return false
 	
-	# If bodyweight exercise, add bodyweight to the weight
-	var actual_weight := weight
-	if is_bodyweight:
+	# If bodyweight exercise AND weight was actually provided, add bodyweight
+	var actual_weight = weight
+	if is_bodyweight and weight != null:
 		actual_weight = weight + get_body_weight()
 	
 	var result = data.update_set(set_index, actual_weight, reps)

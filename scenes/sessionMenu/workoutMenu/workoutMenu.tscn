@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cml1tg0mj3khn" path="res://assets/icons/backspace.svg" id="8_iyjcn"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="8_rwvhw"]
 [ext_resource type="Script" uid="uid://gs78mry43ttf" path="res://elements/insertPosition/insert_position_input_button.gd" id="9_iyjcn"]
+[ext_resource type="Script" uid="uid://dpseyflpbqqkd" path="res://scenes/sessionMenu/workoutMenu/WorkoutMenuSignalBus.gd.gd" id="12_164jo"]
 
 [sub_resource type="Theme" id="Theme_8a37s"]
 Button/styles/normal = ExtResource("3_5k2gp")
@@ -160,38 +161,58 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="TimeStatusPanel" type="Panel" parent="Background/MarginContainer/VB" unique_id=2117151651]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 script = ExtResource("4_5k2gp")
 
-[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/TimeStatusPanel" unique_id=861365845]
+[node name="VB" type="VBoxContainer" parent="Background/MarginContainer/VB/TimeStatusPanel" unique_id=1667245769]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/TimeStatusPanel/VB" unique_id=861365845]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="StartedTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/HB" unique_id=1989015798]
+[node name="StartedTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/VB/HB" unique_id=1989015798]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 5
 theme_override_font_sizes/font_size = 50
 text = "Started: --:--"
+vertical_alignment = 1
 
-[node name="ElapsedTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/HB" unique_id=617700703]
+[node name="ElapsedTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/VB/HB" unique_id=617700703]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 5
 theme_override_font_sizes/font_size = 50
 text = "Elapsed: --:--"
+vertical_alignment = 1
 
-[node name="AverageTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/HB" unique_id=1412336036]
+[node name="AverageTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/VB/HB" unique_id=1412336036]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 5
 theme_override_colors/font_color = Color(0.48962224, 0.48962224, 0.48962218, 1)
 theme_override_font_sizes/font_size = 50
 text = "Arg: --:--"
+vertical_alignment = 1
+
+[node name="RestTimeLabel" type="Label" parent="Background/MarginContainer/VB/TimeStatusPanel/VB" unique_id=745142119]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 1.2
+theme_override_font_sizes/font_size = 90
+text = "Rest time: --:--"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ScrollButtonTop" type="Button" parent="Background/MarginContainer/VB" unique_id=68133225]
 custom_minimum_size = Vector2(0, 50)
@@ -350,3 +371,8 @@ offset_left = 0.47999573
 offset_top = 0.2000122
 offset_right = -0.32000732
 offset_bottom = 0.79992676
+
+[node name="WorkoutMenuSignalBus" type="Node" parent="." unique_id=594671179]
+unique_name_in_owner = true
+script = ExtResource("12_164jo")
+metadata/_custom_type_script = "uid://dpseyflpbqqkd"

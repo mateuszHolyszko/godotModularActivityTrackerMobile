@@ -1,5 +1,11 @@
 SEE TODO IN elements
 
+in session, add timer that shows time elapsed since last set performed
+
+in session change comment button to VB, on bot add stats button that pulls up a chart of performance for given ex
+
+change muscle dict to resource, and let user determine muscle he wants to track
+
 similar to program changed signal in program mnaager add session changed to session manager and hook it up to session menu
 
 on singular datapoint deletion, refresh batch sizes
@@ -11,8 +17,6 @@ to exercise tie video (in workout exercise row give camera button that lets you 
 to exercise add half targets, like dip can hit triceps 0,5 times per set
 
 in pick exercise include DisplayExerciseMods bellow exercise so we can make diff between same named exercise
-
-For some menu (right now Init and Data{to be Exercise}) implement async loading with spinning loading indicator
 
 Isometric exercises
 

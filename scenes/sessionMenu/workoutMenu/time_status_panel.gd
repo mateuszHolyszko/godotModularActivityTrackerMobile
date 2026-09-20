@@ -1,14 +1,19 @@
 extends Panel
+@onready var signal_bus: WorkoutMenuSignalBus = %WorkoutMenuSignalBus
 
 @onready var started_time_label: Label = %StartedTimeLabel # format "Started: hh:mm"
 @onready var elapsed_time_label: Label = %ElapsedTimeLabel # format "Elapsed: hh:mm"
 @onready var average_time_label: Label = %AverageTimeLabel #  
+@onready var rest_time_label: Label = %RestTimeLabel # format "Rest time: --:--"
 
 # Reference to the current workout session
 var current_workout: WorkoutSession = null
 
 # Timer for updating elapsed time
 var update_timer: Timer = null
+
+# Timestamp (unix seconds) of the last completed set, 0 = none yet
+var _last_set_edited_timestamp: int = 0
 
 func _ready() -> void:
 	# Set up timer for elapsed time updates
@@ -25,6 +30,10 @@ func _ready() -> void:
 	if GlobalElements.CurrentWorkout.has_signal("workout_cancelled"):
 		GlobalElements.CurrentWorkout.workout_cancelled.connect(_on_workout_ended)
 	
+	# Connect to the session menu signal bus for set completions
+	if signal_bus:
+		signal_bus.set_edited.connect(_on_set_edited)
+	
 	# Check if there's already an active workout
 	if GlobalElements.CurrentWorkout and GlobalElements.CurrentWorkout.is_active():
 		_on_workout_started()
@@ -34,16 +43,24 @@ func _ready() -> void:
 
 func _on_workout_started() -> void:
 	current_workout = GlobalElements.CurrentWorkout
+	_last_set_edited_timestamp = 0
 	_update_started_time()
 	_update_elapsed_time()
+	_update_rest_time()
 	update_timer.start()
 
 func _on_workout_ended() -> void:
 	update_timer.stop()
 	_update_elapsed_time() # Final update
+	_update_rest_time()
 	current_workout = null
 	# Update average time after workout ends (may have new session data)
 	_update_average_time()
+
+func _on_set_edited(_exercise_index: int, _set_index: int) -> void:
+	"""Reset the rest timer whenever a set is completed"""
+	_last_set_edited_timestamp = Time.get_unix_time_from_system()
+	_update_rest_time()
 
 func _update_started_time() -> void:
 	if not current_workout or current_workout.start_timestamp == 0:
@@ -74,6 +91,24 @@ func _update_elapsed_time() -> void:
 		var minutes = current_workout.get_duration_minutes()
 		var seconds = current_workout.get_duration_seconds() % 60
 		elapsed_time_label.text = "Elapsed: %02d:%02d" % [minutes, seconds]
+	
+	# Elapsed timer also drives the rest-time display so they stay in sync
+	_update_rest_time()
+
+func _update_rest_time() -> void:
+	"""Show time since the last completed set, or --:-- if none yet"""
+	if _last_set_edited_timestamp == 0:
+		rest_time_label.text = "Rest Time: --:--"
+		return
+	
+	var now := int(Time.get_unix_time_from_system())
+	var rest_seconds := now - _last_set_edited_timestamp
+	if rest_seconds < 0:
+		rest_seconds = 0
+	
+	var minutes := rest_seconds / 60
+	var seconds := rest_seconds % 60
+	rest_time_label.text = "Rest Time: %02d:%02d" % [minutes, seconds]
 
 func _update_average_time() -> void:
 	# Get current program from workout if active, otherwise use last program

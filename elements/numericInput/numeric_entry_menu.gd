@@ -106,7 +106,7 @@ func _on_backspace_pressed() -> void:
 
 
 func _update_buffer_label() -> void:
-	current_value_buffer_label.text = _buffer if not _buffer.is_empty() else "0"
+	current_value_buffer_label.text = _buffer if not _buffer.is_empty() else str(_initial_value).pad_decimals(2)
 
 
 func _on_confirm_pressed() -> void:
