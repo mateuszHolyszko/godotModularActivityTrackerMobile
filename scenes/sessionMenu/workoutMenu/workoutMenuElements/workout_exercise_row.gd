@@ -5,7 +5,6 @@ extends Control
 @onready var pick_exercise_button: PickExerciseButton = %PickExerciseButton # Holds exercise, and allows to switch exercise mid workout
 @onready var add_set_button: Button = %AddSetButton # Appends set to exercise
 
-@onready var expand_note_button: Button = %ExpandNoteButton # toggels visisbility of ExpandNotePanel (toggle mode button)
 @onready var expand_note_panel: Panel = %ExpandNotePanel # holds inputNoteButton
 @onready var input_note_button: TextInputButton = %InputNoteButton
 
@@ -43,24 +42,10 @@ func _ready():
 	# Connect to pick exercise button value change
 	pick_exercise_button.value_changed.connect(_on_exercise_changed)
 	input_note_button.value_changed.connect(_on_note_changed)
-
-	# Connect note expand button
-	expand_note_button.pressed.connect(_on_expand_note_toggled)
-
-	# Initialize note panel as hidden by default
-	expand_note_panel.visible = false
-	expand_note_button.button_pressed = false
-
-	# Set the toggle mode
-	expand_note_button.toggle_mode = true
 	
 	# If we were already setup, complete the initialization now
 	if _is_setup:
 		_finish_setup()
-
-func _on_expand_note_toggled():
-	"""Toggle the visibility of the expand note panel"""
-	expand_note_panel.visible = expand_note_button.button_pressed
 
 func setup(p_exercise_data, p_exercise_index: int, p_signal_bus) -> void:
 	"""Setup the row with exercise data and index"""

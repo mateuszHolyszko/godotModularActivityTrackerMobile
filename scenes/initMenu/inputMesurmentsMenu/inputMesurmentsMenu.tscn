@@ -9,6 +9,9 @@
 [ext_resource type="Script" uid="uid://dov8hnc8vqfff" path="res://elements/plotter2D/Plotter2D.gd" id="6_84fym"]
 [ext_resource type="Script" uid="uid://bcrau8ia00vpx" path="res://elements/dateInput/date_input_button.gd" id="7_hse1n"]
 [ext_resource type="PackedScene" uid="uid://iwe3lmad8irb" path="res://elements/confirmDialog/ConfirmationEntryMenu.tscn" id="8_rmtl0"]
+[ext_resource type="Script" uid="uid://dtdyjqvv56wy3" path="res://elements/popupPanelButton/popup_panel_button.gd" id="9_kjmba"]
+[ext_resource type="Texture2D" uid="uid://x04polju0enb" path="res://assets/icons/chevron-up-svgrepo-com.svg" id="10_78ggh"]
+[ext_resource type="Texture2D" uid="uid://d2juyxgwdk8ss" path="res://assets/icons/chevron-down-svgrepo-com.svg" id="11_s41a1"]
 
 [sub_resource type="Theme" id="Theme_84fym"]
 Button/styles/normal = ExtResource("3_vyh2y")
@@ -68,7 +71,6 @@ size_flags_vertical = 3
 [node name="PlotterMesurmentsVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB" unique_id=618060729]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.8
 theme_override_constants/separation = 20
 
 [node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/PlotterMesurmentsVB" unique_id=70188126]
@@ -150,6 +152,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_1eb8a")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
 theme_override_constants/separation = 20
 
 [node name="WeightInputVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=1386922774]
@@ -218,274 +221,28 @@ entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
 submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
 metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
 
-[node name="ArmsInputVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=771322178]
+[node name="VS3" type="VSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=352245932]
 layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
 
-[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB" unique_id=1772344527]
-layout_mode = 2
-size_flags_vertical = 4
-size_flags_stretch_ratio = 0.5
-
-[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB/HB" unique_id=1492098686]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="LabelPrevious" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB/HB" unique_id=1659225069]
+[node name="PopupPanelButton" type="Button" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=1652850875 node_paths=PackedStringArray("popup_panel")]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Last record: "
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelPreviousValueArms" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB/HB" unique_id=1065163886]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "--.--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS4" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB/HB" unique_id=2054845642]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="LabelDateArms" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB/HB" unique_id=1438978868]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "dd-mm-yy"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB/HB" unique_id=1874931494]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="InputArms" type="Button" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ArmsInputVB" unique_id=419590816]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 100)
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Input Arms"
-script = ExtResource("4_54fvo")
-prompt_text = "Input Arms"
-suffix_text = " [cm]"
-min_value = 15.0
-max_value = 62.0
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
-
-[node name="ChestInputVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=606307689]
-layout_mode = 2
-
-[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB" unique_id=1789909196]
-layout_mode = 2
-size_flags_vertical = 4
-size_flags_stretch_ratio = 0.5
-
-[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB/HB" unique_id=1081606647]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="LabelPrevious" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB/HB" unique_id=1095381930]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Last record: "
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelPreviousValueChest" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB/HB" unique_id=1889570998]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "--.--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS4" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB/HB" unique_id=373541396]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="LabelDateChest" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB/HB" unique_id=761389878]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "dd-mm-yy"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB/HB" unique_id=1297851042]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="InputChest" type="Button" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ChestInputVB" unique_id=1199029562]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 100)
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Input Chest"
-script = ExtResource("4_54fvo")
-prompt_text = "Input Chest"
-suffix_text = " [cm]"
-min_value = 50.0
-max_value = 160.0
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
-
-[node name="WaistInputVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=963730925]
-layout_mode = 2
-
-[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB" unique_id=1193906029]
-layout_mode = 2
-size_flags_vertical = 4
-size_flags_stretch_ratio = 0.5
-
-[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB/HB" unique_id=1059863836]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="LabelPrevious" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB/HB" unique_id=588142503]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Last record: "
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelPreviousValueWaist" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB/HB" unique_id=1510078965]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "--.--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS4" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB/HB" unique_id=265689383]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="LabelDateWaist" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB/HB" unique_id=1689992823]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "dd-mm-yy"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB/HB" unique_id=1458298270]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="InputWaist" type="Button" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/WaistInputVB" unique_id=1309874667]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 100)
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Input Waist"
-script = ExtResource("4_54fvo")
-prompt_text = "Input Waist"
-suffix_text = " [cm]"
-min_value = 40.0
-max_value = 130.0
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
-
-[node name="ThighInputVB" type="VBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=683231878]
-layout_mode = 2
-
-[node name="HB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB" unique_id=1749402587]
-layout_mode = 2
-size_flags_vertical = 4
-size_flags_stretch_ratio = 0.5
-
-[node name="HS" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB/HB" unique_id=1974515342]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="LabelPrevious" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB/HB" unique_id=517225005]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Last record: "
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelPreviousValueThigh" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB/HB" unique_id=1409667249]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "--.--"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS4" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB/HB" unique_id=1349909547]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="LabelDateThigh" type="Label" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB/HB" unique_id=273180844]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
-text = "dd-mm-yy"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB/HB" unique_id=1676687453]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="InputThigh" type="Button" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB/ThighInputVB" unique_id=935816651]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 100)
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Input Thigh"
-script = ExtResource("4_54fvo")
-prompt_text = "Input Thigh"
-suffix_text = " [cm]"
-min_value = 35.0
-max_value = 90.0
-entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
-submenu_container_path = NodePath("../../../../../../../SubMenuInputContainer")
-metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+toggle_mode = true
+text = "Input Mesurement"
+expand_icon = true
+script = ExtResource("9_kjmba")
+popup_panel = NodePath("../../../../../../MesurementPanel")
+expansion_icon = ExtResource("10_78ggh")
+collapse_icon = ExtResource("11_s41a1")
+expand_direction = 0
+metadata/_custom_type_script = "uid://dtdyjqvv56wy3"
 
 [node name="VS2" type="VSeparator" parent="Background/MarginContainer/VB/VB/BodyMesurmentsVB" unique_id=813287717]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.1
 
 [node name="CrudeHB" type="HBoxContainer" parent="Background/MarginContainer/VB/VB" unique_id=914811441]
 layout_mode = 2
@@ -517,6 +274,295 @@ text = "Save"
 [node name="HS2" type="HSeparator" parent="Background/MarginContainer/VB/VB/CrudeHB" unique_id=1538162898]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="MesurementPanel" type="Panel" parent="." unique_id=1008952254]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.009000001
+anchor_top = 0.407
+anchor_right = 0.99100006
+anchor_bottom = 0.873
+offset_left = 0.27999973
+offset_top = 1.2000122
+offset_right = -0.2800293
+offset_bottom = 0.8000488
+
+[node name="VB" type="VBoxContainer" parent="MesurementPanel" unique_id=1517744799]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ArmsInputVB" type="VBoxContainer" parent="MesurementPanel/VB" unique_id=771322178]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB" type="HBoxContainer" parent="MesurementPanel/VB/ArmsInputVB" unique_id=1772344527]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.5
+
+[node name="HS" type="HSeparator" parent="MesurementPanel/VB/ArmsInputVB/HB" unique_id=1492098686]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="LabelPrevious" type="Label" parent="MesurementPanel/VB/ArmsInputVB/HB" unique_id=1659225069]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Last record: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelPreviousValueArms" type="Label" parent="MesurementPanel/VB/ArmsInputVB/HB" unique_id=1065163886]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "--.--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS4" type="HSeparator" parent="MesurementPanel/VB/ArmsInputVB/HB" unique_id=2054845642]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="LabelDateArms" type="Label" parent="MesurementPanel/VB/ArmsInputVB/HB" unique_id=1438978868]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "dd-mm-yy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS2" type="HSeparator" parent="MesurementPanel/VB/ArmsInputVB/HB" unique_id=1874931494]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="InputArms" type="Button" parent="MesurementPanel/VB/ArmsInputVB" unique_id=419590816]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Input Arms"
+script = ExtResource("4_54fvo")
+prompt_text = "Input Arms"
+suffix_text = " [cm]"
+min_value = 15.0
+max_value = 62.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../SubMenuInputContainer")
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+
+[node name="ChestInputVB" type="VBoxContainer" parent="MesurementPanel/VB" unique_id=606307689]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB" type="HBoxContainer" parent="MesurementPanel/VB/ChestInputVB" unique_id=1789909196]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.5
+
+[node name="HS" type="HSeparator" parent="MesurementPanel/VB/ChestInputVB/HB" unique_id=1081606647]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="LabelPrevious" type="Label" parent="MesurementPanel/VB/ChestInputVB/HB" unique_id=1095381930]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Last record: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelPreviousValueChest" type="Label" parent="MesurementPanel/VB/ChestInputVB/HB" unique_id=1889570998]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "--.--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS4" type="HSeparator" parent="MesurementPanel/VB/ChestInputVB/HB" unique_id=373541396]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="LabelDateChest" type="Label" parent="MesurementPanel/VB/ChestInputVB/HB" unique_id=761389878]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "dd-mm-yy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS2" type="HSeparator" parent="MesurementPanel/VB/ChestInputVB/HB" unique_id=1297851042]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="InputChest" type="Button" parent="MesurementPanel/VB/ChestInputVB" unique_id=1199029562]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Input Chest"
+script = ExtResource("4_54fvo")
+prompt_text = "Input Chest"
+suffix_text = " [cm]"
+min_value = 50.0
+max_value = 160.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../SubMenuInputContainer")
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+
+[node name="WaistInputVB" type="VBoxContainer" parent="MesurementPanel/VB" unique_id=963730925]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB" type="HBoxContainer" parent="MesurementPanel/VB/WaistInputVB" unique_id=1193906029]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.5
+
+[node name="HS" type="HSeparator" parent="MesurementPanel/VB/WaistInputVB/HB" unique_id=1059863836]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="LabelPrevious" type="Label" parent="MesurementPanel/VB/WaistInputVB/HB" unique_id=588142503]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Last record: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelPreviousValueWaist" type="Label" parent="MesurementPanel/VB/WaistInputVB/HB" unique_id=1510078965]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "--.--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS4" type="HSeparator" parent="MesurementPanel/VB/WaistInputVB/HB" unique_id=265689383]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="LabelDateWaist" type="Label" parent="MesurementPanel/VB/WaistInputVB/HB" unique_id=1689992823]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "dd-mm-yy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS2" type="HSeparator" parent="MesurementPanel/VB/WaistInputVB/HB" unique_id=1458298270]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="InputWaist" type="Button" parent="MesurementPanel/VB/WaistInputVB" unique_id=1309874667]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Input Waist"
+script = ExtResource("4_54fvo")
+prompt_text = "Input Waist"
+suffix_text = " [cm]"
+min_value = 40.0
+max_value = 130.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../SubMenuInputContainer")
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
+
+[node name="ThighInputVB" type="VBoxContainer" parent="MesurementPanel/VB" unique_id=683231878]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB" type="HBoxContainer" parent="MesurementPanel/VB/ThighInputVB" unique_id=1749402587]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.5
+
+[node name="HS" type="HSeparator" parent="MesurementPanel/VB/ThighInputVB/HB" unique_id=1974515342]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="LabelPrevious" type="Label" parent="MesurementPanel/VB/ThighInputVB/HB" unique_id=517225005]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Last record: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelPreviousValueThigh" type="Label" parent="MesurementPanel/VB/ThighInputVB/HB" unique_id=1409667249]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "--.--"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS4" type="HSeparator" parent="MesurementPanel/VB/ThighInputVB/HB" unique_id=1349909547]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="LabelDateThigh" type="Label" parent="MesurementPanel/VB/ThighInputVB/HB" unique_id=273180844]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5649617, 0.5649616, 0.5649616, 1)
+text = "dd-mm-yy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HS2" type="HSeparator" parent="MesurementPanel/VB/ThighInputVB/HB" unique_id=1676687453]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="InputThigh" type="Button" parent="MesurementPanel/VB/ThighInputVB" unique_id=935816651]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Input Thigh"
+script = ExtResource("4_54fvo")
+prompt_text = "Input Thigh"
+suffix_text = " [cm]"
+min_value = 35.0
+max_value = 90.0
+entry_menu_scene_path = "res://elements/numericInput/NumericEntryMenu.tscn"
+submenu_container_path = NodePath("../../../../SubMenuInputContainer")
+metadata/_custom_type_script = "uid://n1gu6fh5kwm0"
 
 [node name="SubMenuInputContainer" type="Container" parent="." unique_id=656047987]
 unique_name_in_owner = true

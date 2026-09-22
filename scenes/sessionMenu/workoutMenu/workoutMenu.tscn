@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cml1tg0mj3khn" path="res://assets/icons/backspace.svg" id="8_iyjcn"]
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="8_rwvhw"]
 [ext_resource type="Script" uid="uid://gs78mry43ttf" path="res://elements/insertPosition/insert_position_input_button.gd" id="9_iyjcn"]
-[ext_resource type="Script" uid="uid://dpseyflpbqqkd" path="res://scenes/sessionMenu/workoutMenu/WorkoutMenuSignalBus.gd.gd" id="12_164jo"]
+[ext_resource type="Script" uid="uid://dpseyflpbqqkd" path="res://scenes/sessionMenu/workoutMenu/WorkoutMenuSignalBus.gd" id="12_164jo"]
 
 [sub_resource type="Theme" id="Theme_8a37s"]
 Button/styles/normal = ExtResource("3_5k2gp")

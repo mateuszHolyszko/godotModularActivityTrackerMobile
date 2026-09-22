@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dsnqedbgpucr"]
+
+[ext_resource type="Script" uid="uid://dtdyjqvv56wy3" path="res://elements/popupPanelButton/popup_panel_button.gd" id="1_7dc64"]
+
+[node name="PopupPanelButton" type="Button" unique_id=1453484595]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7dc64")

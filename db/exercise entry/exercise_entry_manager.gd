@@ -248,6 +248,146 @@ func get_latest_entry_for_exercise(exercise_name: String) -> ExerciseEntry:
 	# Return the first entry (most recent)
 	return entries_with_data[0]
 
+
+enum QueryTime {
+	ONE_MONTH,
+	THREE_MONTHS,
+	ONE_YEAR
+}
+
+
+func get_sets_data_point_for_exercise(
+	exercise_name: String,
+	set_index: int,
+	query_time: QueryTime = QueryTime.ONE_MONTH
+) -> Dictionary:
+	"""Get a specific set number from every session for a given exercise,
+	within a chosen time range, as plottable data.
+
+	Args:
+		exercise_name: Name of the exercise to query.
+		set_index: 0 = first set, 1 = second set, etc.
+			Only sets that actually exist in an entry are included
+			(so if a session only had 2 sets, set_index 2 is skipped).
+		query_time: Which time window to include.
+
+	Returns:
+	{
+		"success": bool,
+		"exercise_name": String,
+		"set_index": int,
+		"query_time": QueryTime,
+		"timestamps": PackedFloat32Array,
+		"weight_values": PackedFloat32Array,
+		"reps_values": PackedFloat32Array
+	}
+	"""
+	var timestamps := PackedFloat32Array()
+	var weight_values := PackedFloat32Array()
+	var reps_values := PackedFloat32Array()
+
+	# Convert query time to a start timestamp (end is "now").
+	var start_timestamp := _query_time_to_start_timestamp(query_time)
+
+	# Pull all entries within the range, then filter by exercise + set index.
+	var ranged_items := get_entries_in_range(start_timestamp, 0)
+	if ranged_items.is_empty():
+		return {
+			"success": false,
+			"exercise_name": exercise_name,
+			"set_index": set_index,
+			"query_time": query_time,
+			"timestamps": timestamps,
+			"weight_values": weight_values,
+			"reps_values": reps_values
+		}
+
+	var search_name := exercise_name.strip_edges().to_lower()
+
+	# Collect valid (timestamp, entry) pairs.
+	var session_points: Array = []
+
+	for item in ranged_items:
+		var entry: ExerciseEntry = item.get("entry")
+		if not entry:
+			continue
+
+		# Exercise name match
+		if not entry.exercise or entry.exercise.name.to_lower() != search_name:
+			continue
+
+		if not entry.sets or entry.sets.size() == 0:
+			continue
+
+		if entry.session_id == "":
+			continue
+
+		# Skip entries that don't have this set index.
+		if set_index < 0 or set_index >= entry.sets.size():
+			continue
+
+		var session = DataManager.SessionManager.get_session_by_id(entry.session_id)
+		if not session:
+			continue
+
+		var session_timestamp := _date_to_timestamp(session.date)
+		if session_timestamp == -1:
+			continue
+
+		session_points.append({
+			"timestamp": session_timestamp,
+			"entry": entry
+		})
+
+	if session_points.is_empty():
+		return {
+			"success": false,
+			"exercise_name": exercise_name,
+			"set_index": set_index,
+			"query_time": query_time,
+			"timestamps": timestamps,
+			"weight_values": weight_values,
+			"reps_values": reps_values
+		}
+
+	# Oldest first so the plot reads left-to-right.
+	session_points.sort_custom(func(a, b): return a["timestamp"] < b["timestamp"])
+
+	for point in session_points:
+		var entry: ExerciseEntry = point["entry"]
+		var base_timestamp: float = float(point["timestamp"])
+		var set_data: Dictionary = entry.sets[set_index]
+
+		timestamps.append(base_timestamp)
+		weight_values.append(float(set_data.get("weight", 0.0)))
+		reps_values.append(float(set_data.get("reps", 0)))
+
+	return {
+		"success": true,
+		"exercise_name": exercise_name,
+		"set_index": set_index,
+		"query_time": query_time,
+		"timestamps": timestamps,
+		"weight_values": weight_values,
+		"reps_values": reps_values
+	}
+
+
+func _query_time_to_start_timestamp(query_time: QueryTime) -> int:
+	"""Convert a QueryTime enum to a Unix timestamp marking the start of the range."""
+	var now := int(Time.get_unix_time_from_system())
+	const DAY := 86400
+
+	match query_time:
+		QueryTime.ONE_MONTH:
+			return now - 30 * DAY
+		QueryTime.THREE_MONTHS:
+			return now - 90 * DAY
+		QueryTime.ONE_YEAR:
+			return now - 365 * DAY
+
+	return 0
+
 func get_latest_sets_for_exercise(exercise_name: String) -> Array:
 	"""Get the sets from the most recent entry for a specific exercise"""
 	var latest_entry = get_latest_entry_for_exercise(exercise_name)

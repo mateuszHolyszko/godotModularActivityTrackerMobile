@@ -6,7 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://wnxqthup6b2j" path="res://assets/icons/add-box-svgrepo-com.svg" id="3_jm4cd"]
 [ext_resource type="PackedScene" uid="uid://4qmw3ytv10dr" path="res://elements/DisplayExerciseModuleMods/DisplayExerciseMods.tscn" id="4_bqdh6"]
 [ext_resource type="Texture2D" uid="uid://co5tqsbs75b2g" path="res://assets/icons/text.svg" id="4_wqquj"]
+[ext_resource type="Texture2D" uid="uid://cypwlxdao4b21" path="res://assets/icons/chart.svg" id="5_kdqfp"]
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="6_jm4cd"]
+[ext_resource type="Script" uid="uid://dtdyjqvv56wy3" path="res://elements/popupPanelButton/popup_panel_button.gd" id="7_bqdh6"]
+[ext_resource type="Script" uid="uid://c82y03dfbmfqr" path="res://scenes/sessionMenu/workoutMenu/workoutMenuElements/expand_chart_panel.gd" id="10_upv1t"]
+[ext_resource type="Script" uid="uid://dov8hnc8vqfff" path="res://elements/plotter2D/Plotter2D.gd" id="10_xpyg3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqdh6"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
@@ -34,6 +38,35 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VB2" type="VBoxContainer" parent="HB" unique_id=191192139]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="ExpandNoteButton" type="Button" parent="HB/VB2" unique_id=864073405 node_paths=PackedStringArray("popup_panel")]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+toggle_mode = true
+icon = ExtResource("4_wqquj")
+expand_icon = true
+script = ExtResource("7_bqdh6")
+popup_panel = NodePath("../../../ExpandNotePanel")
+expand_direction = 3
+metadata/_custom_type_script = "uid://dtdyjqvv56wy3"
+
+[node name="ExpandExerciseHistoryButton" type="Button" parent="HB/VB2" unique_id=122754584 node_paths=PackedStringArray("popup_panel")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+toggle_mode = true
+icon = ExtResource("5_kdqfp")
+expand_icon = true
+script = ExtResource("7_bqdh6")
+popup_panel = NodePath("../../../ExpandChartPanel")
+expand_direction = 3
+metadata/_custom_type_script = "uid://dtdyjqvv56wy3"
 
 [node name="VB" type="VBoxContainer" parent="HB" unique_id=109819720]
 layout_mode = 2
@@ -73,27 +106,16 @@ icon = ExtResource("3_jm4cd")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ExpandNoteButton" type="Button" parent="HB" unique_id=1567932795]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(70, 0)
-layout_mode = 2
-size_flags_stretch_ratio = 0.1
-theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
-toggle_mode = true
-icon = ExtResource("4_wqquj")
-expand_icon = true
-
 [node name="ExpandNotePanel" type="Panel" parent="." unique_id=241263563]
 unique_name_in_owner = true
 visible = false
 modulate = Color(1, 1, 1, 0.88235295)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.21800001
+anchor_left = 0.069000006
 anchor_right = 0.93100005
 anchor_bottom = 1.0
-offset_left = -0.4400177
+offset_left = -0.5200043
 offset_right = 0.5199585
 
 [node name="VB" type="VBoxContainer" parent="ExpandNotePanel" unique_id=2125132833]
@@ -120,3 +142,72 @@ prompt_text = "Take Note"
 placeholder_text = "leave notes here"
 entry_menu_scene_path = "res://elements/textInput/TextEntryMenu.tscn"
 metadata/_custom_type_script = "uid://brkmh4ac31olu"
+
+[node name="ExpandChartPanel" type="Panel" parent="." unique_id=1687531312]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.88235295)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.069000006
+anchor_right = 0.93100005
+anchor_bottom = 1.0
+offset_left = -0.5200043
+offset_right = 0.5199585
+script = ExtResource("10_upv1t")
+
+[node name="VB" type="VBoxContainer" parent="ExpandChartPanel" unique_id=2021867637]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="ExpandChartPanel/VB" unique_id=544859078]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ExpandChartPanel/VB" unique_id=547032367]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 80
+
+[node name="ExerciseHistoryPlotter" type="Control" parent="ExpandChartPanel/VB/MarginContainer" unique_id=1880509502]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("10_xpyg3")
+font_size = 38
+metadata/_custom_type_script = "uid://dov8hnc8vqfff"
+
+[node name="HB" type="HBoxContainer" parent="ExpandChartPanel/VB" unique_id=2144890116]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_constants/separation = 80
+alignment = 1
+
+[node name="OneMonthButton" type="Button" parent="ExpandChartPanel/VB/HB" unique_id=796911204]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(-1, 80)
+layout_mode = 2
+toggle_mode = true
+text = "1 month"
+
+[node name="ThreeMonthsButton" type="Button" parent="ExpandChartPanel/VB/HB" unique_id=1878985652]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(-1, 80)
+layout_mode = 2
+toggle_mode = true
+text = "3 months"
+
+[node name="OneYearButton" type="Button" parent="ExpandChartPanel/VB/HB" unique_id=176610154]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(-1, 80)
+layout_mode = 2
+toggle_mode = true
+text = "1 year"
