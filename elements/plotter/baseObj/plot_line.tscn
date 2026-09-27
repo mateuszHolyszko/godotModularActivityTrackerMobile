@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dplcrh13feu77"]
+
+[ext_resource type="Script" uid="uid://belfjo6h0ctf2" path="res://elements/plotter/baseObj/PlotLine.gd" id="1_owpxp"]
+
+[node name="PlotLine" type="Node2D" unique_id=1304947770]
+script = ExtResource("1_owpxp")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1394947388]
+width = 5.0
+joint_mode = 2
+
+[node name="Area2D" type="Area2D" parent="." unique_id=72290341]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=284743001]

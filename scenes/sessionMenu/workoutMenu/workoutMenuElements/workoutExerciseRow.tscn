@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://brkmh4ac31olu" path="res://elements/textInput/text_input_button.gd" id="6_jm4cd"]
 [ext_resource type="Script" uid="uid://dtdyjqvv56wy3" path="res://elements/popupPanelButton/popup_panel_button.gd" id="7_bqdh6"]
 [ext_resource type="Script" uid="uid://c82y03dfbmfqr" path="res://scenes/sessionMenu/workoutMenu/workoutMenuElements/expand_chart_panel.gd" id="10_upv1t"]
-[ext_resource type="Script" uid="uid://dov8hnc8vqfff" path="res://elements/plotter2D/Plotter2D.gd" id="10_xpyg3"]
+[ext_resource type="PackedScene" uid="uid://wilhcymjk126" path="res://elements/plotter/Plotter.tscn" id="11_upv1t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqdh6"]
 bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.41960785)
@@ -177,13 +177,9 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 90
 theme_override_constants/margin_bottom = 80
 
-[node name="ExerciseHistoryPlotter" type="Control" parent="ExpandChartPanel/VB/MarginContainer" unique_id=1880509502]
+[node name="ExerciseHistoryPlotter" parent="ExpandChartPanel/VB/MarginContainer" unique_id=1590641649 instance=ExtResource("11_upv1t")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
-script = ExtResource("10_xpyg3")
-font_size = 38
-metadata/_custom_type_script = "uid://dov8hnc8vqfff"
 
 [node name="HB" type="HBoxContainer" parent="ExpandChartPanel/VB" unique_id=2144890116]
 custom_minimum_size = Vector2(0, 100)

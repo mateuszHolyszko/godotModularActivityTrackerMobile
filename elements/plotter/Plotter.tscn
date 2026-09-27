@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://wilhcymjk126"]
+
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_jf75w"]
+[ext_resource type="Script" uid="uid://fnyohrncy8lq" path="res://elements/plotter/plot_space.gd" id="1_svriu"]
+[ext_resource type="Script" uid="uid://bv4gn7otxplk4" path="res://elements/plotter/plotter.gd" id="1_wkru5"]
+[ext_resource type="Script" uid="uid://5ce06y88rscu" path="res://elements/plotter/xaxis.gd" id="4_jf75w"]
+[ext_resource type="Script" uid="uid://n46o3hxu8lx6" path="res://elements/plotter/yvalues.gd" id="4_yyin8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wkru5"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 0)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jf75w"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 0)
+border_color = Color(1, 1, 1, 1)
+
+[node name="Plotter" type="Control" unique_id=1590641649]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_jf75w")
+script = ExtResource("1_wkru5")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1685694120]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="VB" type="VBoxContainer" parent="MarginContainer" unique_id=703934056]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PlotSpace" type="Panel" parent="MarginContainer/VB" unique_id=1985739209]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_wkru5")
+script = ExtResource("1_svriu")
+
+[node name="Yvalues" type="Panel" parent="MarginContainer/VB/PlotSpace" unique_id=915306144]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jf75w")
+script = ExtResource("4_yyin8")
+
+[node name="Xaxis" type="Panel" parent="MarginContainer/VB" unique_id=953333617]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_styles/panel = SubResource("StyleBoxFlat_wkru5")
+script = ExtResource("4_jf75w")
+
+[node name="DateLabelTemplate" type="Label" parent="." unique_id=1652904634]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+offset_right = 72.0
+offset_bottom = 37.0
+theme_override_font_sizes/font_size = 36
+text = "dd-mm"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ValueLabelTemplate" type="Label" parent="." unique_id=1452793647]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+layout_mode = 1
+offset_right = 72.0
+offset_bottom = 77.0
+theme_override_font_sizes/font_size = 30
+text = "000.00"
+horizontal_alignment = 1
+vertical_alignment = 1

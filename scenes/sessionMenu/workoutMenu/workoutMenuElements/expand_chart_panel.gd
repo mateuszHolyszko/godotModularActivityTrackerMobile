@@ -3,7 +3,7 @@ extends Panel
 @onready var root_exercise_row: Control = $".."
 
 @onready var expand_button: PopupPanelButton = %ExpandExerciseHistoryButton
-@onready var exercise_history_plotter: Plotter2D = %ExerciseHistoryPlotter
+@onready var exercise_history_plotter: Plotter = %ExerciseHistoryPlotter
 
 # Query time buttons
 @onready var one_month_toggle: Button = %OneMonthButton
@@ -78,7 +78,7 @@ func _refresh_plot() -> void:
 	if not expand_button.is_expanded:
 		return
 
-	exercise_history_plotter.clear()
+	exercise_history_plotter.clear_plots()
 
 	var exercise = root_exercise_row.exercise_data.exercise
 	if exercise == null:
@@ -93,16 +93,16 @@ func _refresh_plot() -> void:
 	if not first_set["success"]:
 		return
 
-	exercise_history_plotter.add_plot_line(
-		first_set["timestamps"],
-		first_set["weight_values"],
+	exercise_history_plotter.add_plot(
+		"Weight",
 		MuscleDict.get_color(exercise.target_muscle),
-		"Weight"
+		first_set["timestamps"],
+		first_set["weight_values"]
 	)
 
-	exercise_history_plotter.add_plot_line(
-		first_set["timestamps"],
-		first_set["reps_values"],
+	exercise_history_plotter.add_plot(
+		"Reps",
 		Color.WHITE,
-		"Reps"
+		first_set["timestamps"],
+		first_set["reps_values"]
 	)

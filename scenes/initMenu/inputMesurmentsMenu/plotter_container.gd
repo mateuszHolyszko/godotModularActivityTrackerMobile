@@ -1,6 +1,6 @@
 extends MarginContainer
 
-@onready var plotter: Plotter2D = $Plotter2D
+@onready var plotter: Plotter = $Plotter
 @onready var query_date_input: DateInputButton = %InputDate
 @onready var query_measurement_input: OptionInputButton = %InputMeasurement
 
@@ -33,7 +33,7 @@ func _on_query_parameters_changed(_new_value = null) -> void:
 		return
 
 	# Clear existing plots
-	plotter.clear()
+	plotter.clear_plots()
 
 	# Always plot weight
 	_plot_measurement("weight", weeks)
@@ -72,11 +72,11 @@ func _plot_measurement(measurement_type: String, weeks: int) -> void:
 	var color: Color = MuscleDict.MEASUREMENTS_COLORS.get(measurement_type, Color.WHITE)
 
 	# Add the plot line
-	plotter.add_plot_line(
-		timestamps,
-		values,
+	plotter.add_plot(
+		measurement_type.capitalize(),
 		color,
-		measurement_type.capitalize()
+		timestamps,
+		values
 	)
-
+	
 	print("Plotted %s measurements for the last %d weeks" % [measurement_type, weeks])
