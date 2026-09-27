@@ -37,7 +37,7 @@ var tick_levels: Array[int] = []
 
 func _ready() -> void:
 	# Xaxis/ticks are drawn at z-index 0.
-	z_index = 0
+	#z_index = -1
 
 	label_template.visible = false
 
@@ -115,7 +115,7 @@ func rebuild(
 	tick_positions.clear()
 	tick_levels.clear()
 
-	if plots.is_empty() or max_x <= 0.0:
+	if plots.is_empty() or max_x <= 0.0 or label_levels <= 0:
 		queue_redraw()
 		return
 
@@ -152,12 +152,16 @@ func rebuild(
 		# horizontal space.
 		# -------------------------------------------------
 
-		var level := label_levels - 1
+		var level := -1
 
 		for i in range(label_levels):
 			if left >= level_right_edges[i]:
 				level = i
 				break
+
+		if level == -1:
+			label.free()
+			continue
 
 		# -------------------------------------------------
 		# Position label using its REAL width.
@@ -179,7 +183,7 @@ func rebuild(
 		)
 
 		# Labels are above ticks/connectors.
-		label.z_index = 1
+		#label.z_index = 0
 
 		add_child(label)
 		labels.append(label)

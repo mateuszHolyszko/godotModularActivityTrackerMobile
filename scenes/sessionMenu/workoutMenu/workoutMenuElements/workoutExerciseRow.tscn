@@ -172,10 +172,10 @@ size_flags_horizontal = 3
 [node name="MarginContainer" type="MarginContainer" parent="ExpandChartPanel/VB" unique_id=547032367]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 60
+theme_override_constants/margin_left = 90
 theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 90
-theme_override_constants/margin_bottom = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 10
 
 [node name="ExerciseHistoryPlotter" parent="ExpandChartPanel/VB/MarginContainer" unique_id=1590641649 instance=ExtResource("11_upv1t")]
 unique_name_in_owner = true

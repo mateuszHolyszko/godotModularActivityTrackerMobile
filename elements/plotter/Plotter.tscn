@@ -10,8 +10,13 @@
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 0)
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jf75w"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yyin8"]
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 0)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xylwj"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 0)
+border_width_top = 4
 border_color = Color(1, 1, 1, 1)
 
 [node name="Plotter" type="Control" unique_id=1590641649]
@@ -54,7 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jf75w")
+theme_override_styles/panel = SubResource("StyleBoxFlat_yyin8")
 script = ExtResource("4_yyin8")
 
 [node name="Xaxis" type="Panel" parent="MarginContainer/VB" unique_id=953333617]
@@ -62,7 +67,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
-theme_override_styles/panel = SubResource("StyleBoxFlat_wkru5")
+theme_override_styles/panel = SubResource("StyleBoxFlat_xylwj")
 script = ExtResource("4_jf75w")
 
 [node name="DateLabelTemplate" type="Label" parent="." unique_id=1652904634]
@@ -79,7 +84,6 @@ vertical_alignment = 1
 [node name="ValueLabelTemplate" type="Label" parent="." unique_id=1452793647]
 unique_name_in_owner = true
 visible = false
-z_index = 1
 layout_mode = 1
 offset_right = 72.0
 offset_bottom = 77.0
@@ -87,3 +91,17 @@ theme_override_font_sizes/font_size = 30
 text = "000.00"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="YaxisVisual" type="ColorRect" parent="." unique_id=1002897898]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.009000001
+anchor_top = 0.155
+anchor_right = 0.013
+anchor_bottom = 0.90900004
+offset_left = 0.27999973
+offset_top = -1.0
+offset_right = -0.03999996
+offset_bottom = -0.60009766
+size_flags_horizontal = 0
+color = Color(1, 1, 1, 0.5294118)

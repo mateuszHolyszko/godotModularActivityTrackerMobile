@@ -87,8 +87,11 @@ func rebuild(
 			var direction := _get_direction(plot, i)
 
 			var label := _make_label(
-				date, value, plot.color, transform, direction, plot_lines, placed_rects
+				date, value, plot, i, transform, direction, plot_lines, placed_rects
 			)
+			if label == null:
+				continue
+
 			add_child(label)
 			labels.append(label)
 
@@ -117,25 +120,29 @@ func _get_direction(plot: Plotter.PlotData, index: int) -> int:
 func _make_label(
 	date: float,
 	value: float,
-	color: Color,
+	plot: Plotter.PlotData,
+	point_index: int,
 	transform: PlotTransform,
 	direction: int,
 	plot_lines: Array[PlotLine],
 	placed_rects: Array[Rect2]
 ) -> Label:
-	var label: Label = value_label_template.duplicate()
+	var point := transform.point_to_screen(date, value, max_x, max_y, plot)
+	var label_pos = _find_label_position(
+		point, direction, point_index, plot.values.size(), plot_lines, placed_rects
+	)
+	if label_pos == null:
+		return null
 
+	var label: Label = value_label_template.duplicate()
 	label.visible = true
 	label.text = _format_value(value)
-	label.modulate = color
+	label.modulate = plot.color
 	label.size = template_size
-
-	var point := transform.point_to_screen(date, value, max_x, max_y)
-	var label_pos := _find_label_position(point, direction, plot_lines, placed_rects)
 	label.position = label_pos
 
 	# Faint connector from the label's edge to the point it represents.
-	_add_connector(label_pos, point, color)
+	_add_connector(label_pos, point, plot.color)
 
 	return label
 
@@ -207,15 +214,27 @@ func _quadrant_order(direction: int) -> Array[int]:
 func _find_label_position(
 	point: Vector2,
 	direction: int,
+	point_index: int,
+	point_count: int,
 	plot_lines: Array[PlotLine],
 	placed_rects: Array[Rect2]
-) -> Vector2:
+) -> Variant:
 	var quadrants := _build_quadrants(point)
 	var order := _quadrant_order(direction)
+	var allowed_quadrants: Array = order
 
-	for index in order:
+	if point_count > 1 and point_index == 0:
+		allowed_quadrants = [1, 3] if direction >= 0 else [3, 1]
+	elif point_count > 1 and point_index == point_count - 1:
+		allowed_quadrants = [0, 2] if direction >= 0 else [2, 0]
+
+	var plot_bounds := Rect2(Vector2.ZERO, Vector2(max_x, max_y))
+
+	for index in allowed_quadrants:
 		var quad: Rect2 = quadrants[index]
 
+		if not plot_bounds.encloses(quad):
+			continue
 		if _rect_overlaps_any_line(quad, plot_lines):
 			continue
 		if _rect_overlaps_any_rect(quad, placed_rects):
@@ -223,8 +242,7 @@ func _find_label_position(
 
 		return quad.position
 
-	# None of the 4 quadrants were clear — force the most preferred one.
-	return quadrants[order[0]].position
+	return null
 
 
 func _rect_overlaps_any_line(rect: Rect2, plot_lines: Array[PlotLine]) -> bool:

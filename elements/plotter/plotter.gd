@@ -16,6 +16,8 @@ class PlotData:
 	var color: Color
 	var dates: PackedFloat32Array
 	var values: PackedFloat32Array
+	var min_value: float
+	var max_value: float
 
 	func _init(
 		p_name: String,
@@ -27,6 +29,18 @@ class PlotData:
 		color = p_color
 		dates = p_dates
 		values = p_values
+		min_value = INF
+		max_value = -INF
+		for value in values:
+			min_value = minf(min_value, value)
+			max_value = maxf(max_value, value)
+
+		if values.is_empty():
+			min_value = 0.0
+			max_value = 1.0
+		elif is_equal_approx(min_value, max_value):
+			min_value -= 1.0
+			max_value += 1.0
 
 
 var plots: Array[PlotData] = []
@@ -79,8 +93,8 @@ func get_plot_lines() -> Array[PlotLine]:
 
 
 func _redraw() -> void:
-	# Bounds are computed exactly once here, then shared by every consumer
-	# that needs to map data-space points into screen-space pixels.
+	# Shared date bounds are computed here; each PlotData supplies its own
+	# value range to consumers that map points into screen-space pixels.
 	var transform := PlotTransform.from_plots(plots)
 
 	if plot_space:

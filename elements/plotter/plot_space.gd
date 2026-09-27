@@ -51,7 +51,7 @@ func rebuild(plots: Array[Plotter.PlotData], transform: PlotTransform) -> void:
 		for i in range(plot.dates.size()):
 			var date := plot.dates[i]
 			var value := plot.values[i]
-			screen_points.append(transform.point_to_screen(date, value, max_x, max_y))
+			screen_points.append(transform.point_to_screen(date, value, max_x, max_y, plot))
 			data_points.append(Vector2(date, value))
 
 		line.set_screen_points(screen_points, data_points)
