@@ -1,0 +1,125 @@
+[gd_scene format=3 uid="uid://713yeubwbiq3"]
+
+[ext_resource type="Script" uid="uid://s420oavpje2o" path="res://elements/dateInputNoButton/date_input.gd" id="1_vrsib"]
+[ext_resource type="Script" uid="uid://bmpc3o3gvba3e" path="res://scripts/scroll/scroll_mobile_fix.gd" id="2_hjxnu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3y2n"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bd3cg"]
+bg_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="DateInputHb" type="HBoxContainer" unique_id=1328594259]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vrsib")
+
+[node name="DayVB" type="VBoxContainer" parent="." unique_id=28901991]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="DayVB" unique_id=1241568080]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_r3y2n")
+text = "Days"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerDay" type="ScrollContainer" parent="DayVB" unique_id=1093958026 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_bd3cg")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("2_hjxnu")
+scroll_container = NodePath("ScrollContentDay")
+
+[node name="ScrollContentDay" type="VBoxContainer" parent="DayVB/ScrollContainerDay" unique_id=778918049]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MonthVB" type="VBoxContainer" parent="." unique_id=1425050795]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MonthVB" unique_id=1364186322]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_r3y2n")
+text = "Months"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerMonth" type="ScrollContainer" parent="MonthVB" unique_id=1936493328 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_bd3cg")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("2_hjxnu")
+scroll_container = NodePath("ScrollContentMonth")
+
+[node name="ScrollContentMonth" type="VBoxContainer" parent="MonthVB/ScrollContainerMonth" unique_id=322939721]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="YearVB" type="VBoxContainer" parent="." unique_id=1256656188]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="YearVB" unique_id=120845939]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_r3y2n")
+text = "Years"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainerYear" type="ScrollContainer" parent="YearVB" unique_id=1371577425 node_paths=PackedStringArray("scroll_container")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_bd3cg")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+script = ExtResource("2_hjxnu")
+scroll_container = NodePath("ScrollContentYear")
+
+[node name="ScrollContentYear" type="VBoxContainer" parent="YearVB/ScrollContainerYear" unique_id=1678037387]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1

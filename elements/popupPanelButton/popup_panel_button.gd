@@ -44,6 +44,13 @@ signal expanded
 
 
 # ---------------------------------------------------------
+# Positioning
+# ---------------------------------------------------------
+
+@export var set_anchors: bool = false
+
+
+# ---------------------------------------------------------
 # State
 # ---------------------------------------------------------
 
@@ -60,6 +67,9 @@ func _ready() -> void:
 		return
 
 	_original_scale = popup_panel.scale
+
+	if set_anchors:
+		call_deferred("_setup_popup_position")
 
 	_setup_pivot()
 
@@ -99,6 +109,9 @@ func expand() -> void:
 
 	if _tween:
 		_tween.kill()
+
+	if set_anchors:
+		_setup_popup_position()
 
 	popup_panel.visible = true
 
@@ -152,11 +165,53 @@ func collapse() -> void:
 
 
 # ---------------------------------------------------------
+# Popup Position
+# ---------------------------------------------------------
+
+func _setup_popup_position() -> void:
+	if popup_panel == null:
+		return
+
+	var button_rect := get_global_rect()
+
+	match expand_direction:
+
+		ExpandDirection.UP:
+			# Popup bottom-left -> button top-left
+			popup_panel.global_position = Vector2(
+				button_rect.position.x,
+				button_rect.position.y - popup_panel.size.y
+			)
+
+		ExpandDirection.DOWN:
+			# Popup top-left -> button bottom-left
+			popup_panel.global_position = Vector2(
+				button_rect.position.x,
+				button_rect.end.y
+			)
+
+		ExpandDirection.LEFT:
+			# Popup top-right -> button top-left
+			popup_panel.global_position = Vector2(
+				button_rect.position.x - popup_panel.size.x,
+				button_rect.position.y
+			)
+
+		ExpandDirection.RIGHT:
+			# Popup top-left -> button top-right
+			popup_panel.global_position = Vector2(
+				button_rect.end.x,
+				button_rect.position.y
+			)
+
+
+# ---------------------------------------------------------
 # Collapsed Scale
 # ---------------------------------------------------------
 
 func _collapsed_scale() -> Vector2:
 	match expand_direction:
+
 		ExpandDirection.UP, ExpandDirection.DOWN:
 			return Vector2(
 				_original_scale.x,

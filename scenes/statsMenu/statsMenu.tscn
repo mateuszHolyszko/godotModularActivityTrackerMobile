@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://du86mksmv0jyl"]
 
+[ext_resource type="Theme" uid="uid://8kcdanlfr3lk" path="res://assets/style/main_theme.tres" id="1_5hquk"]
 [ext_resource type="Script" uid="uid://cr36eaoaj5b0" path="res://scenes/statsMenu/stats_menu.gd" id="1_ihijn"]
 [ext_resource type="StyleBox" uid="uid://cygbivcikmdh2" path="res://assets/style/element_normal.tres" id="2_xpu3n"]
 [ext_resource type="PackedScene" uid="uid://wilhcymjk126" path="res://elements/plotter/Plotter.tscn" id="3_ihijn"]
+[ext_resource type="Script" uid="uid://dtdyjqvv56wy3" path="res://elements/popupPanelButton/popup_panel_button.gd" id="4_45u5b"]
+[ext_resource type="PackedScene" uid="uid://713yeubwbiq3" path="res://elements/dateInputNoButton/DateInputHB.tscn" id="6_hhw6m"]
 
 [sub_resource type="Theme" id="Theme_ihijn"]
 Button/styles/normal = ExtResource("2_xpu3n")
@@ -18,6 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_5hquk")
 script = ExtResource("1_ihijn")
 metadata/_custom_type_script = "uid://bpbhdp28aspra"
 
@@ -31,7 +35,7 @@ grow_vertical = 2
 theme = SubResource("Theme_ihijn")
 theme_override_styles/panel = SubResource("StyleBoxFlat_5hquk")
 
-[node name="VB" type="VBoxContainer" parent="Background" unique_id=917241589]
+[node name="MainVB" type="VBoxContainer" parent="Background" unique_id=917241589]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,21 +43,228 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VSeparator" type="VSeparator" parent="Background/VB" unique_id=45035936]
+[node name="PlotterSection" type="HBoxContainer" parent="Background/MainVB" unique_id=1915674825]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Background/VB" unique_id=648133475]
+[node name="QueryContainer" type="VBoxContainer" parent="Background/MainVB/PlotterSection" unique_id=1551001986]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+alignment = 1
+
+[node name="VB" type="VBoxContainer" parent="Background/MainVB/PlotterSection/QueryContainer" unique_id=659171974]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_right = 100
+alignment = 1
 
-[node name="Plotter" parent="Background/VB/MarginContainer" unique_id=1590641649 instance=ExtResource("3_ihijn")]
+[node name="QueryTargetExpandButton" type="Button" parent="Background/MainVB/PlotterSection/QueryContainer/VB" unique_id=816113267 node_paths=PackedStringArray("popup_panel")]
+layout_mode = 2
+text = "Query
+Target"
+script = ExtResource("4_45u5b")
+popup_panel = NodePath("../../../../../../ExpandQueryTargetPanel")
+expand_direction = 3
+set_anchors = true
+metadata/_custom_type_script = "uid://dtdyjqvv56wy3"
+
+[node name="ChosenTargetLabel" type="Label" parent="Background/MainVB/PlotterSection/QueryContainer/VB" unique_id=2048488514]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.6862745)
+theme_override_font_sizes/font_size = 40
+text = "Chosen target:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VB2" type="VBoxContainer" parent="Background/MainVB/PlotterSection/QueryContainer" unique_id=658459773]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="QueryMeticExpandButton" type="Button" parent="Background/MainVB/PlotterSection/QueryContainer/VB2" unique_id=1573490418 node_paths=PackedStringArray("popup_panel")]
+layout_mode = 2
+text = "Query
+Metric"
+script = ExtResource("4_45u5b")
+popup_panel = NodePath("../../../../../../ExpandQueryMetricPanel")
+expand_direction = 3
+set_anchors = true
+metadata/_custom_type_script = "uid://dtdyjqvv56wy3"
+
+[node name="ChosenMetricLabel" type="Label" parent="Background/MainVB/PlotterSection/QueryContainer/VB2" unique_id=1704139757]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.6862745)
+theme_override_font_sizes/font_size = 40
+text = "Chosen metric:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VB3" type="VBoxContainer" parent="Background/MainVB/PlotterSection/QueryContainer" unique_id=1553973099]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="QueryTargetExpandButton" type="Button" parent="Background/MainVB/PlotterSection/QueryContainer/VB3" unique_id=221690061]
+layout_mode = 2
+toggle_mode = true
+text = "Plot
+BW"
+
+[node name="PlotterContainer" type="MarginContainer" parent="Background/MainVB/PlotterSection" unique_id=648133475]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Plotter" parent="Background/MainVB/PlotterSection/PlotterContainer" unique_id=1590641649 instance=ExtResource("3_ihijn")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VSeparator2" type="VSeparator" parent="Background/VB" unique_id=2019508566]
+[node name="QueryTimeHB" type="HBoxContainer" parent="Background/MainVB" unique_id=425884820]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+theme_override_constants/separation = 40
+
+[node name="HS2" type="HSeparator" parent="Background/MainVB/QueryTimeHB" unique_id=339740263]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="DateInputHb" parent="Background/MainVB/QueryTimeHB" unique_id=1328594259 instance=ExtResource("6_hhw6m")]
+layout_mode = 2
+size_flags_horizontal = 3
+snap_delay = 0.5
+
+[node name="HS" type="HSeparator" parent="Background/MainVB/QueryTimeHB" unique_id=866801533]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="Panel" type="Panel" parent="Background/MainVB" unique_id=82193338]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="ExpandQueryTargetPanel" type="Panel" parent="." unique_id=2130762009]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.23500001
+anchor_top = 0.065000005
+anchor_right = 0.809
+anchor_bottom = 0.065000005
+offset_left = 0.19998169
+offset_top = -91.000015
+offset_right = 2.2799683
+offset_bottom = 90.999985
+
+[node name="HB" type="HBoxContainer" parent="ExpandQueryTargetPanel" unique_id=45605132]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Button" type="Button" parent="ExpandQueryTargetPanel/HB" unique_id=1038074533]
+custom_minimum_size = Vector2(200, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Muscle"
+
+[node name="Button2" type="Button" parent="ExpandQueryTargetPanel/HB" unique_id=931675833]
+custom_minimum_size = Vector2(200, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Exercise"
+
+[node name="ExpandQueryMetricPanel" type="Panel" parent="." unique_id=1857187738]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.23500001
+anchor_top = 0.24700001
+anchor_right = 0.95300007
+anchor_bottom = 0.24700001
+offset_left = -1.8000183
+offset_top = -104.80005
+offset_right = -0.2401123
+offset_bottom = 77.19995
+
+[node name="NoTargetHB" type="HBoxContainer" parent="ExpandQueryMetricPanel" unique_id=1805520734]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Label" type="Label" parent="ExpandQueryMetricPanel/NoTargetHB" unique_id=564944999]
+self_modulate = Color(1, 1, 1, 0.6627451)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Choose target first"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MuscleHB" type="HBoxContainer" parent="ExpandQueryMetricPanel" unique_id=295826487]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Button" type="Button" parent="ExpandQueryMetricPanel/MuscleHB" unique_id=1320250176]
+custom_minimum_size = Vector2(200, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Volume"
+
+[node name="Button2" type="Button" parent="ExpandQueryMetricPanel/MuscleHB" unique_id=2053738178]
+custom_minimum_size = Vector2(200, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Sets Performed"
+
+[node name="ExerciseHB" type="HBoxContainer" parent="ExpandQueryMetricPanel" unique_id=1683095393]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Button" type="Button" parent="ExpandQueryMetricPanel/ExerciseHB" unique_id=1243153248]
+custom_minimum_size = Vector2(200, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Muscle"
+
+[node name="Button2" type="Button" parent="ExpandQueryMetricPanel/ExerciseHB" unique_id=339982204]
+custom_minimum_size = Vector2(200, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Exercise"

@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bv4gn7otxplk4" path="res://elements/plotter/plotter.gd" id="1_wkru5"]
 [ext_resource type="Script" uid="uid://5ce06y88rscu" path="res://elements/plotter/xaxis.gd" id="4_jf75w"]
 [ext_resource type="Script" uid="uid://n46o3hxu8lx6" path="res://elements/plotter/yvalues.gd" id="4_yyin8"]
+[ext_resource type="Script" uid="uid://byyq36dpuais1" path="res://elements/plotter/legend_container.gd" id="6_xylwj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wkru5"]
 bg_color = Color(0.05882353, 0.05882353, 0.05882353, 0)
@@ -96,12 +97,51 @@ vertical_alignment = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.009000001
-anchor_top = 0.155
+anchor_top = 0.14400001
 anchor_right = 0.013
 anchor_bottom = 0.90900004
 offset_left = 0.27999973
-offset_top = -1.0
+offset_top = 0.3999939
 offset_right = -0.03999996
 offset_bottom = -0.60009766
 size_flags_horizontal = 0
 color = Color(1, 1, 1, 0.5294118)
+
+[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=340241424]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_right = 90.0
+offset_bottom = 57.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 20
+
+[node name="LegendContainer" type="VBoxContainer" parent="MarginContainer2" unique_id=708172884]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+script = ExtResource("6_xylwj")
+
+[node name="PlotLegendRowTemplate" type="HBoxContainer" parent="MarginContainer2/LegendContainer" unique_id=364063852]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer2/LegendContainer/PlotLegendRowTemplate" unique_id=1540133736]
+custom_minimum_size = Vector2(30, 6)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer2/LegendContainer/PlotLegendRowTemplate" unique_id=826640802]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer2/LegendContainer/PlotLegendRowTemplate" unique_id=1783877119]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Test"
+horizontal_alignment = 1
+vertical_alignment = 1

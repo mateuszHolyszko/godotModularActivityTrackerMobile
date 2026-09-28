@@ -5,7 +5,7 @@ extends Control
 @onready var plot_space: PlotSpace = %PlotSpace
 @onready var x_axis: Xaxis = %Xaxis
 @onready var y_labels: YLabels = %Yvalues
-
+@onready var legend_container: PlotterLegend = %LegendContainer
 
 # ---------------------------------------------------------
 # Plot data
@@ -70,6 +70,7 @@ func add_plot(
 ) -> void:
 	plots.append(PlotData.new(p_name, p_color, p_dates, p_values))
 	_redraw()
+	_update_legend()
 
 
 func remove_plot(p_name: String) -> void:
@@ -83,6 +84,9 @@ func clear_plots() -> void:
 	plots.clear()
 	_redraw()
 
+func _update_legend() -> void:
+	if legend_container:
+		legend_container.rebuild(plots)
 
 # Exposes the drawn PlotLine nodes (screen-space points + collision
 # helpers) so a future label-placement pass can query them directly.
